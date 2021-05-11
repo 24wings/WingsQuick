@@ -1,0 +1,43 @@
+@using System.Reflection;
+@using System.Reflection.Emit;
+@using System.ComponentModel.DataAnnotations;
+ <Row Gutter="16">
+        <AntDesign.Col Class="gutter-row" Span="6">
+            @(display==null?Prop.Name:display.Name)
+        </AntDesign.Col>
+          <AntDesign.Col Class="gutter-row" Span="12">
+                <Input @bind-Value="@FieldValue" @onblur="changeValue" />
+        </AntDesign.Col>
+
+ </Row>
+  
+
+
+@code{
+     [Parameter]
+    public string FieldValue{get;set;}
+    private DisplayAttribute  display;
+  
+    [Parameter]
+    public PropertyInfo Prop{get;set;}
+
+    [Parameter]
+    public EventCallback<object> OnValueChange { get; set; }
+
+
+    private async Task changeValue(){
+       await OnValueChange.InvokeAsync(FieldValue);
+     
+    }
+
+       protected override void OnInitialized()
+    {
+
+      display= Prop.GetCustomAttribute<DisplayAttribute>();
+  
+     
+
+
+    }
+
+}

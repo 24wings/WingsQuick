@@ -1,0 +1,27 @@
+@using System.Reflection;
+@using Wings.Shared.Attributes
+@page "/Page/{ClassName}"
+@inherits DynamicPageBase
+
+@if (pageAttribute != null)
+{
+    <h1>@pageAttribute.Title</h1>
+    <h3>@pageAttribute.SubTitle</h3>
+}
+@if (type != null)
+{
+    <span>namespance:@type.Namespace</span>
+}
+<br>
+@ClassName
+@if (render)
+{
+    @dynamicComponent
+
+}
+
+
+@code{
+
+
+}

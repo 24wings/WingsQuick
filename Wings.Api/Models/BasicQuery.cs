@@ -1,0 +1,5 @@
+namespace Wings.Api.Models
+{
+
+
+}

@@ -1,0 +1,16 @@
+@using System.Reflection;
+@using System.Reflection.Emit;
+@using System.ComponentModel.DataAnnotations;
+@inherits FieldDateBase;
+ <Row Gutter="16">
+        <AntDesign.Col Class="gutter-row" Span="6">
+            @(display==null?Prop.Name:display.Name)
+        </AntDesign.Col>
+          <AntDesign.Col Class="gutter-row" Span="12">
+
+                <DatePicker TValue="DateTime?" Value="FieldValue" Picker="@DatePickerType.Date" />
+
+        </AntDesign.Col>
+
+ </Row>
+  

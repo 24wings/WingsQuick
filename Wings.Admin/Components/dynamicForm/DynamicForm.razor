@@ -1,0 +1,40 @@
+@using System.Reflection;
+@inherits DynamicFormBase;
+@if (type != null)
+{
+    <span>namespance:@type.Namespace</span>
+}
+<br>
+<style>
+    .gutter-row {
+        padding: 5px 0;
+    }
+</style>
+@result
+
+<br>
+@if (render)
+{
+    <EditForm EditContext="editContext">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <Row Gutter="16">
+            @foreach (var item in props)
+            {
+
+                <AntDesign.Col Class="gutter-row" Span="12">
+                    <DynamicField Prop="item" OnValueChange="(value=>changeValue(item,value))"
+                FieldValue="obj.GetType().GetProperty(item.Name).GetValue(obj)"> </DynamicField>
+                </AntDesign.Col>
+            }
+        </Row>
+
+
+        <Button Type="@ButtonType.Primary" HtmlType="submit">
+            提交
+        </Button>
+        <Button Type="@ButtonType.Primary" OnClick="ParseData">
+            解析数据
+        </Button>
+    </EditForm>
+}

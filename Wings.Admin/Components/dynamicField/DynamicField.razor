@@ -1,0 +1,63 @@
+@using System.Reflection;
+@using System.Reflection.Emit;
+@using System.ComponentModel.DataAnnotations;
+@using Microsoft.AspNetCore.Components.Rendering
+@using Microsoft.AspNetCore.Components.CompilerServices;
+@if (render)
+{
+    @dynamicComponent
+
+}
+
+@code{
+     [Parameter]
+    public object FieldValue{get;set;}
+    private bool render { get; set; } = false;
+
+    private Type type { get; set; }
+
+    [Parameter]
+    public PropertyInfo Prop { get; set; }
+
+    [Parameter]
+    public EventCallback<object> OnValueChange { get; set; }
+    protected override void OnInitialized()
+    {
+        render = true;
+        base.OnInitialized();
+        var com = Prop.PropertyType.GetCustomAttribute<ComAttribute>();
+        if (com != null)
+        {
+            type = com.type;
+        }
+        else
+        {
+            type = ComponentRegisterFactory.GetFieldDefaultComponent(Prop.PropertyType);
+        }
+
+
+
+    }
+
+
+    RenderFragment dynamicComponent => builder =>
+    {
+
+
+
+        builder.OpenComponent(0, type);
+        builder.AddAttribute(1, "Prop", Prop);
+        
+        builder.AddAttribute(2, "OnValueChange",
+    EventCallback.Factory.Create<object>(this,
+    RuntimeHelpers.CreateInferredEventCallback(this, __value =>
+    {
+    FieldValue =
+    __value; OnValueChange.InvokeAsync(FieldValue);
+        }, FieldValue)));
+
+        builder.AddAttribute(3,"FieldValue",FieldValue);
+        builder.CloseComponent();
+
+    };
+}

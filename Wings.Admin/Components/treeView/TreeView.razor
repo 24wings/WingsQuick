@@ -1,0 +1,32 @@
+@using Wings.Shared.Dto;
+
+@inherits TreeViewBase<TModel>
+@typeparam TModel
+@using System.Text.Json
+<Row Gutter="16">
+    <Col Span="12">
+    <Tree BlockNode TItem="TModel" DataSource="DataListTItem"
+        TitleExpression="@(x => x.DataItem.GetType().GetProperty("Title").GetValue(x.DataItem).ToString())"
+        ChildrenExpression="@(x => GetChildren(x.DataItem))" @bind-SelectedData="@selectedData">
+
+    </Tree>
+
+    </Col>
+    <Col Span="12">
+    @if (selectedData != null)
+        {
+        <div>
+            <Button Type="primary" OnClick="OpenAddMenuForm">添加同级</Button>
+            <Button Type="primary">添加下级</Button>
+            <Button Type="primary">编辑</Button>
+            <Button Type="danger">删除</Button>
+
+        </div>
+        <DetailView TItem="TModel" Value="selectedData"></DetailView>
+            @if (EditValue != null)
+            {
+            <DynamicForm type="EditModelType" Value="EditValue"></DynamicForm>
+            }
+        }
+    </Col>
+</Row>
