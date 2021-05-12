@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Wings.Shared.Dto
@@ -23,6 +24,7 @@ namespace Wings.Shared.Dto
         public List<T> Data { get; set; } = new List<T>();
 
         public int Total { get; set; }
+
 
     }
 

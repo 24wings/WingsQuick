@@ -13,7 +13,9 @@ namespace Wings.Admin
     {
         private static Dictionary<Type, ComponentBase> registedComponents = new Dictionary<Type, ComponentBase>();
         private static Dictionary<Type, Type> registedPageComponents = new Dictionary<Type, Type>(){
-            {typeof(TreePageAttribute),typeof(DynamicTreeView) },
+            {typeof(TreePageAttribute),typeof(DynamicTreeView)},
+            {typeof(TablePageAttribute),typeof(DynamicTableView)
+            },
             };
         public static Type GetPageDefaultComponent(Type type)
         {

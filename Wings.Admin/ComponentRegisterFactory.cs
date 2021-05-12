@@ -9,6 +9,7 @@ using Wings.Admin.Components.fieldEnum;
 using Wings.Shared;
 using System;
 using Wings.Shared.Dvo;
+using Wings.Admin.Components.propString;
 
 namespace Wings.Admin
 {
@@ -18,6 +19,16 @@ namespace Wings.Admin
         private static Dictionary<Type, Type> registedFieldComponents = new Dictionary<Type, Type>(){
             {typeof(String),typeof(FieldString) },
             {typeof(Int32),typeof(FieldNumber)},
+            {typeof(DateTime),typeof(FieldDate)},
+            {typeof(DateRange),typeof(FieldDateRange)},
+            {typeof(Boolean),typeof(FieldCheckbox)},
+            {typeof(Enum),typeof(FieldEnum)}
+
+            };
+
+        private static Dictionary<Type, Type> registePropComponents = new Dictionary<Type, Type>(){
+            {typeof(String),typeof(PropString<object>) },
+            {typeof(Int32),typeof(PropString<object>)},
             {typeof(DateTime),typeof(FieldDate)},
             {typeof(DateRange),typeof(FieldDateRange)},
             {typeof(Boolean),typeof(FieldCheckbox)},
@@ -37,6 +48,22 @@ namespace Wings.Admin
                 return registedFieldComponents[typeof(Enum)];
             }
             return registedFieldComponents[type];
+
+        }
+
+        public static Type GetPropDefaultComponent(Type type)
+        {
+            if (type.IsEnum)
+            {
+                return registePropComponents[typeof(Enum)];
+            }
+
+            var defaultType = registePropComponents.GetValueOrDefault(type);
+            if (defaultType == null)
+            {
+                return typeof(PropString<object>);
+            }
+            return defaultType;
 
         }
 

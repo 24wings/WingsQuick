@@ -10,8 +10,8 @@
 }
 
 @code{
-     [Parameter]
-    public object FieldValue{get;set;}
+    [Parameter]
+    public object FieldValue { get; set; }
     private bool render { get; set; } = false;
 
     private Type type { get; set; }
@@ -47,7 +47,7 @@
 
         builder.OpenComponent(0, type);
         builder.AddAttribute(1, "Prop", Prop);
-        
+
         builder.AddAttribute(2, "OnValueChange",
     EventCallback.Factory.Create<object>(this,
     RuntimeHelpers.CreateInferredEventCallback(this, __value =>
@@ -56,7 +56,7 @@
     __value; OnValueChange.InvokeAsync(FieldValue);
         }, FieldValue)));
 
-        builder.AddAttribute(3,"FieldValue",FieldValue);
+        builder.AddAttribute(3, "FieldValue", FieldValue);
         builder.CloseComponent();
 
     };

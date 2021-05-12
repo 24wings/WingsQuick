@@ -37,21 +37,19 @@ namespace Wings.Admin.Pages
             if (!render) render = true;
             type = Assembly.GetAssembly(typeof(Wings.Shared.Dvo.DateRange)).DefinedTypes.FirstOrDefault(typeInfo => typeInfo.Name ==
             ClassName);
+            if (type == null)
+            {
+                throw new Exception("未找到当前类");
+            }
 
             pageAttribute = type.GetCustomAttribute<PageAttribute>(true);
             pageType = PageRegisterFactory.GetPageDefaultComponent(pageAttribute.GetType());
-            Console.WriteLine("page type:" + pageType);
 
 
 
         }
 
 
-        private void HandleSubmit()
-        {
-
-
-        }
         public RenderFragment dynamicComponent => builder =>
          {
 

@@ -1,0 +1,8 @@
+@using System.Reflection;
+
+@typeparam TModel
+@inherits PropStringBase<TModel>
+@if (Value != null)
+{
+    <span style="color:red"> @Property.GetValue(Value)</span>
+}

@@ -17,22 +17,23 @@ namespace Wings.Admin.Shared
         public Type ModelType { get; set; }
 
         public bool render { get; set; }
-        [Inject]
-        private IConfiguration _configuration { get; set; }
+        
         public Type pageType { get; set; }
         protected async override Task OnInitializedAsync()
         {
             if (!render) render = true;
             var pageAttribute = ModelType.GetCustomAttribute<PageAttribute>(true);
             pageType = PageRegisterFactory.GetPageDefaultComponent(pageAttribute.GetType());
-            var dataSourceAttribute = ModelType.GetCustomAttribute<DataSourceAttribute>();
-            // var response = await _httpClient.GetAsync("http://localhost" + dataSourceAttribute.Url);
-            // var resString = await response.Content.ReadAsStringAsync();
-            // var resultType = Assembly.GetAssembly(typeof(BasicQuery)).DefinedTypes.First(type => type.Name.Contains("BasicQueryResult"));
-            // Console.WriteLine("result Type:" + resultType);
-            // var resData = JsonSerializer.Deserialize(resString, resultType.MakeGenericType(ModelType));
-            // Console.WriteLine(resData);
-            // Console.WriteLine(_configuration.GetValue<string>("url"));
+
+
         }
+
+        public RenderFragment dynamicTreeComponent => builder =>
+        {
+            var treeViewComponentType = Assembly.GetExecutingAssembly().DefinedTypes.First(type => type.Name.Contains("TreeView") && !type.Name.Contains("Base") && !type.Name.Contains("Dynamic")).MakeGenericType(ModelType);
+            Console.WriteLine("treeViewComponentType:" + treeViewComponentType);
+            builder.OpenComponent(0, treeViewComponentType);
+            builder.CloseComponent();
+        };
     }
 }

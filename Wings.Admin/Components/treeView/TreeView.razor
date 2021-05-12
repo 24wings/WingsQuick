@@ -3,9 +3,12 @@
 @inherits TreeViewBase<TModel>
 @typeparam TModel
 @using System.Text.Json
+
+
+<DataSourceManager TModel="TModel" @ref="DataSource"></DataSourceManager>
 <Row Gutter="16">
     <Col Span="12">
-    <Tree BlockNode TItem="TModel" DataSource="DataListTItem"
+    <Tree @ref="tree" BlockNode ShowLine ShowExpand TItem="TModel" DataSource="DataListTItem"
         TitleExpression="@(x => x.DataItem.GetType().GetProperty("Title").GetValue(x.DataItem).ToString())"
         ChildrenExpression="@(x => GetChildren(x.DataItem))" @bind-SelectedData="@selectedData">
 
@@ -17,16 +20,18 @@
         {
         <div>
             <Button Type="primary" OnClick="OpenAddMenuForm">添加同级</Button>
-            <Button Type="primary">添加下级</Button>
-            <Button Type="primary">编辑</Button>
-            <Button Type="danger">删除</Button>
+            <Button Type="primary" OnClick="OpenSubMenuForm">添加下级</Button>
+            <Button Type="primary"  OnClick="OpenEditMenuForm">编辑</Button>
+            <Button Type="danger" OnClick="OpenDeleteConfirmModal">删除</Button>
 
         </div>
         <DetailView TItem="TModel" Value="selectedData"></DetailView>
             @if (EditValue != null)
             {
-            <DynamicForm type="EditModelType" Value="EditValue"></DynamicForm>
+                @dynamicEditComponent
             }
+
+
         }
     </Col>
 </Row>

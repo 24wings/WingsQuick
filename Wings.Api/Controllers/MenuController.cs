@@ -26,7 +26,7 @@ namespace Wings.Api.Controllers
         [HttpGet]
         public async Task<BasicQueryResult<MenuListDvo>> Load()
         {
-            var menuList = await appDbContext.Menus.AsNoTracking().AsQueryable().Include(m => m.Children).FirstOrDefaultAsync();
+            var menuList = await appDbContext.Menus.AsQueryable().Include(m => m.Children).FirstOrDefaultAsync();
             var data = new List<MenuListDvo>() { mapper.Map<Menu, MenuListDvo>(menuList) };
 
             return new BasicQueryResult<MenuListDvo> { Data = data, Total = 1 };
@@ -47,6 +47,44 @@ namespace Wings.Api.Controllers
             menu.Children.Add(subMenu);
             appDbContext.SaveChanges();
             return true;
+        }
+
+        [HttpPost]
+        public async Task<object> Insert([FromBody] MenuCreateDvo menu)
+        {
+
+            var parent = await appDbContext.Menus.FirstAsync(m => menu.ParentId == m.Id);
+            var newMenu = new Menu { ParentId = menu.ParentId, Name = menu.Text, Code = menu.Code };
+            newMenu.Parent = parent;
+            await appDbContext.Menus.AddAsync(newMenu);
+            await appDbContext.SaveChangesAsync();
+            return true;
+
+        }
+        [HttpPost]
+        public async Task<object> Update([FromBody] MenuCreateDvo menu)
+        {
+
+            var currentMenu = await appDbContext.Menus.FirstAsync(m => menu.Id == m.Id);
+            currentMenu.Name = menu.Text;
+            currentMenu.Code = menu.Code;
+            appDbContext.Menus.Update(currentMenu);
+            await appDbContext.SaveChangesAsync();
+            return true;
+
+        }
+        [HttpDelete]
+        public async Task<object> Delete([FromQuery] int id)
+        {
+            var menu = await appDbContext.Menus.FirstOrDefaultAsync(menu => menu.Id == id);
+            if (menu != null)
+            {
+                appDbContext.Menus.Remove(menu);
+                await appDbContext.SaveChangesAsync();
+            }
+            return true;
+
+
         }
 
     }

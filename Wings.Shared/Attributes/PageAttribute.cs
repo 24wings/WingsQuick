@@ -5,12 +5,18 @@ namespace Wings.Shared.Attributes
     {
         private String Url { get; set; }
         public String Load { get; }
+        public String Insert { get; set; }
         public String AddChild { get; }
+        public string Update { get; set; }
+        public string Delete { get; set; }
         public DataSourceAttribute(string url)
         {
             Url = url;
             Load = Url + "/Load";
             AddChild = Url + "/AddChild";
+            Insert = Url + "/Insert";
+            Update = Url + "/Update";
+            Delete = Url + "/Delete";
 
         }
     }
@@ -52,4 +58,18 @@ namespace Wings.Shared.Attributes
 
 
     }
+    /// <summary>
+    /// 表格页面
+    /// </summary>
+    public class TablePageAttribute : PageAttribute
+    {
+        public TablePageAttribute(string title, string subTitle = "") : base(title, subTitle)
+        {
+
+
+
+        }
+    }
+
+
 }

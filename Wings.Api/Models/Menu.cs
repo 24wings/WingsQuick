@@ -10,11 +10,11 @@ namespace Wings.Api.Models
         public string Name { get; set; }
         public string Code { get; set; }
         public string Path { get; set; }
-        public Menu Parent { get; set; }
+        public virtual Menu Parent { get; set; }
         public int? ParentId { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.Now;
         public DateTime LastUpdateAt { get; set; } = DateTime.Now;
         [JsonInclude]
-        public List<Menu> Children { get; set; } = new List<Menu>();
+        public virtual List<Menu> Children { get; set; } = new List<Menu>();
     }
 }

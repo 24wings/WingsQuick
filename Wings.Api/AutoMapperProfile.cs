@@ -9,11 +9,13 @@ namespace Wings.Api
         public AutoMapperProfile()
         {
             CreateMap<Menu, MenuListDvo>();
-            CreateMap<Menu, MenuDto>();
-            CreateMap<Menu, MenuListDvo>()
-            .ForMember((dvo) => dvo.Title, opt => opt.MapFrom(menu => menu.Name))
-            .ForMember((dvo) => dvo.Children, opt => opt.MapFrom(menu => menu.Children))
 
+            CreateMap<Menu, MenuListDvo>()
+
+            .ForMember((dvo) => dvo.Title, opt => opt.MapFrom(menu => menu.Name))
+            .ForMember((dvo) => dvo.Children, opt => opt.MapFrom(menu => menu.Children));
+            CreateMap<Role, RoleListDvo>()
+            .ForMember((roleListDvo) => roleListDvo.MenuList, opt => opt.MapFrom(role => role.Menus))
             ;
         }
     }

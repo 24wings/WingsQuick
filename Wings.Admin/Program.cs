@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Wings.Shared;
 using System.Reflection;
+using Wings.Admin.Shared;
 
 namespace Wings.Admin
 {

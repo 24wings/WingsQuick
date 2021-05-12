@@ -8,7 +8,7 @@ namespace Wings.Shared
         public SharedAutoMapperProfile()
         {
             CreateMap<MenuListDvo, MenuCreateDvo>()
-            .ForMember((menuCreateDvo) => menuCreateDvo.ParentId, opt => opt.MapFrom(m => m.Id)).ReverseMap();
+            .ReverseMap();
 
         }
     }

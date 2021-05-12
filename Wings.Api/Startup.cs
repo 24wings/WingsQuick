@@ -48,9 +48,10 @@ namespace Wings.Api
 
 
             services.AddDbContext<AppDbContext>(
-                opt => opt.UseMySql(connectionString, serverVersion)
+                opt => opt.UseLazyLoadingProxies().UseMySql(connectionString, serverVersion)
                 .EnableSensitiveDataLogging() // These two calls are optional but help
                     .EnableDetailedErrors() // with debugging (remove for production).;
+
                     );
             services.AddCors(options =>
 options.AddPolicy("cors",

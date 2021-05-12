@@ -1,16 +1,25 @@
 ﻿@page "/counter"
+<Button Type="primary" OnClick="@(()=>{ _visible = true; })">
+    Open Modal
+</Button>
+<Modal Title="@title" Visible="@_visible" OnOk="@HandleOk" OnCancel="@HandleCancel">
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+    <p>Some contents...</p>
+</Modal>
+@code{
+    string title = "BasicModal";
+    bool _visible = false;
 
-<h1>Counter</h1>
-
-<p>Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
-
-@code {
-    private int currentCount = 0;
-
-    private void IncrementCount()
+    private void HandleOk(MouseEventArgs e)
     {
-        currentCount++;
+        Console.WriteLine(e);
+        _visible = false;
+    }
+
+    private void HandleCancel(MouseEventArgs e)
+    {
+        Console.WriteLine(e);
+        _visible = false;
     }
 }

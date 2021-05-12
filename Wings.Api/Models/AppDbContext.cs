@@ -6,6 +6,8 @@ namespace Wings.Api.Models
     {
         public DbSet<Menu> Menus { get; set; }
 
+        public DbSet<Role> Roles { get; set; }
+
         public AppDbContext(DbContextOptions<AppDbContext> options)
                    : base(options)
         {
@@ -23,6 +25,13 @@ namespace Wings.Api.Models
                 .HasForeignKey(x => x.ParentId)
                 //这里必须是非强制关联，否则报错：Specify ON DELETE NO ACTION or ON UPDATE NO ACTION, or modify other FOREIGN KEY constraints.
                 .OnDelete(DeleteBehavior.ClientSetNull);
+
+
+
+
         }
+
+
+
     }
 }
