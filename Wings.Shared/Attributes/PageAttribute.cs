@@ -1,25 +1,7 @@
 using System;
 namespace Wings.Shared.Attributes
 {
-    public class DataSourceAttribute : Attribute
-    {
-        private String Url { get; set; }
-        public String Load { get; }
-        public String Insert { get; set; }
-        public String AddChild { get; }
-        public string Update { get; set; }
-        public string Delete { get; set; }
-        public DataSourceAttribute(string url)
-        {
-            Url = url;
-            Load = Url + "/Load";
-            AddChild = Url + "/AddChild";
-            Insert = Url + "/Insert";
-            Update = Url + "/Update";
-            Delete = Url + "/Delete";
-
-        }
-    }
+  
 
     public class PageAttribute : Attribute
     {

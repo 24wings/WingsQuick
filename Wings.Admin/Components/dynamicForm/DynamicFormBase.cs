@@ -52,12 +52,14 @@ namespace Wings.Admin.Components.dynamicForm
 
         protected void changeValue(PropertyInfo prop, object value)
         {
-            Console.WriteLine("Change value:");
-            typeof(TModel).GetProperty(prop.Name).SetValue(Value, value);
-            var filed = editContext.Field(prop.Name);
+            // Console.WriteLine("Change value:");
+            // typeof(TModel).GetProperty(prop.Name).SetValue(Value, value);
+            var field = editContext.Field(prop.Name);
+            Console.WriteLine("fieldModel:"+JsonSerializer.Serialize( field.Model));
             Console.WriteLine("值变更:" + prop.Name + "  value:" + value);
-            editContext.NotifyFieldChanged(filed);
+            editContext.NotifyFieldChanged(field);
             editContext.NotifyValidationStateChanged();
+            StateHasChanged();
 
         }
 
@@ -78,10 +80,6 @@ namespace Wings.Admin.Components.dynamicForm
                 }
 
                 await OnSubmit.InvokeAsync(Value);
-
-                // _visible = false;
-
-
             }
             else
             {
@@ -102,6 +100,19 @@ namespace Wings.Admin.Components.dynamicForm
         {
             var value = typeof(TModel).GetProperty(item.Name).GetValue(Value);
             return typeof(TModel).GetProperty(item.Name).GetValue(Value);
+        }
+        public string GetTitle()
+        {
+            switch (editType)
+            {
+                case EditType.Detail:
+                    return "详情";
+                case EditType.Insert:
+                    return "新增";
+                default:
+                    return "更新";
+
+            }
         }
     }
 }

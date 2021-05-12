@@ -2,35 +2,22 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Wings.Api.Models;
 
 namespace Wings.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210512171101_role has many menu")]
+    partial class rolehasmanymenu
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.5");
-
-            modelBuilder.Entity("MenuRole", b =>
-                {
-                    b.Property<int>("MenusId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RolesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("MenusId", "RolesId");
-
-                    b.HasIndex("RolesId");
-
-                    b.ToTable("MenuRole");
-                });
 
             modelBuilder.Entity("Wings.Api.Models.Menu", b =>
                 {
@@ -59,9 +46,14 @@ namespace Wings.Api.Migrations
                     b.Property<string>("Path")
                         .HasColumnType("longtext");
 
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ParentId");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Menus");
                 });
@@ -84,26 +76,15 @@ namespace Wings.Api.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("MenuRole", b =>
-                {
-                    b.HasOne("Wings.Api.Models.Menu", null)
-                        .WithMany()
-                        .HasForeignKey("MenusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Wings.Api.Models.Role", null)
-                        .WithMany()
-                        .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Wings.Api.Models.Menu", b =>
                 {
                     b.HasOne("Wings.Api.Models.Menu", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId");
+
+                    b.HasOne("Wings.Api.Models.Role", null)
+                        .WithMany("Menus")
+                        .HasForeignKey("RoleId");
 
                     b.Navigation("Parent");
                 });
@@ -111,6 +92,11 @@ namespace Wings.Api.Migrations
             modelBuilder.Entity("Wings.Api.Models.Menu", b =>
                 {
                     b.Navigation("Children");
+                });
+
+            modelBuilder.Entity("Wings.Api.Models.Role", b =>
+                {
+                    b.Navigation("Menus");
                 });
 #pragma warning restore 612, 618
         }

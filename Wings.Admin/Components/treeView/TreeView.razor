@@ -2,13 +2,13 @@
 
 @inherits TreeViewBase<TModel>
 @typeparam TModel
-@using System.Text.Json
 
 
-<DataSourceManager TModel="TModel" @ref="DataSource"></DataSourceManager>
+
+<DataSourceManager  TModel="TModel" @ref="DataSource"></DataSourceManager>
 <Row Gutter="16">
     <Col Span="12">
-    <Tree @ref="tree" BlockNode ShowLine ShowExpand TItem="TModel" DataSource="DataListTItem"
+    <Tree @ref="tree" Checkable Multiple BlockNode ShowLine ShowExpand TItem="TModel" DataSource="DataListTItem"
         TitleExpression="@(x => x.DataItem.GetType().GetProperty("Title").GetValue(x.DataItem).ToString())"
         ChildrenExpression="@(x => GetChildren(x.DataItem))" @bind-SelectedData="@selectedData">
 

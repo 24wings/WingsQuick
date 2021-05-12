@@ -7,27 +7,26 @@ using Microsoft.AspNetCore.Components;
 namespace Wings.Admin.Components.fieldNumber
 {
 
-    public class FieldNumberBase : ComponentBase
+    public class FieldNumberBase<TModel> : PropertyComponentBase<TModel>
     {
         [Parameter]
         public object FieldValue { get; set; }
-        public double Value { get; set; }
-        protected DisplayAttribute display;
+        public double MyValue { get; set; }
+    
 
-        [Parameter]
-        public PropertyInfo Prop { get; set; }
+       
         [Parameter]
         public EventCallback<object> OnValueChange { get; set; }
 
         protected async Task changeValue()
         {
-            switch (Prop.PropertyType.Name)
+            switch (Property.PropertyType.Name)
             {
                 case "Int32":
-                    await OnValueChange.InvokeAsync((int)Value);
+                    await OnValueChange.InvokeAsync((int)MyValue);
                     break;
                 case "Double":
-                    await OnValueChange.InvokeAsync(Value);
+                    await OnValueChange.InvokeAsync(MyValue);
                     break;
 
             }
@@ -37,9 +36,7 @@ namespace Wings.Admin.Components.fieldNumber
         protected override void OnInitialized()
         {
 
-            display = Prop.GetCustomAttribute<DisplayAttribute>();
-            Value = (int)FieldValue;
-            Console.WriteLine(Value);
+            base.OnInitialized();
         }
     }
 }

@@ -16,5 +16,6 @@ namespace Wings.Api.Models
         public DateTime LastUpdateAt { get; set; } = DateTime.Now;
         [JsonInclude]
         public virtual List<Menu> Children { get; set; } = new List<Menu>();
+        public virtual List<Role> Roles{get;set;}
     }
 }

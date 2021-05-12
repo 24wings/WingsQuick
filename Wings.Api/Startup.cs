@@ -38,14 +38,6 @@ namespace Wings.Api
             services.AddControllers()
             .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-            // .AddJsonOptions(opt =>
-            // {
-            //     opt.JsonSerializerOptions.PropertyNameCaseInsensitive = false;
-            //     opt.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
-            //     opt.JsonSerializerOptions.MaxDepth = 6;
-
-            // });
-
 
             services.AddDbContext<AppDbContext>(
                 opt => opt.UseLazyLoadingProxies().UseMySql(connectionString, serverVersion)

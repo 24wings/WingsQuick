@@ -9,7 +9,7 @@ namespace Wings.Admin.Components.fieldDate
     /// <summary>
     /// 日期表单字段
     /// </summary>
-    public class FieldDateBase : ComponentBase
+    public class FieldDateBase<TModel> : PropertyComponentBase<TModel>
     {
         [Parameter]
 
@@ -17,8 +17,7 @@ namespace Wings.Admin.Components.fieldDate
 
         protected DisplayAttribute display;
 
-        [Parameter]
-        public PropertyInfo Prop { get; set; }
+       
         [Parameter]
         public EventCallback<object> OnValueChange { get; set; }
 
@@ -31,7 +30,7 @@ namespace Wings.Admin.Components.fieldDate
         protected override void OnInitialized()
         {
 
-            display = Prop.GetCustomAttribute<DisplayAttribute>();
+            display = Property.GetCustomAttribute<DisplayAttribute>();
         }
     }
 }

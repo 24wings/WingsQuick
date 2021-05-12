@@ -26,7 +26,9 @@ namespace Wings.Api.Models
                 //这里必须是非强制关联，否则报错：Specify ON DELETE NO ACTION or ON UPDATE NO ACTION, or modify other FOREIGN KEY constraints.
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
-
+modelBuilder.Entity<Role>()
+                //主语this，拥有Children
+                .HasMany(x => x.Menus);
 
 
         }

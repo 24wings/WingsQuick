@@ -15,8 +15,8 @@
 @if (render)
 {
 
-    <Modal Visible="@_visible" OnOk="@HandleOk" OnCancel="@HandleCancel">
-        @editType
+    <Modal Visible="@_visible" Width="900" Title="@GetTitle()" OnOk="@HandleOk" OnCancel="@HandleCancel">
+       
         <DataSourceManager TModel="TModel" @ref="dataSource"></DataSourceManager>
         <EditForm EditContext="editContext">
             <DataAnnotationsValidator />
@@ -26,7 +26,7 @@
                 {
 
                     <AntDesign.Col Class="gutter-row" Span="12">
-                        <DynamicField Prop="item" OnValueChange="(value=>changeValue(item,value))"
+                        <DynamicField Property="item" Value="Value" TModel="TModel" OnValueChange="(value=>changeValue(item,value))"
                     FieldValue="GetFieldValue(item)">
                         </DynamicField>
                     </AntDesign.Col>

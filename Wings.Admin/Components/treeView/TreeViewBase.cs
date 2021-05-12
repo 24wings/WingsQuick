@@ -67,7 +67,6 @@ namespace Wings.Admin.Components
             DataListTItem = resData.Data;
             StateHasChanged();
 
-
             tree.ExpandAll();
             StateHasChanged();
         }
@@ -121,8 +120,7 @@ namespace Wings.Admin.Components
         {
             _modalService.Confirm(new ConfirmOptions()
             {
-                Title = "Do you Want to delete these items?",
-                Content = "Some descriptions",
+                Title = "确定删除该条记录?",
                 OnOk = async (e) =>
                 {
                     await DataSource.Delete(selectedData);
