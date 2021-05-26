@@ -25,7 +25,7 @@ namespace Wings.Admin.Components.fieldTreeSelect
         public EventCallback<object> OnValueChange { get; set; }
         protected Type DataType { get; set; }
         public List<object> DataList { get; set; } = new List<object>();
-       protected string[] selectedKeys{get;set;}
+        protected string[] selectedKeys { get; set; }
 
 
         protected override void OnInitialized()
@@ -46,7 +46,8 @@ namespace Wings.Admin.Components.fieldTreeSelect
         protected override void OnAfterRender(bool firstRender)
         {
             base.OnAfterRender(firstRender);
-            if(firstRender){
+            if (firstRender)
+            {
                 StateHasChanged();
 
             }
@@ -62,16 +63,31 @@ namespace Wings.Admin.Components.fieldTreeSelect
             DataList = JsonSerializer.Deserialize<List<object>>(JsonSerializer.Serialize(data.GetType().GetProperty("Data").GetValue(data)));
             Console.WriteLine("DataList:" + JsonSerializer.Serialize(DataList));
         }
-          protected RenderFragment dynamicTreeComponent => builder =>
-        {
+        protected RenderFragment dynamicTreeComponent => builder =>
+      {
 
 
-            builder.OpenComponent(0, typeof(FieldTreeSelectComponent<object>).GetGenericTypeDefinition().MakeGenericType(DataType));
-            builder.AddAttribute(1,"Value",Property.GetValue(Value));
-            builder.AddAttribute(2,"Property",Property);
-            builder.CloseComponent();
+          builder.OpenComponent(0, typeof(FieldTreeSelectComponent<object>).GetGenericTypeDefinition().MakeGenericType(DataType));
+          //   builder.AddAttribute(1, "Value", Property.GetValue(Value));
+          builder.AddAttribute(2, "Property", Property);
+          builder.AddAttribute(3, "OnValueChange",
+  EventCallback.Factory.Create<object>(this,
+  RuntimeHelpers.CreateInferredEventCallback(this, __value =>
+  {
 
-        };
+      FieldValue =
+  __value;
+      Console.WriteLine("property type:" + Property.PropertyType);
+      Console.WriteLine("Value type:" + Value.GetType() + " Value:" + JsonSerializer.Serialize(Value));
+      Console.WriteLine("__value:" + JsonSerializer.Serialize(__value));
+      var __valueCase = JsonSerializer.Deserialize(JsonSerializer.Serialize(__value), Property.PropertyType, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+      Console.WriteLine("__valueCase" + __valueCase.GetType());
+      Property.SetValue(Value, __valueCase);
+      OnValueChange.InvokeAsync(FieldValue);
+  }, FieldValue)));
+          builder.CloseComponent();
+
+      };
         /// <summary>
         /// 这部分写的不好 要重新再写
         /// </summary>
@@ -93,22 +109,24 @@ namespace Wings.Admin.Components.fieldTreeSelect
         public string GetTitle(object data)
         {
             var originData = JsonSerializer.Deserialize(JsonSerializer.Serialize(data), DataType);
-            return GetKey(data)+":"+ originData.GetType().GetProperty("Title").GetValue(originData).ToString();
+            return GetKey(data) + ":" + originData.GetType().GetProperty("Title").GetValue(originData).ToString();
 
         }
-             public string GetKey(object data)
+        public string GetKey(object data)
         {
-            var originData = JsonSerializer.Deserialize(JsonSerializer.Serialize(data), DataType,new JsonSerializerOptions{PropertyNameCaseInsensitive=false});
+            var originData = JsonSerializer.Deserialize(JsonSerializer.Serialize(data), DataType, new JsonSerializerOptions { PropertyNameCaseInsensitive = false });
             return originData.GetType().GetProperty("Id").GetValue(originData).ToString();
 
         }
-        protected bool IsLeaf(object data){
-               var originData = JsonSerializer.Deserialize(JsonSerializer.Serialize(data), DataType,new JsonSerializerOptions{PropertyNameCaseInsensitive=false});
-              var children= originData.GetType().GetProperty("Children").GetValue(originData);
-              return JsonSerializer.Deserialize<List<object>>(JsonSerializer.Serialize(children)).Count==0;
+        protected bool IsLeaf(object data)
+        {
+            var originData = JsonSerializer.Deserialize(JsonSerializer.Serialize(data), DataType, new JsonSerializerOptions { PropertyNameCaseInsensitive = false });
+            var children = originData.GetType().GetProperty("Children").GetValue(originData);
+            return JsonSerializer.Deserialize<List<object>>(JsonSerializer.Serialize(children)).Count == 0;
         }
-       public void Log(){
-       }
+        public void Log()
+        {
+        }
     }
 
 

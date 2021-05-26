@@ -20,6 +20,7 @@ namespace Wings.Admin.Components.dynamicForm
         protected EditContext editContext { get; set; }
 
         protected DataSourceManager<TModel> dataSource;
+        protected string ValueString{get;set;}
 
 
         protected bool _visible = true;
@@ -59,6 +60,7 @@ namespace Wings.Admin.Components.dynamicForm
             Console.WriteLine("值变更:" + prop.Name + "  value:" + value);
             editContext.NotifyFieldChanged(field);
             editContext.NotifyValidationStateChanged();
+            ValueString= JsonSerializer.Serialize(field.Model);
             StateHasChanged();
 
         }

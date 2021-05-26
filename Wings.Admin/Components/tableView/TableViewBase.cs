@@ -114,9 +114,6 @@ namespace Wings.Admin.Components.tableView
                           EditValue = null;
                           editType=EditType.Detail;
                           await Load();
-
-
-
                       }, new object())));
                   builder.AddAttribute(3, "EditType", editType);
 

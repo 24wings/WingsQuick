@@ -23,6 +23,8 @@ namespace Wings.Admin.Components.fieldTreeSelect
         protected DataSourceManager<TModel> DataSource { get; set; }
 
         public bool render { get; set; }
+        [Parameter]
+        public EventCallback<object> OnValueChange { get; set; }
 
 
         public List<TModel> DataListTItem { get; set; } = new List<TModel>();
@@ -99,23 +101,19 @@ namespace Wings.Admin.Components.fieldTreeSelect
                 return result;
             };
 
-            //  var data=   tree.CheckedNodes.Select(node=> JsonSerializer.Deserialize(JsonSerializer.Serialize(node.DataItem),Property.PropertyType.GetGenericArguments()[0],new JsonSerializerOptions{PropertyNameCaseInsensitive=true} )).ToList() ;
             var data = tree.CheckedNodes.AsQueryable().Select(node => (TModel)node.DataItem).Distinct().ToList();
             Console.WriteLine(tree.CheckedNodes.Count);
             tree.CheckedNodes.ForEach(item =>
             {
-                if (item.ParentNode != null)
-                {
-                    Console.WriteLine("parent Node:" + item.ParentNode + "is Checked:" + item.ParentNode.Checked);
-                }
+
 
                 var parents = GetAllHalfCheckedParent(item);
-                Console.WriteLine("parents:" + JsonSerializer.Serialize(parents));
                 data.AddRange(parents);
             }
                 );
+            Console.WriteLine("Property.Name:" + Property.Name);
+            await OnValueChange.InvokeAsync(data);
 
-            Console.WriteLine(data.Count);
         }
     }
 }
