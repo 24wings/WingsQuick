@@ -77,11 +77,8 @@ namespace Wings.Admin.Components.fieldTreeSelect
 
       FieldValue =
   __value;
-      Console.WriteLine("property type:" + Property.PropertyType);
-      Console.WriteLine("Value type:" + Value.GetType() + " Value:" + JsonSerializer.Serialize(Value));
-      Console.WriteLine("__value:" + JsonSerializer.Serialize(__value));
+
       var __valueCase = JsonSerializer.Deserialize(JsonSerializer.Serialize(__value), Property.PropertyType, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-      Console.WriteLine("__valueCase" + __valueCase.GetType());
       Property.SetValue(Value, __valueCase);
       OnValueChange.InvokeAsync(FieldValue);
   }, FieldValue)));

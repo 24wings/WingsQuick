@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
+using Wings.Admin.Services;
 using Wings.Shared.Attributes;
 using Wings.Shared.Dto;
 
@@ -17,9 +18,9 @@ namespace Wings.Admin.Shared
         public Type ModelType { get; set; }
 
         public bool render { get; set; }
-        
+
         public Type pageType { get; set; }
-        protected async override Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
             if (!render) render = true;
             var pageAttribute = ModelType.GetCustomAttribute<PageAttribute>(true);
@@ -31,7 +32,6 @@ namespace Wings.Admin.Shared
         public RenderFragment dynamicTreeComponent => builder =>
         {
             var treeViewComponentType = Assembly.GetExecutingAssembly().DefinedTypes.First(type => type.Name.Contains("TreeView") && !type.Name.Contains("Base") && !type.Name.Contains("Dynamic")).MakeGenericType(ModelType);
-            Console.WriteLine("treeViewComponentType:" + treeViewComponentType);
             builder.OpenComponent(0, treeViewComponentType);
             builder.CloseComponent();
         };

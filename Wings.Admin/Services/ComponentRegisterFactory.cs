@@ -15,7 +15,7 @@ using Wings.Shared.Attributes;
 using Wings.Admin.Components.propTreeView;
 using Wings.Admin.Components.fieldTreeSelect;
 
-namespace Wings.Admin
+namespace Wings.Admin.Services
 {
     public static class ComponentRegisterFactory
     {
@@ -48,23 +48,24 @@ namespace Wings.Admin
 
         public static Type GetFieldDefaultComponent(Type type)
         {
-            
+
             if (type.IsEnum)
             {
                 return registedFieldComponents[typeof(Enum)];
             }
-           
+
             return registedFieldComponents[type];
 
         }
 
         public static Type GetPropDefaultComponent(Type type)
         {
-        // 列表
-            if(type.IsGenericType){
-                var genericArgument= type.GetGenericArguments()[0];
-             var pageAttribute=   genericArgument.GetCustomAttribute<PageAttribute>();
-            return  registePropComponents[pageAttribute.GetType()];
+            // 列表
+            if (type.IsGenericType)
+            {
+                var genericArgument = type.GetGenericArguments()[0];
+                var pageAttribute = genericArgument.GetCustomAttribute<PageAttribute>();
+                return registePropComponents[pageAttribute.GetType()];
             }
 
             if (type.IsEnum)

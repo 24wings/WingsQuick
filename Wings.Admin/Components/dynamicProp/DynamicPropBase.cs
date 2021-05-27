@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.CompilerServices;
+using Wings.Admin.Services;
 using Wings.Shared.Dvo;
 
 namespace Wings.Admin.Components.dynamicProp

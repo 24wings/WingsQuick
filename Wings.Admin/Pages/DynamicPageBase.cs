@@ -10,6 +10,10 @@ using Wings.Shared.Dto;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.Extensions.Logging;
+using System.Threading;
+using Wings.Admin.Services;
 
 namespace Wings.Admin.Pages
 {
@@ -20,9 +24,10 @@ namespace Wings.Admin.Pages
         public string ClassName { get; set; }
         public Dictionary<string, object> prps { get; set; } = new Dictionary<string, object>();
         public TypeInfo type { get; set; }
-        object obj;
         HttpClient _httpClient { get; }
         public Type pageType { get; set; }
+        [Inject]
+        private NavigationManager NavigationManager { get; set; }
 
         protected PageAttribute pageAttribute;
 
@@ -35,8 +40,25 @@ namespace Wings.Admin.Pages
         protected override void OnInitialized()
         {
             if (!render) render = true;
+            RefershRenderComponent();
+
+            NavigationManager.LocationChanged += HandleLocationChanged;
+
+        }
+        private void HandleLocationChanged(object sender, LocationChangedEventArgs e)
+        {
+            render = false;
+            Console.WriteLine("navigation location change");
+            StateHasChanged();
+            RefershRenderComponent();
+            render = true;
+            StateHasChanged();
+        }
+
+        private void RefershRenderComponent()
+        {
             type = Assembly.GetAssembly(typeof(Wings.Shared.Dvo.DateRange)).DefinedTypes.FirstOrDefault(typeInfo => typeInfo.Name ==
-            ClassName);
+           ClassName);
             if (type == null)
             {
                 throw new Exception("未找到当前类");
@@ -44,11 +66,7 @@ namespace Wings.Admin.Pages
 
             pageAttribute = type.GetCustomAttribute<PageAttribute>(true);
             pageType = PageRegisterFactory.GetPageDefaultComponent(pageAttribute.GetType());
-
-
-
         }
-
 
         public RenderFragment dynamicComponent => builder =>
          {

@@ -15,17 +15,12 @@ namespace Wings.Admin.Components.fieldDate
 
         public DateTime FieldValue { get; set; }
 
-        protected DisplayAttribute display;
 
-       
+
         [Parameter]
         public EventCallback<object> OnValueChange { get; set; }
 
-        protected async Task changeValue()
-        {
 
-
-        }
 
         protected override void OnInitialized()
         {

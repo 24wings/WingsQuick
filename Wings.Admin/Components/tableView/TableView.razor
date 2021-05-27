@@ -4,9 +4,6 @@
 @using System.ComponentModel
 @using AntDesign.TableModels
 
-@(typeof(TModel))
-
-<br>
 
 <Button OnClick="()=> OpenAddFormModal()" Type="primary">新增</Button>
 
@@ -27,8 +24,10 @@
         </Space>
     </ActionColumn>
 </Table>
-@if(render){
-@if(editType==EditType.Insert){
-@dynamicEditComponent
-}
+@if (render)
+{
+    @if (editType == EditType.Insert)
+    {
+        @dynamicEditComponent
+    }
 }

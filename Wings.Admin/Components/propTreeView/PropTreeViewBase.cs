@@ -36,18 +36,16 @@ namespace Wings.Admin.Components.propTreeView
 
         protected CRUDModelAttribute CRUDModel { get; set; }
         protected object EditValue { get; set; }
-        protected async override Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
             base.OnInitialized();
             if (!render)
             {
                 render = true;
                 PropertyGenericType = Property.PropertyType.GenericTypeArguments[0];
-                Console.WriteLine("Value:" + JsonSerializer.Serialize(Value));
 
                 DataListTItem = JsonSerializer.Deserialize<List<object>>(JsonSerializer.Serialize(Property.GetValue(Value)));
 
-                Console.WriteLine("DataListTItem:" + JsonSerializer.Serialize(DataListTItem));
 
                 StateHasChanged();
             }
@@ -55,13 +53,7 @@ namespace Wings.Admin.Components.propTreeView
         }
 
 
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            if (firstRender)
-            {
-            }
 
-        }
         public string GetTitle(object data)
         {
             var originData = JsonSerializer.Deserialize(JsonSerializer.Serialize(data), PropertyGenericType);
@@ -77,8 +69,8 @@ namespace Wings.Admin.Components.propTreeView
         public List<object> GetChildren(object data)
         {
             var originData = ParseData(data);
-           
-            var Children= JsonSerializer.Deserialize<List<object>>( JsonSerializer.Serialize(originData.GetType().GetProperty("Children").GetValue(originData)) );
+
+            var Children = JsonSerializer.Deserialize<List<object>>(JsonSerializer.Serialize(originData.GetType().GetProperty("Children").GetValue(originData)));
             return Children;
         }
 

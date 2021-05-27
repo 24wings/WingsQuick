@@ -1,18 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Reflection;
-using System.Text.Json;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Configuration;
 using Wings.Shared.Attributes;
 using Wings.Shared.Dto;
-using Wings.Shared.Dvo;
-using Wings.Shared.Attributes;
-using Wings.Admin.Components.dynamicForm;
 using Wings.Admin.Shared;
 using Microsoft.AspNetCore.Components.CompilerServices;
 using AntDesign;
@@ -48,15 +42,13 @@ namespace Wings.Admin.Components
 
 
 
-        protected async override Task OnInitializedAsync()
+        protected override void OnInitialized()
         {
             base.OnInitialized();
             if (!render)
             {
                 render = true;
                 CRUDModel = typeof(TModel).GetCustomAttribute<CRUDModelAttribute>();
-
-
                 StateHasChanged();
             }
 

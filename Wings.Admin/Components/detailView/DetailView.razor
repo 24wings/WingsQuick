@@ -1,17 +1,12 @@
-@inherits DetailViewBase<TItem>
-@using System.Text.Json
-@typeparam TItem
+@inherits DetailViewBase<TModel>
+@typeparam TModel
 
-@JsonSerializer.Serialize(Value)
 
 <table>
     <tbody>
         @foreach (var item in PropertyList)
         {
-            <tr>
-                <td>@item.Key</td>
-                <td>@item.Value</td>
-            </tr>
+            <DetailProp TModel="TModel" Value="Value" Property="item"></DetailProp>
         }
 
     </tbody>

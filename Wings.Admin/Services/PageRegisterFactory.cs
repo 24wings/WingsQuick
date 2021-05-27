@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Wings.Admin.Shared;
 using Wings.Shared.Attributes;
 
-namespace Wings.Admin
+namespace Wings.Admin.Services
 {
     /// <summary>
     /// 页面注册器
