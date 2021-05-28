@@ -37,7 +37,8 @@ namespace Wings.Admin.Services
             {typeof(TreePageAttribute),typeof(PropTreeView<object>)},
             {typeof(DateRange),typeof(FieldDateRange)},
             {typeof(Boolean),typeof(FieldCheckbox)},
-            {typeof(Enum),typeof(FieldEnum)}
+            {typeof(Enum),typeof(FieldEnum)},
+            {typeof(PropTreeViewAttribute),typeof(PropTreeView<object>)}
 
             };
 
@@ -58,14 +59,17 @@ namespace Wings.Admin.Services
 
         }
 
-        public static Type GetPropDefaultComponent(Type type)
+        public static Type GetPropDefaultComponent(PropertyInfo prop)
         {
+            var type = prop.PropertyType;
             // 列表
-            if (type.IsGenericType)
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<object>).GetGenericTypeDefinition())
             {
+                Console.WriteLine(type);
                 var genericArgument = type.GetGenericArguments()[0];
-                var pageAttribute = genericArgument.GetCustomAttribute<PageAttribute>();
-                return registePropComponents[pageAttribute.GetType()];
+                var propAttribute = prop.GetCustomAttribute<PropAttribute>();
+                Console.WriteLine(prop.Name + propAttribute);
+                return registePropComponents[propAttribute.GetType()];
             }
 
             if (type.IsEnum)

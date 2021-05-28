@@ -30,7 +30,6 @@ namespace Wings.Admin.Components.dynamicField
             if (Property.PropertyType.IsGenericType)
             {
                 var fieldAttribute = Property.GetCustomAttribute<FormFieldAttribute>();
-                Console.WriteLine("fieldAttribute:" + fieldAttribute);
                 type = ComponentRegisterFactory.GetFieldDefaultComponent(fieldAttribute.GetType());
                 type = type.GetGenericTypeDefinition().MakeGenericType(typeof(TModel));
 
@@ -38,7 +37,6 @@ namespace Wings.Admin.Components.dynamicField
             else
             {
                 type = ComponentRegisterFactory.GetFieldDefaultComponent(Property.PropertyType);
-
             }
 
 
@@ -60,7 +58,6 @@ namespace Wings.Admin.Components.dynamicField
         __value; OnValueChange.InvokeAsync(FieldValue);
         }, FieldValue)));
 
-            // builder.AddAttribute(3, "FieldValue", FieldValue);
             builder.AddAttribute(4, "Value", Value);
             builder.CloseComponent();
 

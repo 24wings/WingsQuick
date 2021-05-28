@@ -19,16 +19,15 @@ namespace Wings.Admin.Components.fieldString
 
         protected async Task changeValue(object e)
         {
-            FieldValue=(string)e;
-            Console.WriteLine(e);
-            Console.WriteLine("Field Value:" + e + "Value:" + Value);
-            Property.SetValue( Value,e);
+            FieldValue = (string)e;
+            Property.SetValue(Value, e);
             await OnValueChange.InvokeAsync(e);
         }
- 
+
         protected override void OnInitialized()
         {
             base.OnInitialized();
+            FieldValue = (string)Property.GetValue(Value);
 
         }
 

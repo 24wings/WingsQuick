@@ -28,7 +28,7 @@ namespace Wings.Admin.Components.dynamicProp
             }
             else
             {
-                var originType = ComponentRegisterFactory.GetPropDefaultComponent(Property.PropertyType);
+                var originType = ComponentRegisterFactory.GetPropDefaultComponent(Property);
                 Console.WriteLine("originType:" + originType);
                 Console.WriteLine("originType change:" + originType.GetGenericTypeDefinition().MakeGenericType(typeof(TModel)));
                 type = originType.GetGenericTypeDefinition().MakeGenericType(typeof(TModel));

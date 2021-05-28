@@ -10,7 +10,7 @@ using Wings.Shared.Dto;
 using Wings.Admin.Shared;
 using Microsoft.AspNetCore.Components.CompilerServices;
 using AntDesign;
-
+using System.Text.Json;
 
 namespace Wings.Admin.Components
 {
@@ -83,7 +83,7 @@ namespace Wings.Admin.Components
         public void OpenAddMenuForm()
         {
             editType = EditType.Insert;
-            var dest = mapper.Map(selectedData, typeof(TModel), CRUDModel.Create);
+            var dest = System.Activator.CreateInstance(CRUDModel.Create);
             EditValue = dest;
             StateHasChanged();
         }
@@ -94,7 +94,9 @@ namespace Wings.Admin.Components
         public void OpenSubMenuForm()
         {
             editType = EditType.Insert;
-            var dest = mapper.Map(selectedData, typeof(TModel), CRUDModel.Create);
+            Console.WriteLine(CRUDModel.Create.FullName);
+            var dest = System.Activator.CreateInstance(CRUDModel.Create);  //mapper.Map(selectedData, typeof(TModel), CRUDModel.Create);
+            Console.WriteLine(JsonSerializer.Serialize(System.Activator.CreateInstance(CRUDModel.Create)));
             dest.GetType().GetProperty("ParentId").SetValue(dest, selectedData.GetType().GetProperty("Id").GetValue(selectedData));
             EditValue = dest;
             StateHasChanged();
