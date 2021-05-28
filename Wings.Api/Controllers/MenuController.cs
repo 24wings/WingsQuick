@@ -31,6 +31,28 @@ namespace Wings.Api.Controllers
 
             return new BasicQueryResult<MenuListDvo> { Data = data, Total = 1 };
         }
+
+        [HttpGet]
+        public async Task<MenuData> LoadMenuSegmentsByMenuId()
+        {
+            var menu = await appDbContext.Menus.AsQueryable().Include(m => m.Parent).ThenInclude(m => m.Parent).FirstAsync(m => m.Id == 8);
+
+            return mapper.Map<Menu, MenuData>(menu);
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<List<MenuData>> My()
+        {
+            var menuList = await appDbContext.Menus.AsQueryable().Include(m => m.Children).FirstOrDefaultAsync();
+            var data = new List<MenuData>() { mapper.Map<Menu, MenuData>(menuList) };
+
+            return data;
+        }
         [HttpGet]
         public Menu CreateTop()
         {
@@ -54,7 +76,7 @@ namespace Wings.Api.Controllers
         {
 
             var parent = await appDbContext.Menus.FirstAsync(m => menu.ParentId == m.Id);
-            var newMenu = new Menu { ParentId = menu.ParentId, Name = menu.Text, Code = menu.Code };
+            var newMenu = new Menu { ParentId = menu.ParentId, Name = menu.Title, Code = menu.Code, Path = menu.Path };
             newMenu.Parent = parent;
             await appDbContext.Menus.AddAsync(newMenu);
             await appDbContext.SaveChangesAsync();
@@ -66,8 +88,9 @@ namespace Wings.Api.Controllers
         {
 
             var currentMenu = await appDbContext.Menus.FirstAsync(m => menu.Id == m.Id);
-            currentMenu.Name = menu.Text;
+            currentMenu.Name = menu.Title;
             currentMenu.Code = menu.Code;
+            currentMenu.Path = menu.Path;
             appDbContext.Menus.Update(currentMenu);
             await appDbContext.SaveChangesAsync();
             return true;
