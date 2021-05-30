@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Wings.Shared.Dto
 {
+
     /// <summary>
     /// 通用基础查询对象
     /// </summary>

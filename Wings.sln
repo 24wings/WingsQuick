@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wings.Api", "Wings.Api\Wing
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wings.Admin", "Wings.Admin\Wings.Admin.csproj", "{26587C89-F1BB-4357-ADD3-37DC8B7DEC4C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wings.Framework.Ui.Bootstrap", "Wings.Framework.Ui.Bootstrap\Wings.Framework.Ui.Bootstrap.csproj", "{9CF73EC4-481E-4318-9C7A-3E545402816F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,5 +60,17 @@ Global
 		{26587C89-F1BB-4357-ADD3-37DC8B7DEC4C}.Release|x64.Build.0 = Release|Any CPU
 		{26587C89-F1BB-4357-ADD3-37DC8B7DEC4C}.Release|x86.ActiveCfg = Release|Any CPU
 		{26587C89-F1BB-4357-ADD3-37DC8B7DEC4C}.Release|x86.Build.0 = Release|Any CPU
+		{9CF73EC4-481E-4318-9C7A-3E545402816F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CF73EC4-481E-4318-9C7A-3E545402816F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CF73EC4-481E-4318-9C7A-3E545402816F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9CF73EC4-481E-4318-9C7A-3E545402816F}.Debug|x64.Build.0 = Debug|Any CPU
+		{9CF73EC4-481E-4318-9C7A-3E545402816F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9CF73EC4-481E-4318-9C7A-3E545402816F}.Debug|x86.Build.0 = Debug|Any CPU
+		{9CF73EC4-481E-4318-9C7A-3E545402816F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CF73EC4-481E-4318-9C7A-3E545402816F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CF73EC4-481E-4318-9C7A-3E545402816F}.Release|x64.ActiveCfg = Release|Any CPU
+		{9CF73EC4-481E-4318-9C7A-3E545402816F}.Release|x64.Build.0 = Release|Any CPU
+		{9CF73EC4-481E-4318-9C7A-3E545402816F}.Release|x86.ActiveCfg = Release|Any CPU
+		{9CF73EC4-481E-4318-9C7A-3E545402816F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

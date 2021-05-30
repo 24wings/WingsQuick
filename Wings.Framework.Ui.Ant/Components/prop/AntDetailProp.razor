@@ -1,0 +1,31 @@
+@namespace Wings.Framework.Ui.Ant.Components
+@typeparam TModel
+@inherits AntDetailPropBase<TModel>
+<style>
+    .prop-label {
+        background-color: lightgray;
+        min-width: 40px;
+        text-align: center;
+        flex: 1
+    }
+
+    .prop-value {
+        background-color: white;
+        text-align: center;
+        flex: 2
+    }
+
+    .prop {
+        display: flex;
+    }
+</style>
+
+@if (Show)
+{
+    <div class="prop data-table">
+        <div class="prop-label">@FieldLabel</div>
+        <div class="prop-value">
+            <DynamicProp TModel="TModel" Value="Value" Property="Property"></DynamicProp>
+        </div>
+    </div>
+}

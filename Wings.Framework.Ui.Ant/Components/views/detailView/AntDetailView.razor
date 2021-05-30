@@ -1,0 +1,18 @@
+@namespace Wings.Framework.Ui.Ant.Components
+@inherits DetailViewBase<TModel>
+@typeparam TModel
+
+
+
+<table style="width: 100%; margin-top: 15px;">
+    <div class="data-table">
+        <div class="grid ">
+            @foreach (var item in PropertyList)
+            {
+
+                <DetailProp TModel="TModel" Value="Value" Property="item"></DetailProp>
+            }
+        </div>
+
+    </div>
+</table>

@@ -1,13 +1,15 @@
 @inherits ReuseTabsBase;
 <div class="card-container">
-    <Tabs Type="@TabType.EditableCard" HideAdd @ref="tabs">
-        @foreach (var pane in PaneList)
-        {
-            <TabPane Key="@(pane.Key)">
-                <Tab>@pane.Title</Tab>
-                <ChildContent>
-                    <Breadcrumb style="margin-bottom: 15px;">
-                        @foreach (var bread in pane.MenuSegments)
+    @if (!showCounter)
+    {
+        <Tabs Type="@TabType.EditableCard" HideAdd @ref="tabs">
+            @foreach (var pane in PaneList)
+            {
+                <TabPane Key="@(pane.Key)">
+                    <Tab>@pane.Title</Tab>
+                    <ChildContent>
+                        <Breadcrumb style="margin-bottom: 15px;">
+                            @foreach (var bread in pane.MenuSegments)
                         {
                             <BreadcrumbItem>
                                 @if (string.IsNullOrEmpty(@bread.Link))
@@ -27,9 +29,15 @@
                     <Wings.Admin.Pages.DynamicPage ClassName="@(pane.Link)"></Wings.Admin.Pages.DynamicPage>
                 </ChildContent>
             </TabPane>
-        }
+            }
 
-    </Tabs>
+        </Tabs>
+    }
+    else
+    {
+        <h1>BsTable</h1>
+        <BsTable></BsTable>
+    }
 </div>
 
 <style>

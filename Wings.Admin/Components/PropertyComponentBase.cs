@@ -1,11 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using Microsoft.AspNetCore.Components;
+using Wings.Framework.Shared.Attributes;
+using Wings.Framework.Ui.Core.Components;
 using Wings.Shared.Attributes;
 
 namespace Wings.Admin.Components
 {
-    public class PropertyComponentBase<TModel> : ComponentBase
+    public abstract class PropertyComponentBase<TModel> : DynamicComponentBase
     {
         protected bool IsKey { get; set; }
         [Parameter]

@@ -10,6 +10,7 @@ using System;
 using AntDesign;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components.CompilerServices;
+using Wings.Framework.Shared.Attributes;
 
 namespace Wings.Admin.Components.fieldTreeSelect
 {

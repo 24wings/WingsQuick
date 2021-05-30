@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.CompilerServices;
 using Microsoft.AspNetCore.Components;
 using Wings.Shared.Attributes;
 using Wings.Admin.Services;
+using Wings.Framework.Shared.Attributes;
 
 namespace Wings.Admin.Components.dynamicField
 {
@@ -30,13 +31,17 @@ namespace Wings.Admin.Components.dynamicField
             if (Property.PropertyType.IsGenericType)
             {
                 var fieldAttribute = Property.GetCustomAttribute<FormFieldAttribute>();
-                type = ComponentRegisterFactory.GetFieldDefaultComponent(fieldAttribute.GetType());
-                type = type.GetGenericTypeDefinition().MakeGenericType(typeof(TModel));
+                type = ComponentRegisterFactory.GetFieldDefaultComponent(Property);
+
 
             }
             else
             {
-                type = ComponentRegisterFactory.GetFieldDefaultComponent(Property.PropertyType);
+                type = ComponentRegisterFactory.GetFieldDefaultComponent(Property);
+            }
+            if (type.IsGenericType)
+            {
+                type = type.GetGenericTypeDefinition().MakeGenericType(typeof(TModel));
             }
 
 

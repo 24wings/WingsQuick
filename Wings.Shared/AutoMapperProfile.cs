@@ -10,6 +10,7 @@ namespace Wings.Shared
             CreateMap<MenuListDvo, MenuCreateDvo>()
             .ReverseMap();
 
+
         }
     }
 }

@@ -1,0 +1,21 @@
+@namespace Wings.Framework.Ui.Ant.Components
+@inherits AntBreadcrumbBase
+@using AntDesign
+<Breadcrumb style="margin-bottom: 15px;">
+    @foreach (var bread in Segements)
+    {
+        <BreadcrumbItem>
+            @if (string.IsNullOrEmpty(@bread.Link))
+            {
+                @bread.Label
+            }
+            else
+            {
+                <NavLink href="@bread.Link"> @bread.Label</NavLink>
+            }
+
+        </BreadcrumbItem>
+    }
+
+
+</Breadcrumb>

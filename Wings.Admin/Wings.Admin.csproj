@@ -17,6 +17,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Wings.Shared\Wings.Shared.csproj" />
+    <ProjectReference Include="..\Wings.Framework.Ui.Bootstrap\Wings.Framework.Ui.Bootstrap.csproj" />
+    <ProjectReference Include="..\Wings.Framework.Ui.Core\Wings.Framework.Ui.Core.csproj" />
+    <ProjectReference Include="..\Wings.Framework.Ui.Ant\Wings.Framework.Ui.Ant.csproj" />
   </ItemGroup>
-
+   <ItemGroup>
+  <None Update="Components/*.razor.css" CssScope="my-custom-scope-identifier" />
+  <None Update="Components/detailView/*.razor.css" />
+</ItemGroup>
 </Project>

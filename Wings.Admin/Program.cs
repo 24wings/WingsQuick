@@ -13,6 +13,7 @@ using Wings.Admin.Shared;
 using Wings.Admin.Services;
 using Blazored.LocalStorage;
 using System.Text.Json;
+using Wings.Framework.Ui.Core.Services;
 
 namespace Wings.Admin
 {
@@ -29,8 +30,11 @@ namespace Wings.Admin
             .AddAntDesign()
 
             .AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) })
-            .AddScoped<MenuService>()
-            .AddScoped<ConfigService>()
+            .AddScoped<Wings.Admin.Services.MenuService>()
+             .AddScoped<Wings.Framework.Ui.Core.Services.MenuService>()
+             .AddScoped<Wings.Framework.Ui.Core.Services.ConfigService>()
+                .AddScoped<Wings.Framework.Ui.Core.Services.LocalStorageService>()
+            .AddScoped<Wings.Admin.Services.ConfigService>()
             .AddBlazoredLocalStorage(config =>
             {
                 config.JsonSerializerOptions.DictionaryKeyPolicy = JsonNamingPolicy.CamelCase;
@@ -43,9 +47,10 @@ namespace Wings.Admin
             }
 
 )
-.AddScoped<LocalStorageService>()
-            ;
-
+.AddScoped<Wings.Admin.Services.LocalStorageService>()
+     .AddAntDesignTheme();
+            var componentPairs = DynamicComponentScanner.ComponentPairs;
+            Console.WriteLine(JsonSerializer.Serialize(componentPairs));
             await builder.Build().RunAsync();
         }
     }

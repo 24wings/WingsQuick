@@ -14,6 +14,9 @@ using System.Reflection;
 using Wings.Shared.Attributes;
 using Wings.Admin.Components.propTreeView;
 using Wings.Admin.Components.fieldTreeSelect;
+using Wings.Admin.Components.fieldIcon;
+using System.Linq;
+using Wings.Framework.Shared.Attributes;
 
 namespace Wings.Admin.Services
 {
@@ -27,7 +30,9 @@ namespace Wings.Admin.Services
             {typeof(DateRange),typeof(FieldDateRange)},
             {typeof(Boolean),typeof(FieldCheckbox)},
             {typeof(Enum),typeof(FieldEnum)},
-            {typeof(TreeSelectFieldAttribute),typeof(FieldTreeSelect<object>)}
+            {typeof(TreeSelectFieldAttribute),typeof(FieldTreeSelect<object>)},
+            {typeof(IconPickerFieldAttribute),typeof(FieldIcon<object>)},
+
 
             };
 
@@ -47,8 +52,15 @@ namespace Wings.Admin.Services
             registedComponents.Add(type, com);
         }
 
-        public static Type GetFieldDefaultComponent(Type type)
+        public static Type GetFieldDefaultComponent(PropertyInfo prop)
         {
+            var type = prop.PropertyType;
+            var formFieldAttribute = prop.GetCustomAttribute<FormFieldAttribute>();
+            if (formFieldAttribute != null)
+            {
+                return registedFieldComponents[formFieldAttribute.GetType()];
+            }
+
 
             if (type.IsEnum)
             {

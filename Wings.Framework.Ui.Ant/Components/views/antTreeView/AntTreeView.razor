@@ -1,0 +1,13 @@
+@namespace Wings.Framework.Ui.Ant.Components
+@inherits AntTreeViewBase<TModel>
+@typeparam TModel
+
+<DataSourceManager TModel="TModel" @ref="DataSource"></DataSourceManager>
+<Row Gutter="16">
+    <Col Span="8">
+    <Tree @ref="tree" BlockNode ShowLine ShowExpand TItem="TModel" DataSource="DataListTItem"
+        TitleExpression="@(x => x.DataItem.GetType().GetProperty("Title").GetValue(x.DataItem).ToString())"
+        ChildrenExpression="@(x => GetChildren(x.DataItem))" @bind-SelectedData="@selectedData">
+    </Tree>
+    </Col>
+</Row>

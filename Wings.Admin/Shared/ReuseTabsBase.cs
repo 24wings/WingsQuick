@@ -31,6 +31,8 @@ namespace Wings.Admin.Shared
         [Inject]
         protected MenuService menuService { get; set; }
 
+        protected bool showCounter { get; set; } = true;
+
 
 
         public void AddPanel(string link)
@@ -78,6 +80,10 @@ namespace Wings.Admin.Shared
                 PaneList.Add(new Pane { Link = panelClassName, Title = menu.Label, Key = link, MenuSegments = menuSegments });
                 tabs.ActiveKey = link;
                 StateHasChanged();
+            }
+            else
+            {
+                showCounter = true;
             }
         }
 

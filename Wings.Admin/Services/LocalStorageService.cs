@@ -17,7 +17,6 @@ namespace Wings.Admin.Services
             return await LocalStorage.GetItemAsync<List<MenuData>>("Menus");
         }
 
-
         public LocalStorageService(ILocalStorageService localStorage)
         {
             LocalStorage = localStorage;

@@ -1,7 +1,8 @@
 using System;
 
-namespace Wings.Shared.Attributes{
-      public class DataSourceAttribute : Attribute
+namespace Wings.Framework.Shared.Attributes
+{
+    public class DataSourceAttribute : Attribute
     {
         private string Url { get; set; }
         public string Load { get; }
@@ -20,4 +21,5 @@ namespace Wings.Shared.Attributes{
 
         }
     }
+
 }

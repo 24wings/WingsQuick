@@ -7,6 +7,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
+using Wings.Framework.Shared.Attributes;
 using Wings.Shared.Attributes;
 using Wings.Shared.Dto;
 
