@@ -14,3 +14,6 @@ Wings.Framework.Ui.Core/bin
 Wings.Framework.Ui.Core/obj
 Wings.Framework.Shared/bin
 Wings.Framework.Shared/obj
+
+**/**/bin
+**/**/obj

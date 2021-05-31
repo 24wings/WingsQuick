@@ -1,9 +1,0 @@
-.grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    background: black;
-}
-
-.data-table {
-    border: 1px solid #e2e2e2;
- }

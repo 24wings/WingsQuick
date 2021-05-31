@@ -1,0 +1,18 @@
+@inherits NavMenuItemBase
+
+@if (menuData.Children?.Count > 0)
+{
+    <SubMenu Title="@menuData.Label">
+        @foreach (var child in menuData.Children)
+        {
+            <NavMenuItem menuData="child"></NavMenuItem>
+
+        }
+    </SubMenu>
+}
+else
+{
+    <MenuItem Key="@menuData.Link" RouterLink="@menuData.Link">
+
+    <span> @menuData.Label</span></MenuItem>
+}

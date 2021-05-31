@@ -1,0 +1,45 @@
+﻿@inherits NavMenuBase
+<div>
+    <Button Type="primary" OnClick="ToggleCollapsed" Style="margin-bottom: 16px">
+        @if (collapsed)
+        {
+            <Icon Type="menu-unfold" Theme="outline"></Icon>
+        }
+        else
+        {
+            <Icon Type="menu-fold" Theme="outline"></Icon>
+        }
+    </Button>
+    <Menu DefaultSelectedKeys=@(new[] { "1" }) DefaultOpenKeys=@(new[] { "sub1" }) Mode=MenuMode.Inline
+        Theme=MenuTheme.Dark InlineCollapsed=collapsed>
+        @foreach (var item in MenuDataList)
+        {
+            <NavMenuItem menuData="item">
+            </NavMenuItem>
+        }
+
+    </Menu>
+</div>
+
+@code {
+    bool collapsed = false;
+
+    RenderFragment sub1Title =
+    @<span>
+        <Icon Type="mail" Theme="outline"></Icon>
+        <span>Navigation One</span>
+    </span>
+    ;
+
+    RenderFragment sub2Title =
+    @<span>
+        <Icon Type="appstore" Theme="outline"></Icon>
+        <span>Navigation Two</span>
+    </span>
+    ;
+
+    void ToggleCollapsed()
+    {
+        collapsed = !collapsed;
+    }
+}
