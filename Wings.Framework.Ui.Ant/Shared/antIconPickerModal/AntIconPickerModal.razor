@@ -1,0 +1,42 @@
+@namespace Wings.Framework.Ui.Ant.Components
+@inherits AntIconPickerModalBase
+<style>
+    .icon-selected {
+        border: 1px solid #e2e2e2;
+    }
+</style>
+<Modal Title="选择图标" Width="900" Visible="@_visible" OnOk="@HandleOk" OnCancel="@HandleCancel"
+    OkButtonProps="new ButtonProps{Disabled=SelectedIcon==null}">
+    <div style="margin-top: 10px;margin-bottom:20px">
+        <Search Placeholder="input search text" OnChange="(e)=>SearchIcon()" EnterButton="true"
+            @bind-Value="@keywords" />
+    </div>
+    <Row>
+
+        @foreach (var item in DisplayIconList)
+        {
+            <AntDesign.Col Span="3">
+                @if (SelectedIcon == item)
+                {
+                    <div class="icon-selected" @onclick="()=>SelectedIcon=null">
+                        <div style="text-align: center;">
+                            <Icon Type="@(item)" Theme="outline" style="font-size: 2rem;"></Icon>
+                        </div>
+                        <div style="text-align: center;"><span>@item</span></div>
+                    </div>
+                }
+                else
+                {
+                    <div @onclick="()=>SelectedIcon=item">
+                        <div style="text-align: center;">
+                            <Icon Type="@(item)" Theme="outline" style="font-size: 2rem;"></Icon>
+                        </div>
+                        <div style="text-align: center;"><span>@item</span></div>
+                    </div>
+                }
+
+            </AntDesign.Col>
+        }
+    </Row>
+
+</Modal>

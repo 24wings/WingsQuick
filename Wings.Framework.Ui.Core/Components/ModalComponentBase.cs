@@ -2,9 +2,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using Microsoft.AspNetCore.Components;
 
-namespace Wings.Framework.Ui.Core
+namespace Wings.Framework.Ui.Core.Components
 {
-    public class ModelComponentBase<TModel> : ComponentBase
+    public class ModelComponentBase<TModel> : DynamicComponentBase
     {
 
         [Parameter]

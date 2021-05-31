@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 using AntDesign;
 using AutoMapper;
 using Microsoft.AspNetCore.Components;
-using Wings.Admin.Shared;
-using Wings.Shared.Attributes;
-using Wings.Shared.Dto;
 using System.Text.Json;
 using Wings.Framework.Shared.Attributes;
+using Wings.Framework.Ui.Core.Components;
+using Wings.Framework.Shared.Dtos;
 
-namespace Wings.Admin.Components.fieldTreeSelect
+namespace Wings.Framework.Ui.Ant.Components
 {
-    public class FieldTreeSelectComponentBase<TModel> : PropertyComponentBase<TModel>
+    public abstract class AntFieldTreeSelectComponentBase<TModel> : FieldComponentBase<TModel>
     {
         [Inject]
         public ModalService _modalService { get; set; }

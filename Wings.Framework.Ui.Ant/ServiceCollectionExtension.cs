@@ -12,6 +12,10 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             var dynamicComponentPairs = DynamicComponentScanner.ScanDynmaicComponentByAssembly(Assembly.GetExecutingAssembly());
             DynamicComponentScanner.AddComponentPairs(dynamicComponentPairs);
+            foreach (var pair in dynamicComponentPairs)
+            {
+                Console.WriteLine(pair.ComponentType + ":" + pair.ComponentDisplayName + ":" + pair.DataType);
+            }
             Console.WriteLine("scanning asembly:" + Assembly.GetExecutingAssembly());
             //替换 属性控件
             AppControlConfig.propDefaultControl.StringControl = typeof(AntPropString<object>).FullName;

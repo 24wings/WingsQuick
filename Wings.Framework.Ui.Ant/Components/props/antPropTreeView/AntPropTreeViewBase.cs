@@ -5,17 +5,15 @@ using System.Threading.Tasks;
 using AntDesign;
 using AutoMapper;
 using Microsoft.AspNetCore.Components;
-using Wings.Admin.Components;
-using Wings.Admin.Shared;
-using Wings.Shared.Attributes;
-using Wings.Shared.Dto;
 using System.Text.Json;
 using System.Linq;
 using Wings.Framework.Shared.Attributes;
+using Wings.Framework.Ui.Core.Components;
+using Wings.Framework.Shared.Dtos;
 
-namespace Wings.Admin.Components.propTreeView
+namespace Wings.Framework.Ui.Ant.Components
 {
-    public class PropTreeViewBase<TModel> : PropertyComponentBase<TModel>
+    public abstract class AntPropTreeViewBase<TModel> : PropertyComponentBase<TModel>
     {
         [Inject]
         public ModalService _modalService { get; set; }

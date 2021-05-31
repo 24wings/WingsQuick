@@ -11,6 +11,7 @@ using Wings.Admin.Shared;
 using Microsoft.AspNetCore.Components.CompilerServices;
 using AntDesign;
 using System.Text.Json;
+using Wings.Framework.Shared.Attributes;
 
 namespace Wings.Admin.Components
 {
@@ -37,7 +38,7 @@ namespace Wings.Admin.Components
         protected IMapper mapper { get; set; }
         public EditType editType { get; set; }
 
-        protected CRUDModelAttribute CRUDModel { get; set; }
+        protected CrudModelAttribute CRUDModel { get; set; }
         protected object EditValue { get; set; }
 
 
@@ -48,7 +49,7 @@ namespace Wings.Admin.Components
             if (!render)
             {
                 render = true;
-                CRUDModel = typeof(TModel).GetCustomAttribute<CRUDModelAttribute>();
+                CRUDModel = typeof(TModel).GetCustomAttribute<CrudModelAttribute>();
                 StateHasChanged();
             }
 

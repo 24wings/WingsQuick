@@ -92,9 +92,7 @@ namespace Wings.Framework.Ui.Ant.Components
         public void OpenSubMenuForm()
         {
             editType = EditType.Insert;
-            // Console.WriteLine(CRUDModel.Create.FullName);
             var dest = System.Activator.CreateInstance(CRUDModel.Create);  //mapper.Map(selectedData, typeof(TModel), CRUDModel.Create);
-            // Console.WriteLine(JsonSerializer.Serialize(System.Activator.CreateInstance(CRUDModel.Create)));
             dest.GetType().GetProperty("ParentId").SetValue(dest, selectedData.GetType().GetProperty("Id").GetValue(selectedData));
             EditValue = dest;
             StateHasChanged();
@@ -137,7 +135,7 @@ namespace Wings.Framework.Ui.Ant.Components
 
             }
 
-            editModelType = Assembly.GetExecutingAssembly().DefinedTypes.First(type => type.Name.Contains("DynamicForm") && !type.Name.Contains("Base")).MakeGenericType(editModelType);
+            editModelType = typeof(AntDynamicForm<>).MakeGenericType(editModelType);
 
             builder.OpenComponent(0, editModelType);
             builder.AddAttribute(1, "Value", EditValue);

@@ -1,0 +1,31 @@
+@namespace Wings.Framework.Ui.Ant.Components
+@inherits AntFieldIconBase<TModel>
+@typeparam TModel
+
+
+<Row Gutter="16">
+    <AntDesign.Col Class="gutter-row" Span="6">
+        @FieldLabel
+    </AntDesign.Col>
+    <AntDesign.Col Class="gutter-row" Span="12">
+        @if (formFieldAttribute == null || formFieldAttribute.Edit == false)
+        {
+            @Property.GetValue(Value)
+        }
+        else
+        {
+            <div>
+                <Icon Type="@((string)Property.GetValue(Value))" style="font-size: 2rem;"></Icon>
+                <Tooltip Title=@("修改")>
+                    <Button Type="primary" Shape="circle" Icon="edit" OnClick="()=>ShowIconPickerModal=true" />
+                </Tooltip>
+                @if (ShowIconPickerModal)
+                {
+                    <AntIconPickerModal OnOk="(val=>{ChangeIcon(val);ShowIconPickerModal=false;})"></AntIconPickerModal>
+                }
+            </div>
+        }
+
+    </AntDesign.Col>
+
+</Row>

@@ -16,7 +16,6 @@ namespace Wings.Framework.Ui.Ant.Components
         protected List<MenuData> Segements { get; set; } = new List<MenuData>();
         public AntBreadcrumbBase()
         {
-            // menuService = _menuService;
         }
 
         protected override async Task OnInitializedAsync()

@@ -1,0 +1,24 @@
+@namespace Wings.Framework.Ui.Ant.Components
+@attribute [ComponentDataType("System.Int32")]
+@using System.Reflection;
+@using System.Reflection.Emit;
+@using System.ComponentModel.DataAnnotations;
+@typeparam TModel
+@inherits AntFieldNumberBase<TModel>;
+<Row Gutter="16">
+  <AntDesign.Col Class="gutter-row" Span="6">
+    @FieldLabel
+  </AntDesign.Col>
+  <AntDesign.Col Class="gutter-row" Span="12">
+    @if (formFieldAttribute == null || formFieldAttribute.Edit == false)
+    {
+      @Property.GetValue(Value)
+    }
+    else
+    {
+      <Input @bind-Value="@MyValue" Type="Number" @onblur="changeValue" />
+    }
+
+  </AntDesign.Col>
+
+</Row>

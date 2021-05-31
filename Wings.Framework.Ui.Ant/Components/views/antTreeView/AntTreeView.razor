@@ -10,4 +10,23 @@
         ChildrenExpression="@(x => GetChildren(x.DataItem))" @bind-SelectedData="@selectedData">
     </Tree>
     </Col>
+    <Col Span="12" Push="2">
+    @if (selectedData != null)
+        {
+        <div>
+            <Button Type="primary" OnClick="OpenAddMenuForm">添加同级</Button>
+            <Button Type="primary" OnClick="OpenSubMenuForm">添加下级</Button>
+            <Button Type="primary" OnClick="OpenEditMenuForm">编辑</Button>
+            <Button Type="danger" OnClick="OpenDeleteConfirmModal">删除</Button>
+
+        </div>
+        <AntDetailView TModel="TModel" Value="selectedData"></AntDetailView>
+            @if (EditValue != null)
+            {
+                @dynamicEditComponent
+            }
+
+
+        }
+    </Col>
 </Row>

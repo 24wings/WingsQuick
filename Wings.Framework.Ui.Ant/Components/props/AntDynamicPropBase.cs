@@ -22,8 +22,8 @@ namespace Wings.Framework.Ui.Ant.Components
         {
             render = true;
             base.OnInitialized();
-            var originType = DynamicComponentScanner.GetPropComponentTypeByProperty(Property);
-
+            type = DynamicComponentScanner.GetPropComponentTypeByProperty<TModel>(Property);
+            Console.WriteLine(type);
 
 
         }

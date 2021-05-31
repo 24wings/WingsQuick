@@ -1,0 +1,14 @@
+@namespace Wings.Framework.Ui.Ant.Components
+@inherits AntFieldTreeSelectComponentBase<TModel>
+@typeparam TModel
+
+
+
+<DataSourceManager TModel="TModel" @ref="DataSource"></DataSourceManager>
+
+<Tree @ref="tree" Checkable Multiple BlockNode ShowLine ShowExpand TItem="TModel" DataSource="DataListTItem"
+    TitleExpression="@(x => x.DataItem.GetType().GetProperty("Title").GetValue(x.DataItem).ToString())"
+    ChildrenExpression="@(x => GetChildren(x.DataItem))" @bind-SelectedData="@selectedData"
+    OnCheckBoxChanged="OnCheckBoxChange">
+
+</Tree>

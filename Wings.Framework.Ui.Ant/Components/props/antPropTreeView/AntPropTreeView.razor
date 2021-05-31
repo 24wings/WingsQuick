@@ -1,0 +1,15 @@
+@namespace Wings.Framework.Ui.Ant.Components
+@typeparam TModel
+@inherits AntPropTreeViewBase<TModel>
+
+
+<Row Gutter="16">
+    <Col Span="12">
+    <Tree @ref="tree" BlockNode ShowLine ShowExpand TItem="object" DataSource="DataListTItem"
+        TitleExpression="@(x => GetTitle(x.DataItem))" ChildrenExpression="@(x => GetChildren(x.DataItem))">
+
+    </Tree>
+
+    </Col>
+
+</Row>

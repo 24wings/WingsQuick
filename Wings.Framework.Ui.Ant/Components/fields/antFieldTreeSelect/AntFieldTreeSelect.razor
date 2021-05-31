@@ -1,0 +1,13 @@
+@namespace Wings.Framework.Ui.Ant.Components
+@typeparam TModel
+@inherits AntFieldTreeSelectBase<TModel>
+
+<Row Gutter="16">
+    <Col Span="6">@FieldLabel</Col>
+    <Col Span="12">
+    @if (DataList != null)
+        {
+            @dynamicTreeComponent
+        }
+    </Col>
+</Row>

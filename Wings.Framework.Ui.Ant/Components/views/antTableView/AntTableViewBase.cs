@@ -7,15 +7,14 @@ using System.Threading.Tasks;
 using AntDesign;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.CompilerServices;
-using Wings.Admin.Shared;
 using Wings.Framework.Shared.Attributes;
-using Wings.Shared.Attributes;
-using Wings.Shared.Dto;
+using Wings.Framework.Shared.Dtos;
+using Wings.Framework.Ui.Core.Components;
 
-namespace Wings.Admin.Components.tableView
+namespace Wings.Framework.Ui.Ant.Components
 {
 
-    public class TableViewBase<TModel> : ModelComponentBase<TModel>
+    public abstract class AntTableViewBase<TModel> : ModelComponentBase<TModel>
     {
         protected Table<TModel> table { get; set; }
         protected EditType editType { get; set; } = EditType.Detail;

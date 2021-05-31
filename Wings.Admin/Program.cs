@@ -50,7 +50,6 @@ namespace Wings.Admin
 .AddScoped<Wings.Admin.Services.LocalStorageService>()
      .AddAntDesignTheme();
             var componentPairs = DynamicComponentScanner.ComponentPairs;
-            Console.WriteLine(JsonSerializer.Serialize(componentPairs));
             await builder.Build().RunAsync();
         }
     }

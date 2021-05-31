@@ -6,7 +6,7 @@ using Wings.Shared.Dto;
 
 namespace Wings.Shared.Dvo
 {
-    [CRUDModel(
+    [CrudModel(
         Create = typeof(MenuCreateDvo),
         Update = typeof(MenuCreateDvo)
     )]
