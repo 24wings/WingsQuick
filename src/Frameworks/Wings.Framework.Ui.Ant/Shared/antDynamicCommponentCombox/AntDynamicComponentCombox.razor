@@ -1,0 +1,11 @@
+@namespace Wings.Framework.Ui.Ant.Shared
+@using Wings.Framework.Shared
+@typeparam TModel
+@inherits AntDynamicComponentComboxBase<TModel>
+
+
+<Select DataSource="@ComponentPairsDisplay" @bind-Value="@_selectedValue"
+    LabelName="@nameof(ComponentPair.ComponentDisplayName)" ValueName="@nameof(ComponentPair.ComponentFullName)"
+    Placeholder="选择一个控件" DefaultActiveFirstItem="false" EnableSearch
+    OnSelectedItemChanged="OnSelectedItemChangedHandler" OnSearch="OnSearch">
+</Select>

@@ -1,0 +1,10 @@
+@namespace Wings.Framework.Ui.Ant.Components
+@using System.ComponentModel.DataAnnotations
+@attribute [ComponentDataType("System.String")]
+@attribute [Display(Name = "ant-deisgn字符串属性")]
+@inherits AntPropStringBase<TModel>
+@typeparam TModel
+@if (Value != null)
+{
+    <span style="color:red"> @Property.GetValue(Value)</span>
+}

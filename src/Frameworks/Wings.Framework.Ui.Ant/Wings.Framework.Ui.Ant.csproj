@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+     <TargetFramework>net5.0</TargetFramework>
+  
+  </PropertyGroup>
+
+
+  <ItemGroup>
+   <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+   <PackageReference Include="AntDesign" Version="0.8.0" />
+
+  </ItemGroup>
+  <ItemGroup>
+  <ProjectReference Include="..\Wings.Framework.Ui.Core\Wings.Framework.Ui.Core.csproj" />
+  </ItemGroup>
+
+</Project>

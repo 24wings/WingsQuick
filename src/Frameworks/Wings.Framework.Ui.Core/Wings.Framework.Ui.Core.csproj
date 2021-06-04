@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RazorLangVersion>3.0</RazorLangVersion>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+  
+
+    <PackageReference Include="Blazored.LocalStorage" Version="4.1.1" />
+  </ItemGroup>
+     <ItemGroup>
+    <PackageReference Include="AntDesign" Version="0.8.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="3.2.1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Net.Http.Json" Version="3.2.0" />
+  </ItemGroup>
+    <ItemGroup>
+  <ProjectReference Include="..\Wings.Framework.Shared\Wings.Framework.Shared.csproj" />
+  </ItemGroup>
+</Project>

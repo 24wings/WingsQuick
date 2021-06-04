@@ -1,0 +1,19 @@
+@namespace Wings.Framework.Ui.Ant.Components
+@using System.ComponentModel.DataAnnotations
+@attribute [ComponentDataType("System.Enum")]
+@attribute [Display(Name = "枚举字段")]
+@inherits AntFieldEnumBase<TModel>
+@typeparam TModel
+
+<Row Gutter="16">
+    <AntDesign.Col Class="gutter-row" Span="6">
+        @(display==null?Prop.Name:display.Name)
+    </AntDesign.Col>
+    <AntDesign.Col Class="gutter-row" Span="12">
+        <Select @bind-value="SelectedValue" DataSource="@Options" DefaultValue="FieldValue" Style="width: 120px;"
+            TItemValue="object" TItem="AntOption" ValueName="Value" LabelName="Label"
+            OnSelectedItemChanged="changeValue">
+
+        </Select>
+    </AntDesign.Col>
+</Row>

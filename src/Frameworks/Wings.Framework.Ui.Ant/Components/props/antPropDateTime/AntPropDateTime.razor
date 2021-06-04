@@ -1,0 +1,10 @@
+@namespace Wings.Framework.Ui.Ant.Components
+@using System.ComponentModel.DataAnnotations
+@attribute [ComponentDataType("System.DateTime")]
+@attribute [Display(Name = "ant-deisgn日期")]
+@inherits AntPropDateTimeBase<TModel>
+@typeparam TModel
+@if (Value != null)
+{
+    <span style="color:red"> @Property.GetValue(Value)</span>
+}

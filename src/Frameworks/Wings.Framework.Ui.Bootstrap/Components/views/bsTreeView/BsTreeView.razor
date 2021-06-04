@@ -1,0 +1,8 @@
+@namespace Wings.Framework.Ui.Bootstrap.Components
+@inherits BsTreeViewBase<TModel>
+@typeparam TModel
+@using Wings.Framework.Ui.Core.Components
+
+<Tree Items="@Items" />
+
+<DataSourceManager TModel="TModel" @ref="DataSource"></DataSourceManager>

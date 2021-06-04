@@ -1,0 +1,9 @@
+@namespace Wings.Framework.Ui.Ant.Components
+
+@attribute [ComponentDataType("System.Int32")]
+@inherits AntPropNumberBase<TModel>
+@typeparam TModel
+@if (Value != null)
+{
+    <span style="color:red"> @Property.GetValue(Value)</span>
+}
