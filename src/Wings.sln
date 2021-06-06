@@ -1,27 +1,27 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frameworks", "Frameworks", "{1D4A6190-C1D9-11EB-8F32-3506DD23728B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{216B8290-C1D9-11EB-8F32-3506DD23728B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wings.Framework.Ui.Core", "Frameworks\Wings.Framework.Ui.Core\Wings.Framework.Ui.Core.csproj", "{1E692E46-2F96-4645-8A40-BF722D62420E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wings.Framework.Ui.Core", "Frameworks\Wings.Framework.Ui.Core\Wings.Framework.Ui.Core.csproj", "{1E692E46-2F96-4645-8A40-BF722D62420E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UseCase", "UseCase", "{41F91900-C1D9-11EB-8F32-3506DD23728B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wings.Examples.UseCase.Client", "Examples\UseCase\Wings.Examples.UseCase.Client\Wings.Examples.UseCase.Client.csproj", "{D9F32302-B98B-411F-A983-8D5C873E8FB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wings.Examples.UseCase.Client", "Examples\UseCase\Wings.Examples.UseCase.Client\Wings.Examples.UseCase.Client.csproj", "{D9F32302-B98B-411F-A983-8D5C873E8FB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wings.Examples.UseCase.Server", "Examples\UseCase\Wings.Examples.UseCase.Server\Wings.Examples.UseCase.Server.csproj", "{2CBBE105-BE53-49BC-AC65-D10991016E51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wings.Examples.UseCase.Server", "Examples\UseCase\Wings.Examples.UseCase.Server\Wings.Examples.UseCase.Server.csproj", "{2CBBE105-BE53-49BC-AC65-D10991016E51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wings.Examples.UseCase.Shared", "Examples\UseCase\Wings.Examples.UseCase.Shared\Wings.Examples.UseCase.Shared.csproj", "{68875D66-C68D-465B-B66A-D184E0338129}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wings.Examples.UseCase.Shared", "Examples\UseCase\Wings.Examples.UseCase.Shared\Wings.Examples.UseCase.Shared.csproj", "{68875D66-C68D-465B-B66A-D184E0338129}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wings.Framework.Ui.Bootstrap", "Frameworks\Wings.Framework.Ui.Bootstrap\Wings.Framework.Ui.Bootstrap.csproj", "{A83B91F7-1B91-4D1E-AA8F-EA3814B9972C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wings.Framework.Ui.Bootstrap", "Frameworks\Wings.Framework.Ui.Bootstrap\Wings.Framework.Ui.Bootstrap.csproj", "{A83B91F7-1B91-4D1E-AA8F-EA3814B9972C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wings.Framework.Ui.Ant", "Frameworks\Wings.Framework.Ui.Ant\Wings.Framework.Ui.Ant.csproj", "{B9B5DAEA-F627-4B64-A223-0CA65E1CD82E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wings.Framework.Ui.Ant", "Frameworks\Wings.Framework.Ui.Ant\Wings.Framework.Ui.Ant.csproj", "{B9B5DAEA-F627-4B64-A223-0CA65E1CD82E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wings.Framework.Shared", "Frameworks\Wings.Framework.Shared\Wings.Framework.Shared.csproj", "{5A3E6389-D5A5-4159-84C5-FE095AC7AC43}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wings.Framework.Shared", "Frameworks\Wings.Framework.Shared\Wings.Framework.Shared.csproj", "{5A3E6389-D5A5-4159-84C5-FE095AC7AC43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,9 +31,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1E692E46-2F96-4645-8A40-BF722D62420E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -121,14 +118,20 @@ Global
 		{5A3E6389-D5A5-4159-84C5-FE095AC7AC43}.Release|x86.ActiveCfg = Release|Any CPU
 		{5A3E6389-D5A5-4159-84C5-FE095AC7AC43}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{41F91900-C1D9-11EB-8F32-3506DD23728B} = {216B8290-C1D9-11EB-8F32-3506DD23728B}
 		{1E692E46-2F96-4645-8A40-BF722D62420E} = {1D4A6190-C1D9-11EB-8F32-3506DD23728B}
+		{41F91900-C1D9-11EB-8F32-3506DD23728B} = {216B8290-C1D9-11EB-8F32-3506DD23728B}
 		{D9F32302-B98B-411F-A983-8D5C873E8FB4} = {41F91900-C1D9-11EB-8F32-3506DD23728B}
 		{2CBBE105-BE53-49BC-AC65-D10991016E51} = {41F91900-C1D9-11EB-8F32-3506DD23728B}
 		{68875D66-C68D-465B-B66A-D184E0338129} = {41F91900-C1D9-11EB-8F32-3506DD23728B}
 		{A83B91F7-1B91-4D1E-AA8F-EA3814B9972C} = {1D4A6190-C1D9-11EB-8F32-3506DD23728B}
 		{B9B5DAEA-F627-4B64-A223-0CA65E1CD82E} = {1D4A6190-C1D9-11EB-8F32-3506DD23728B}
 		{5A3E6389-D5A5-4159-84C5-FE095AC7AC43} = {1D4A6190-C1D9-11EB-8F32-3506DD23728B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {421E40E1-B3A4-412C-9192-2642BEF927CE}
 	EndGlobalSection
 EndGlobal

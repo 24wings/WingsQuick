@@ -1,0 +1,23 @@
+﻿@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+<a href="#">注册</a>
+<a href="#">注册</a>
+<a href="#">注册</a>
+<a href="#">注册</a>
+<a href="#">注册</a>
+<a href="#">注册</a>
+<a href="#">注册</a>
+<a href="#">注册</a>
+<a href="#">注册</a>
+<a href="#">注册</a>
+<a href="#">注册</a>
+<a @onclick="Logout">注销</a>
+@code {
+
+
+    public async Task Logout()
+    {
+        var res= await HttpClient.GetAsync("/api/Login/Logout");
+        NavigationManager.NavigateTo("/Login");
+    }
+}

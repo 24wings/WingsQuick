@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using Wings.Api.Models;
 using System.Linq;
-using Wings.Shared.Dto;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -11,21 +9,45 @@ using Wings.Examples.UseCase.Shared.Dvo;
 using Microsoft.AspNet.OData;
 using AutoMapper.QueryableExtensions;
 using Wings.Examples.UseCase.Server;
-
-namespace Wings.Api.Controllers
+using Wings.Examples.UseCase.Shared.Dto;
+using Wings.Examples.UseCase.Server.Models;
+using Microsoft.AspNetCore.Authorization;
+using System;
+using Wings.Examples.UseCase.Server.Services.UnitOfWork;
+using System.Text.Json;
+namespace Wings.Examples.UseCase.Server.Controllers
 {
     [ApiController]
     [Route("/api/menu/[action]")]
-    public class MenuController
+    public class MenuController:ControllerBase
     {
 
         IMapper mapper;
         public AppDbContext appDbContext { get; set; }
+        private readonly UnitOfWork unitOfWork;
+     
 
-        public MenuController(AppDbContext _appDbContext, IMapper _mapper)
+        public MenuController(AppDbContext _appDbContext, IMapper _mapper,UnitOfWork _unitOfWork)
         {
             appDbContext = _appDbContext;
             mapper = _mapper;
+            unitOfWork = _unitOfWork;
+        }
+        [HttpGet]
+        public async Task<IList<Menu>> LoadTest()
+        {
+            var paged = await unitOfWork.GetRepository<Menu>().Select();
+            return paged;
+        }
+        [HttpGet]
+        public async Task<IList<Menu>> LoadChildrenTest()
+        {
+          var menu=  await unitOfWork.GetRepository<Menu>().Select(menu => menu.Id == 2);
+            Console.WriteLine(JsonSerializer.Serialize(menu));
+
+           var menuChilren= await unitOfWork.GetTreeRepository<Menu>().GetChildren(menu[0]).ToListAsync();
+            return menuChilren;
+
         }
         [AsyncQuery]
         [EnableQuery]
@@ -34,6 +56,7 @@ namespace Wings.Api.Controllers
         {
             return appDbContext.Menus.ProjectTo<MenuListDvo>(mapper.ConfigurationProvider);
         }
+
 
         [HttpGet]
         public async Task<MenuData> LoadMenuSegmentsByMenuId()
@@ -48,13 +71,19 @@ namespace Wings.Api.Controllers
         /// 
         /// </summary>
         /// <returns></returns>
+        [Authorize]
         [HttpGet]
         public async Task<List<MenuData>> My()
         {
-            var menuList = await appDbContext.Menus.AsQueryable().FirstOrDefaultAsync();
-            var data = new List<MenuData>() { mapper.Map<Menu, MenuData>(menuList) };
+           var claims= User.Claims.ToList();
 
-            return data;
+            Console.WriteLine(claims.Count+":"+User.Identity.Name+":"+User.Identity.IsAuthenticated);
+            foreach(var calim in claims)
+            {
+                Console.WriteLine(calim.Value);
+            }
+            return await appDbContext.Menus.ProjectTo<MenuData>(mapper.ConfigurationProvider).ToListAsync();
+
         }
         [HttpGet]
         public Menu CreateTop()

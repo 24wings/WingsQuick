@@ -1,17 +1,61 @@
-@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase
+<Layout Style="min-height: 100vh; ">
+    <Sider Collapsible Collapsed=@collapsed OnCollapse=@onCollapse>
+        @if (collapsed)
+        {
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
 
-    <div class="main">
-        <div class="top-row px-4">
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-        </div>
+            <div class="logo small" /> }
+        else
+        {
+            <div class="logo " />
 
-        <div class="content px-4">
-            @Body
-        </div>
-    </div>
-</div>
+        }
+
+       <NavMenu></NavMenu>
+    </Sider>
+    <Layout Class="site-layout">
+        <Header Class="site-layout-background" Style=" padding: 0 15px ; background-color:#fff">
+            <div  style="display:flex">
+                <div style="display: inline-block;width:100%">
+
+                    @if (collapsed)
+                    {
+                        <Icon Type="menu-unfold" Theme="outline" Class="trigger" OnClick="()=>onCollapse(false)" />
+                    }
+                    else
+                    {
+                        <Icon Type="menu-fold" Theme="outline" Class="trigger" OnClick="()=>onCollapse(true)" />
+                    }
+
+                </div>
+                <div style="flex-shrink:0;display:inline-block">
+                   <LoginDisplay></LoginDisplay>
+                </div>
+            </div>
+        </Header>
+        <Content Style="margin:0 16px;">
+            <Breadcrumb Style="margin:16px 0;">
+                <BreadcrumbItem>角色权限</BreadcrumbItem>
+                <BreadcrumbItem>角色管理</BreadcrumbItem>
+            </Breadcrumb>
+            <div class="site-layout-background" style="padding: 24px; min-height: 360px">
+                @Body
+            </div>
+        </Content>
+        <Footer Style="text-align:center ">Ant Design ©2018 Created by Ant UED</Footer>
+    </Layout>
+</Layout>
+
+
+@code {
+    bool collapsed;
+
+    void onCollapse(bool collapsed)
+    {
+        Console.WriteLine(collapsed);
+        this.collapsed = collapsed;
+    }
+}
+
+

@@ -11,7 +11,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Wings.Api.Models;
 using AutoMapper;
 using Pomelo.EntityFrameworkCore.MySql;
 using System.Reflection;
@@ -19,6 +18,14 @@ using Newtonsoft.Json;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNet.OData.Builder;
 using Wings.Examples.UseCase.Shared.Dvo;
+using Microsoft.AspNetCore.Identity;
+using Wings.Examples.UseCase.Server.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Security.Claims;
+using Wings.Examples.UseCase.Server.Services.Repositorys;
+using Wings.Examples.UseCase.Server.Services.UnitOfWork;
 
 namespace Wings.Examples.UseCase.Server
 {
@@ -37,10 +44,10 @@ namespace Wings.Examples.UseCase.Server
             var connectionString = "server=localhost;user=root;password=704104..;database=ef";
             var serverVersion = new MySqlServerVersion(new Version(5, 0, 1));
 
-            services.AddControllers()
+            services.AddControllersWithViews()
             .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
-
+            services.AddRazorPages();
             services.AddDbContext<AppDbContext>(
                 opt => opt.UseLazyLoadingProxies().UseMySql(connectionString, serverVersion)
                 .EnableSensitiveDataLogging() // These two calls are optional but help
@@ -55,10 +62,32 @@ p.WithOrigins("http://localhost:5000")
 .AllowAnyMethod()
 .AllowCredentials()
 ));
+            services.AddIdentity<RbacUser, IdentityRole>()
+          .AddEntityFrameworkStores<AppDbContext>();
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddOData();
-            services.AddMvc(mvc => { mvc.EnableEndpointRouting = false; });
+            //services.AddOData();
+            //services.AddMvc(mvc => { mvc.EnableEndpointRouting = false; });
+            //services.AddAuthenticationCore();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["JwtIssuer"],
+                        ValidAudience = Configuration["JwtAudience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtSecurityKey"]))
+                    };
+                });
+            //services.AddAuthorizationCore();
+
+            services.AddAuthorization(options => options.AddPolicy("13419597065", policy => policy.RequireClaim(ClaimTypes.Name)));
+            services.AddScoped<UnitOfWork>();
+
         }
 
 
@@ -73,28 +102,34 @@ p.WithOrigins("http://localhost:5000")
             // app.UseHttpsRedirection();
 
             app.UseRouting();
+            //app.();
+            app.UseBlazorFrameworkFiles();
+            app.UseStaticFiles();
 
-            app.UseAuthorization();
+
             app.UseCors("cors");
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-            app.UseMvc(routeBuilder =>
-{
-    routeBuilder.EnableDependencyInjection();
-    // and this line to enable OData query option, for example $filter
-    routeBuilder.Select().Expand().Filter().OrderBy().MaxTop(100).Count();
-    var builder = new ODataConventionModelBuilder(app.ApplicationServices);
+            //            app.UseMvc(routeBuilder =>
+            //{
+            //    routeBuilder.EnableDependencyInjection();
+            //    // and this line to enable OData query option, for example $filter
+            //    routeBuilder.Select().Expand().Filter().OrderBy().MaxTop(100).Count();
+            //    var builder = new ODataConventionModelBuilder(app.ApplicationServices);
 
-    builder.EntitySet<Role>("Roles");
-    routeBuilder.MapODataServiceRoute("ODataRoute", "odata", builder.GetEdmModel());
+            //    builder.EntitySet<Role>("Roles");
+            //    routeBuilder.MapODataServiceRoute("ODataRoute", "odata", builder.GetEdmModel());
 
-    // uncomment the following line to Work-around for #1175 in beta1
-    // routeBuilder.EnableDependencyInjection();
-});
+            //    // uncomment the following line to Work-around for #1175 in beta1
+            //    // routeBuilder.EnableDependencyInjection();
+            //});
 
             app.UseEndpoints(endpoints =>
             {
-
+                endpoints.MapRazorPages();
                 endpoints.MapControllers();
+                endpoints.MapFallbackToFile("index.html");
             });
         }
     }

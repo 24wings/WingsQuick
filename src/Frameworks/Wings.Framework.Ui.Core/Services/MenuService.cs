@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Blazored.LocalStorage;
 using Microsoft.Extensions.Configuration;
 using Wings.Framework.Shared.Dtos;
 
@@ -22,21 +24,31 @@ namespace Wings.Framework.Ui.Core.Services
     }
     public class MenuService
     {
-        private HttpClient httpClient { get; set; }
+        private readonly HttpClient httpClient;
         private ConfigService configService { get; set; }
         LocalStorageService localStorageService { get; }
+        readonly ILocalStorageService local;
 
-
-        public MenuService(HttpClient _httpClient, ConfigService _configService, LocalStorageService _localstorageService)
+        public MenuService(HttpClient _httpClient, ConfigService _configService, LocalStorageService _localstorageService,ILocalStorageService _local)
         {
             httpClient = _httpClient;
             configService = _configService;
             localStorageService = _localstorageService;
+            local = _local;
 
         }
         public async Task<List<MenuData>> LoadMenus()
         {
-            var data = await httpClient.GetAsync(configService.url + "/api/menu/My");
+            var requestMessage = new HttpRequestMessage()
+            {
+                Method = new HttpMethod("Get"),
+                RequestUri = new Uri(configService.url + "/api/menu/My"),
+               
+            };
+           var authToken= await local.GetItemAsStringAsync("authToken");
+            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", authToken.Replace("\"",""));
+           var data= await httpClient.SendAsync(requestMessage);
+             
             var str = await data.Content.ReadAsStringAsync();
             var rtn = JsonSerializer.Deserialize<List<MenuData>>(str, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             localStorageService.MenuData = Task.FromResult(rtn);

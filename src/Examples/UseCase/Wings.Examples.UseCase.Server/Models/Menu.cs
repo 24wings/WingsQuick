@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
-namespace Wings.Api.Models
+using Wings.Examples.UseCase.Server.Services.Repositorys;
+
+namespace Wings.Examples.UseCase.Server.Models
 {
-    public class Menu
+    public class Menu:TreeEntity
     {
-        public int Id { get; set; }
+        public override int Id { get; set; }
         public int Order { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
@@ -14,9 +16,9 @@ namespace Wings.Api.Models
         /// 菜单的树路径
         /// </summary>
         /// <value></value>
-        public string TreePath { get; set; }
+        public override string TreePath { get; set; }
 
-        public int? ParentId { get; set; }
+        public override int? ParentId { get; set; }
         public DateTime CreateAt { get; set; } = DateTime.Now;
         public DateTime LastUpdateAt { get; set; } = DateTime.Now;
 

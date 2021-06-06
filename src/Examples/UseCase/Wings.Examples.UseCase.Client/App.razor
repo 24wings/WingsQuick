@@ -1,6 +1,11 @@
-﻿<Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
+﻿@namespace Wings.Examples.UseCase.Client
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+@inject HttpClient httpClient;
+@inject ILocalStorageService local
+<Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
     </Found>
     <NotFound>
         <LayoutView Layout="@typeof(MainLayout)">
@@ -9,3 +14,39 @@
     </NotFound>
 </Router>
 <AntContainer />
+
+@code{
+    protected override async Task OnInitializedAsync()
+    {
+        await test();
+        await SetHttpClientHeader();
+    }
+
+    async Task SetHttpClientHeader()
+    {
+        var token = await local.GetItemAsStringAsync("authToken");
+        if (!string.IsNullOrEmpty(token))
+        {
+            Console.WriteLine(token);
+            httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer" + token.Replace("\"",""));
+
+        }
+        else
+        {
+            Console.WriteLine("no token" + token);
+        }
+    }
+
+    async Task test()
+    {
+        var state = await ((ApiAuthenticationStateProvider)AuthenticationStateProvider).GetAuthenticationStateAsync();
+        if (state.User.Identity.IsAuthenticated)
+        {
+
+        }
+        else
+        {
+            //NavigationManager.NavigateTo("/login", true);
+        }
+    }
+}

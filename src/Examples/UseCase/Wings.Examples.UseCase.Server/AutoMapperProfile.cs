@@ -1,11 +1,11 @@
 using AutoMapper;
-using Wings.Api.Models;
 using System.Linq;
-using Wings.Shared.Dto;
+using Wings.Examples.UseCase.Shared.Dto;
 using Wings.Framework.Shared.Dtos;
 using Wings.Examples.UseCase.Shared.Dvo;
+using Wings.Examples.UseCase.Server.Models;
 
-namespace Wings.Api
+namespace Wings.Examples.UseCase.Server
 {
     public class AutoMapperProfile : Profile
     {
@@ -18,7 +18,7 @@ namespace Wings.Api
             .ReverseMap()
             ;
             CreateMap<Role, RoleListDvo>()
-            .ForMember((roleListDvo) => roleListDvo.MenuList, opt => opt.MapFrom(role => role.Menus))
+            //.ForMember((roleListDvo) => roleListDvo.MenuList, opt => opt.MapFrom(role => role.Menus))
             .ReverseMap()
             ;
             CreateMap<Menu, MenuData>()
