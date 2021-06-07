@@ -12,15 +12,15 @@
 </style>
 
 
-
-@if (render)
+<DataSourceManager TModel="TModel" @ref="DataSource"></DataSourceManager>
+@if (render&&Visible)
 {
-    if (ShowModal)
+    if (mode=="modal")
     {
 
         <Modal Visible="@_visible" Width="900" Title="@GetTitle()" OnOk="@HandleOk" OnCancel="@HandleCancel">
 
-            <DataSourceManager TModel="TModel" @ref="dataSource"></DataSourceManager>
+           
             <EditForm EditContext="editContext">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
@@ -46,7 +46,7 @@
     }
     else
     {
-        <DataSourceManager TModel="TModel" @ref="dataSource"></DataSourceManager>
+    
         <EditForm EditContext="editContext">
             <DataAnnotationsValidator />
             <ValidationSummary />

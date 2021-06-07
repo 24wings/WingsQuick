@@ -15,7 +15,7 @@ namespace Wings.Examples.UseCase.Server.Services.UnitOfWork
         {
             appDbContext = _appDbContext;
         }
-        public BaseRepository<T> GetRepository<T> () where T:class,new()
+        public BaseRepository<T> GetRepository<T> () where T:class
         {
             return new BaseRepository<T>(appDbContext);
         }

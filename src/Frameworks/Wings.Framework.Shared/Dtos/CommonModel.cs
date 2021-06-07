@@ -3,6 +3,13 @@ using System.Collections.Generic;
 
 namespace Wings.Framework.Shared.Dtos
 {
+    public interface BasicTree<T>
+    {
+         int Id { get; set; }
+         int? ParentId { get; set; }
+
+        List<T> Children { get; set; } 
+    }
     public interface IRange<T>
 
     {

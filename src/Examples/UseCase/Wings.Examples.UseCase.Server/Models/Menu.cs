@@ -22,6 +22,10 @@ namespace Wings.Examples.UseCase.Server.Models
         public DateTime CreateAt { get; set; } = DateTime.Now;
         public DateTime LastUpdateAt { get; set; } = DateTime.Now;
 
-        public virtual List<Role> Roles { get; set; }
+        public virtual List<RbacRole> Roles { get; set; }
+        /// <summary>
+        /// 图标
+        /// </summary>
+        public string Icon { get; set; }
     }
 }

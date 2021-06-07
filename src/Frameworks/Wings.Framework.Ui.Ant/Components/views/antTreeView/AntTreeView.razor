@@ -1,26 +1,36 @@
 @namespace Wings.Framework.Ui.Ant.Components
-@inherits AntTreeViewBase<TModel>
-@typeparam TModel
+@inherits TreeViewBase<TModel>
+@typeparam TModel 
 
 <DataSourceManager TModel="TModel" @ref="DataSource"></DataSourceManager>
-<Row Gutter="16">
-    <Col Span="8">
-    <Tree @ref="tree" BlockNode ShowLine ShowExpand TItem="TModel" DataSource="DataListTItem"
-        TitleExpression="@(x => x.DataItem.GetType().GetProperty("Title").GetValue(x.DataItem).ToString())"
-        ChildrenExpression="@(x => GetChildren(x.DataItem))" @bind-SelectedData="@selectedData">
-    </Tree>
-    </Col>
-    <Col Span="12" Push="2">
-    @if (selectedData != null)
-        {
-        <div>
-            <Button Type="primary" OnClick="OpenAddMenuForm">添加同级</Button>
-            <Button Type="primary" OnClick="OpenSubMenuForm">添加下级</Button>
-            <Button Type="primary" OnClick="OpenEditMenuForm">编辑</Button>
-            <Button Type="danger" OnClick="OpenDeleteConfirmModal">删除</Button>
 
-        </div>
-        <AntDetailView TModel="TModel" Value="selectedData"></AntDetailView>
+    <Tree @ref="tree" BlockNode ShowLine ShowExpand TItem="TModel" 
+         DataSource="TopTItems"
+        TitleExpression="@(x => x.DataItem.GetType().GetProperty("Title").GetValue(x.DataItem)?.ToString())"
+        ChildrenExpression="@(x => x.DataItem.Children)" 
+          IsLeafExpression="x => IsLeaf(x.DataItem)"
+                KeyExpression="@(x => x.DataItem.GetType().GetProperty("Id").GetValue(x.DataItem)?.ToString())"
+       
+          
+          SelectedData="@SelectedData" SelectedDataChanged="(value)=>ChangeSelectedData(value)">
+    </Tree>
+
+
+
+    @*<Row Gutter="16">
+        <Col Span="8">
+        </Col>
+        <Col Span="12" Push="2">
+        @if (SelectedData != null)
+        {
+            <div>
+                <Button Type="primary" OnClick="OpenAddMenuForm">添加同级</Button>
+                <Button Type="primary" OnClick="OpenSubMenuForm">添加下级</Button>
+                <Button Type="primary" OnClick="OpenEditMenuForm">编辑</Button>
+                <Button Type="danger" OnClick="OpenDeleteConfirmModal">删除</Button>
+
+            </div>
+            <AntDetailView TModel="TModel" Value="SelectedData"></AntDetailView>
             @if (EditValue != null)
             {
                 @dynamicEditComponent
@@ -28,5 +38,5 @@
 
 
         }
-    </Col>
-</Row>
+        </Col>
+    </Row>*@

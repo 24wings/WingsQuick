@@ -15,14 +15,19 @@ namespace Wings.Framework.Ui.Ant.Components
 {
     public class AntDynamicFormBase<TModel> : ModelComponentBase<TModel>
     {
+        /// <summary>
+        /// such value as : inline,modal
+        /// </summary>
         [Parameter]
-        public bool ShowModal { get; set; }
+        public string mode { get; set; } = "inline";
+        [Parameter]
+        public bool Visible { get; set; }
         [Parameter]
         public EditType editType { get; set; }
         public List<PropertyInfo> props = new List<PropertyInfo>();
         protected EditContext editContext { get; set; }
 
-        protected DataSourceManager<TModel> dataSource;
+        public DataSourceManager<TModel> DataSource;
         protected string ValueString { get; set; }
 
 
@@ -31,8 +36,23 @@ namespace Wings.Framework.Ui.Ant.Components
         protected bool render { get; set; } = false;
         [Parameter]
         public EventCallback<TModel> OnSubmit { get; set; }
+        public void ShowModal(TModel item)
+        {
 
+            Value = item;
+            mode = "modal";
+            Visible = true;
 
+        }
+        public async Task InsertAsync()
+        {
+            await DataSource.Insert(Value);
+        }
+        public async Task UpdateAsync()
+        {
+            await DataSource.Update(Value);
+        }
+     
         protected override void OnInitialized()
         {
             Console.WriteLine("Value:" + Value);
@@ -75,15 +95,17 @@ namespace Wings.Framework.Ui.Ant.Components
                 switch (editType)
                 {
                     case EditType.Insert:
-                        await dataSource.Insert(Value);
+                        await DataSource.Insert(Value);
                         break;
                     case EditType.Update:
-                        await dataSource.Update(Value);
+                        await DataSource.Update(Value);
                         break;
 
                 }
 
                 await OnSubmit.InvokeAsync(Value);
+                Visible = false;
+
             }
             else
             {
@@ -96,8 +118,7 @@ namespace Wings.Framework.Ui.Ant.Components
 
         protected async Task HandleCancel(MouseEventArgs e)
         {
-            Console.WriteLine(e);
-            await OnSubmit.InvokeAsync(Value);
+            Visible = false;
         }
 
         protected object GetFieldValue(PropertyInfo item)

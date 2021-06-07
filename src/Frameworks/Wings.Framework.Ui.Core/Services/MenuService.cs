@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Configuration;
 using Wings.Framework.Shared.Dtos;
 
@@ -27,14 +28,16 @@ namespace Wings.Framework.Ui.Core.Services
         private readonly HttpClient httpClient;
         private ConfigService configService { get; set; }
         LocalStorageService localStorageService { get; }
+       private  NavigationManager navigationManager;
         readonly ILocalStorageService local;
 
-        public MenuService(HttpClient _httpClient, ConfigService _configService, LocalStorageService _localstorageService,ILocalStorageService _local)
+        public MenuService(HttpClient _httpClient, ConfigService _configService, LocalStorageService _localstorageService,ILocalStorageService _local, NavigationManager _navigationManager)
         {
             httpClient = _httpClient;
             configService = _configService;
             localStorageService = _localstorageService;
             local = _local;
+            navigationManager = _navigationManager;
 
         }
         public async Task<List<MenuData>> LoadMenus()
@@ -46,6 +49,16 @@ namespace Wings.Framework.Ui.Core.Services
                
             };
            var authToken= await local.GetItemAsStringAsync("authToken");
+            if (authToken == null)
+            {
+                if (navigationManager.Uri != "/Login")
+                {
+                    navigationManager.NavigateTo("/Login");
+                    return null;
+                }
+
+
+            }
             requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", authToken.Replace("\"",""));
            var data= await httpClient.SendAsync(requestMessage);
              

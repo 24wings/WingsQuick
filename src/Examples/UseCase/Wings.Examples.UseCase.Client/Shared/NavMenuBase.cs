@@ -28,9 +28,10 @@ namespace Wings.Examples.UseCase.Client.Shared
         {
             await base.OnInitializedAsync();
             MenuDataList = await menuService.LoadMenus();
+            if (MenuDataList != null) { 
             TopMenu = MenuDataList.Where(menu => menu.ParentId == 0 || menu.ParentId == null).ToList();
-            Console.WriteLine(JsonSerializer.Serialize(TopMenu));
-            Console.WriteLine(TopMenu.Count);
+         
+            }
 
         }
      

@@ -4,22 +4,28 @@
 {
     <SubMenu >
         <TitleTemplate>
-            <Icon Type="pie-chart" Theme="outline" />
-            <span> @menuData.Label</span>
+            <div style="display:flex;align-items:center;">
+                <Icon Type="@(menuData.Icon)" Theme="outline" />
+                <span> @menuData.Label</span>
+            </div>
         </TitleTemplate>
         <ChildContent>
-            @foreach (var child in GetMenuChildren())
-            {
-                <NavMenuItem menuData="child" MenuDataList="MenuDataList"></NavMenuItem>
+            
+                @foreach (var child in GetMenuChildren())
+                {
+                    <NavMenuItem menuData="child" MenuDataList="MenuDataList"></NavMenuItem>
 
-            }
+                }
         </ChildContent>
     </SubMenu>
 }
 else
 {
 <MenuItem Key="@menuData.Link" RouterLink="@menuData.Link">
-    <Icon Type="pie-chart" Theme="outline" />
-    <span> @menuData.Label</span>
+    <div style="display:flex;align-items:center;">
+        <Icon Type="@menuData.Icon" Theme="outline" />
+        <span> @menuData.Label</span>
+    </div>
+
 </MenuItem>
 }

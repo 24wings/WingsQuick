@@ -5,10 +5,10 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Wings.Examples.UseCase.Server.Models
 {
-    public class AppDbContext : IdentityDbContext<RbacUser>
+    public class AppDbContext : IdentityDbContext<RbacUser,RbacRole,int>
     {
-        //public DbSet<RbacUser> Users { get; set; }
         public DbSet<Menu> Menus { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
 
 
         public AppDbContext(DbContextOptions<AppDbContext> options)
@@ -20,9 +20,12 @@ namespace Wings.Examples.UseCase.Server.Models
         {
 
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.Entity<Role>()
-            //                //主语this，拥有Children
-            //                .HasMany(x => x.Menus);
+            modelBuilder.Entity<RbacRole>()
+                            //主语this，拥有Children
+                            .HasMany(x => x.Menus);
+            modelBuilder.Entity<RbacRole>()
+                            //主语this，拥有Children
+                            .HasMany(x => x.Permissions);
 
 
         }

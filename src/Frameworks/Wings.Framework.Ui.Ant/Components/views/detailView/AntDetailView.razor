@@ -2,17 +2,35 @@
 @inherits DetailViewBase<TModel>
 @typeparam TModel
 
-
-
-<table style="width: 100%; margin-top: 15px;">
-    <div class="data-table">
-        <div class="grid ">
-            @foreach (var item in PropertyList)
+<table>
+    <div class="data-table" style="margin-top:20px;">
+        <table>
+            @for (var i = 0; i < groups; i++)
             {
+                <tr>
 
-                <AntDetailProp TModel="TModel" Value="Value" Property="item"></AntDetailProp>
+
+
+
+                    <AntDetailProp TModel="TModel" Value="Value" Property="PropertyList[i*2]"></AntDetailProp>
+                    @if (i * 2 + 1 < PropertyList.Count)
+                    {
+
+                        <AntDetailProp TModel="TModel" Value="Value" Property="PropertyList[i*2+1]"></AntDetailProp>
+                    }
+                </tr>
             }
-        </div>
+
+        </table>
 
     </div>
 </table>
+@code{
+    int groups;
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        groups = int.Parse(Math.Round(new decimal(PropertyList.Count / 2), 0).ToString());
+        StateHasChanged();
+    }
+}

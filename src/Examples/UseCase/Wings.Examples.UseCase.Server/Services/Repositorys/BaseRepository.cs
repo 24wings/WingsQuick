@@ -47,6 +47,10 @@ namespace Wings.Examples.UseCase.Server.Services.Repositorys
         {
             return await appDbContext.Set<T>().ToListAsync();
         }
+        public  IQueryable<T> AsQueryable()
+        {
+            return  appDbContext.Set<T>();
+        }
 
         public async Task<List<T>> Select(Expression<Func<T, bool>> whereLambda)
         {

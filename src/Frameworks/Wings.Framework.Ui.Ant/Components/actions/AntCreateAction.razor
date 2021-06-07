@@ -1,0 +1,9 @@
+﻿@namespace Wings.Framework.Ui.Ant.Components
+@typeparam TModel
+<Button Type="primary">添加</Button>
+<AntDynamicForm TModel="TModel" Value="Value" ShowModal="true"></AntDynamicForm>
+
+@code {
+    [Parameter]
+    public TModel Value { get; set; }
+}

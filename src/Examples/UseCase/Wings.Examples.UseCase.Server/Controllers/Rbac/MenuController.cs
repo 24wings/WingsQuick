@@ -15,46 +15,36 @@ using Microsoft.AspNetCore.Authorization;
 using System;
 using Wings.Examples.UseCase.Server.Services.UnitOfWork;
 using System.Text.Json;
+using Microsoft.AspNetCore.Identity;
+
 namespace Wings.Examples.UseCase.Server.Controllers
 {
     [ApiController]
     [Route("/api/menu/[action]")]
-    public class MenuController:ControllerBase
+    public class MenuController:TreeEntityControllerBase<Menu>
     {
 
         IMapper mapper;
         public AppDbContext appDbContext { get; set; }
-        private readonly UnitOfWork unitOfWork;
-     
 
-        public MenuController(AppDbContext _appDbContext, IMapper _mapper,UnitOfWork _unitOfWork)
+        private readonly UserManager<RbacUser> userManager;
+
+        public MenuController(AppDbContext _appDbContext, IMapper _mapper,UnitOfWork _unitOfWork,UserManager<RbacUser> _userManager):base(_unitOfWork)
         {
             appDbContext = _appDbContext;
             mapper = _mapper;
-            unitOfWork = _unitOfWork;
+            userManager = _userManager;
         }
-        [HttpGet]
-        public async Task<IList<Menu>> LoadTest()
-        {
-            var paged = await unitOfWork.GetRepository<Menu>().Select();
-            return paged;
-        }
-        [HttpGet]
-        public async Task<IList<Menu>> LoadChildrenTest()
-        {
-          var menu=  await unitOfWork.GetRepository<Menu>().Select(menu => menu.Id == 2);
-            Console.WriteLine(JsonSerializer.Serialize(menu));
 
-           var menuChilren= await unitOfWork.GetTreeRepository<Menu>().GetChildren(menu[0]).ToListAsync();
-            return menuChilren;
 
-        }
+
+
         [AsyncQuery]
         [EnableQuery]
         [HttpGet]
-        public IQueryable<MenuListDvo> Load()
+        public new IQueryable<MenuListDvo> Load()
         {
-            return appDbContext.Menus.ProjectTo<MenuListDvo>(mapper.ConfigurationProvider);
+            return base.Load().ProjectTo<MenuListDvo>(mapper.ConfigurationProvider);
         }
 
 
@@ -75,14 +65,15 @@ namespace Wings.Examples.UseCase.Server.Controllers
         [HttpGet]
         public async Task<List<MenuData>> My()
         {
-           var claims= User.Claims.ToList();
+          var user= await userManager.FindByNameAsync(User.Identity.Name);
+           var roleNames= await userManager.GetRolesAsync(user);
+           var roles= await appDbContext.Roles.Where(role => roleNames.Contains(role.Name)).Include(role=>role.Menus).ToListAsync();
+            var allMenus = new List<Menu>();
+            roles.ForEach(role => allMenus.AddRange(role.Menus));
+            var ids = allMenus.Select(menu => menu.Id).Distinct();
+            return await appDbContext.Menus.Where(menu => ids.Contains(menu.Id)).ProjectTo<MenuData>(mapper.ConfigurationProvider).ToListAsync();
 
-            Console.WriteLine(claims.Count+":"+User.Identity.Name+":"+User.Identity.IsAuthenticated);
-            foreach(var calim in claims)
-            {
-                Console.WriteLine(calim.Value);
-            }
-            return await appDbContext.Menus.ProjectTo<MenuData>(mapper.ConfigurationProvider).ToListAsync();
+            //return await appDbContext.Menus.ProjectTo<MenuData>(mapper.ConfigurationProvider).ToListAsync();
 
         }
         [HttpGet]
@@ -102,14 +93,9 @@ namespace Wings.Examples.UseCase.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<object> Insert([FromBody] MenuCreateDvo menu)
+        public async Task<object> Insert([FromBody] MenuListDvo menu)
         {
-
-            var parent = await appDbContext.Menus.FirstAsync(m => menu.ParentId == m.Id);
-            var newMenu = new Menu { ParentId = menu.ParentId, Name = menu.Title, Code = menu.Code, Url = menu.Path };
-            await appDbContext.Menus.AddAsync(newMenu);
-            await appDbContext.SaveChangesAsync();
-            return true;
+          return await base.CreateAsync(mapper.Map<MenuListDvo, Menu>(menu));
 
         }
         [HttpPost]

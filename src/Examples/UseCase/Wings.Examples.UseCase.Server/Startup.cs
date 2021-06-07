@@ -62,13 +62,12 @@ p.WithOrigins("http://localhost:5000")
 .AllowAnyMethod()
 .AllowCredentials()
 ));
-            services.AddIdentity<RbacUser, IdentityRole>()
+            services.AddIdentity<RbacUser, RbacRole>()
           .AddEntityFrameworkStores<AppDbContext>();
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            //services.AddOData();
-            //services.AddMvc(mvc => { mvc.EnableEndpointRouting = false; });
-            //services.AddAuthenticationCore();
+            services.AddOData();
+            services.AddMvc(mvc => { mvc.EnableEndpointRouting = false; });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -83,7 +82,6 @@ p.WithOrigins("http://localhost:5000")
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtSecurityKey"]))
                     };
                 });
-            //services.AddAuthorizationCore();
 
             services.AddAuthorization(options => options.AddPolicy("13419597065", policy => policy.RequireClaim(ClaimTypes.Name)));
             services.AddScoped<UnitOfWork>();
@@ -102,7 +100,6 @@ p.WithOrigins("http://localhost:5000")
             // app.UseHttpsRedirection();
 
             app.UseRouting();
-            //app.();
             app.UseBlazorFrameworkFiles();
             app.UseStaticFiles();
 
@@ -111,22 +108,22 @@ p.WithOrigins("http://localhost:5000")
             app.UseAuthentication();
             app.UseAuthorization();
 
-            //            app.UseMvc(routeBuilder =>
-            //{
-            //    routeBuilder.EnableDependencyInjection();
-            //    // and this line to enable OData query option, for example $filter
-            //    routeBuilder.Select().Expand().Filter().OrderBy().MaxTop(100).Count();
-            //    var builder = new ODataConventionModelBuilder(app.ApplicationServices);
+            app.UseMvc(routeBuilder =>
+{
+    routeBuilder.EnableDependencyInjection();
+                // and this line to enable OData query option, for example $filter
+                routeBuilder.Select().Expand().Filter().OrderBy().MaxTop(100).Count();
+    var builder = new ODataConventionModelBuilder(app.ApplicationServices);
 
-            //    builder.EntitySet<Role>("Roles");
-            //    routeBuilder.MapODataServiceRoute("ODataRoute", "odata", builder.GetEdmModel());
+    routeBuilder.MapODataServiceRoute("ODataRoute", "odata", builder.GetEdmModel());
 
-            //    // uncomment the following line to Work-around for #1175 in beta1
-            //    // routeBuilder.EnableDependencyInjection();
-            //});
+                // uncomment the following line to Work-around for #1175 in beta1
+                // routeBuilder.EnableDependencyInjection();
+            });
 
             app.UseEndpoints(endpoints =>
             {
+                
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");

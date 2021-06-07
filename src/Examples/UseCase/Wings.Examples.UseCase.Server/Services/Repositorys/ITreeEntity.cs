@@ -10,6 +10,11 @@ namespace Wings.Examples.UseCase.Server.Services.Repositorys
         public virtual int Id { get; set; }
         public virtual string TreePath { get; set; }
         public virtual int? ParentId { get; set; }
+
+        public TreeEntity()
+        {
+
+        }
       
     }
 }
