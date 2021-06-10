@@ -7,14 +7,14 @@ using System;
 namespace Wings.Framework.Ui.Core.Components
 {
     [BuiltinComponent("树形视图")]
-    public abstract class TreeViewBase<TModel> : ModelComponentBase<TModel>
+    public abstract class TreeViewBase<TModel> : ModelComponentBase<TModel> 
     {
         [Inject]
         protected StateContainer stateContainer { get; set; }
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            stateContainer.OnChange += refresh;
+            stateContainer.OnChange += refresh; 
 
         }
         protected override void OnAfterRender(bool firstRender)
@@ -30,7 +30,7 @@ namespace Wings.Framework.Ui.Core.Components
 
 
         protected Type componentType = DynamicComponentScanner.ComponentPairs.Where(pair => pair.Active == true && pair.ComponentType.HasImplementedRawGeneric(typeof(TreeViewBase<>))).FirstOrDefault().ComponentType.MakeGenericType(typeof(TModel));
-        public virtual RenderFragment dynamicEditComponent => builder =>
+        public  RenderFragment dynamicEditComponent => builder =>
                   {
 
                       Console.WriteLine("treeView find such as component:" + componentType);

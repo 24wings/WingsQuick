@@ -8,6 +8,7 @@ using AntDesign;
 using AutoMapper;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.CompilerServices;
+using Newtonsoft.Json;
 using Wings.Framework.Shared.Attributes;
 using Wings.Framework.Shared.Dtos;
 using Wings.Framework.Ui.Core;
@@ -15,8 +16,10 @@ using Wings.Framework.Ui.Core.Components;
 
 namespace Wings.Framework.Ui.Ant.Components
 {
-    public partial class AntTreeView<TModel> : TreeViewBase<TModel> where TModel :BasicTree<TModel>
+    public partial class AntTreeView<TModel> : TreeViewBase<TModel> where TModel : BasicTree<TModel>
     {
+        [Parameter]
+        public List<WhereConditionPair> InitFilter { get; set; } = new List<WhereConditionPair>();
 
         [Inject]
         public ModalService _modalService { get; set; }
@@ -25,27 +28,41 @@ namespace Wings.Framework.Ui.Ant.Components
 
         protected DataSourceManager<TModel> DataSource { get; set; }
 
+        [Parameter]
+        public List<TModel> CheckedNodes { get; set; }
+        [Parameter]
+        public EventCallback<List<TModel>> CheckedNodesChanged { get; set; }
+        [Parameter]
+        public int[] CheckedKeys { get; set; } = new List<int>().ToArray();
+        /// <summary>
+        /// ∏¥—°øÚ
+        /// </summary>
+        [Parameter]
+        public bool Checkable { get; set; } = false;
+
         public bool render { get; set; }
 
         public List<TModel> TopTItems { get; set; } = new List<TModel>();
 
-        public List<TModel> DataListTItem { get; set; } = new List<TModel>();
+        public List<TreeNode<TModel>> TreeNodes { get; set; }
 
-        protected TModel selectedData { get; set; }
+        [Parameter]
+        public List<TModel> DataListTItem { get; set; }
+
         [Parameter]
         public TModel SelectedData { get; set; }
 
         [Inject]
         protected IMapper mapper { get; set; }
-        public EditType editType { get; set; }
 
 
         protected object EditValue { get; set; }
 
-        protected  void GetChildren(TModel model){
+        protected void GetChildren(TModel model)
+        {
             if (DataListTItem.Any(item => item.ParentId == model.Id))
             {
-               var children= DataListTItem.Where(item => item.ParentId == model.Id).ToList();
+                var children = DataListTItem.Where(item => item.ParentId == model.Id).ToList();
                 model.Children = children;
                 model.Children.ForEach(child => GetChildren(child));
             }
@@ -54,7 +71,7 @@ namespace Wings.Framework.Ui.Ant.Components
                 model.Children = new List<TModel>();
 
             }
-            }
+        }
 
         [Parameter]
         public EventCallback<TModel> SelectedDataChanged { get; set; }
@@ -66,38 +83,118 @@ namespace Wings.Framework.Ui.Ant.Components
 
         }
 
-    
+
+        public async Task OnCheckBoxChange()
+        {
+            var totalCheckDataItemList = new List<TModel>();
+            // ≤È’“√ø∏ˆ±ªchecked µƒ∏∏º∂
+            Func<TreeNode<TModel>, List<TModel>> GetAllHalfCheckedParent = null;
+            GetAllHalfCheckedParent = node =>
+            {
+                var result = new List<TModel>();
+                var parentNode = node.ParentNode;
+                if (parentNode != null && parentNode.Checked != true)
+                {
+                    result.Add(parentNode.DataItem);
+                    if (parentNode.ParentNode != null)
+                    {
+                        var d = GetAllHalfCheckedParent(parentNode);
+                        result.AddRange(d);
+                    }
+                }
+                return result;
+            };
+
+            var data = tree.CheckedNodes.AsQueryable().Select(node => (TModel)node.DataItem).Distinct().ToList();
+            Console.WriteLine(tree.CheckedNodes.Count);
+            tree.CheckedNodes.ForEach(item =>
+            {
+
+
+                var parents = GetAllHalfCheckedParent(item);
+                data.AddRange(parents);
+            }
+       );
+            data = data.Select(item=> JsonConvert.DeserializeObject<TModel>(JsonConvert.SerializeObject(item))).ToList();
+            data.ForEach(item => item.Children = null);
+
+            await CheckedNodesChanged.InvokeAsync(data); 
+
+        }
+
+
+
 
 
 
         protected override void OnInitialized()
         {
+            if (CheckedNodes != null)
+            {
+                CheckedKeys = CheckedNodes.Select(node => (int)node.GetType().GetProperty("Id").GetValue(node)).ToArray();
+            }
             base.OnInitialized();
             if (!render)
             {
                 render = true;
-                //CRUDModel = typeof(TModel).GetCustomAttribute<CrudModelAttribute>();
                 StateHasChanged();
             }
 
         }
         public async Task Load()
         {
-            var resData = await DataSource.Load();
-            DataListTItem = resData.Data;
-            TopTItems = resData.Data.Where(item => (int?)item.GetType().GetProperty("ParentId").GetValue(item) == null).ToList();
+            if (DataListTItem == null)
+            {
+                var resData = await DataSource.Load();
+                DataListTItem = resData.Data;
+
+            }
+            TopTItems = DataListTItem.Where(item => (int?)item.GetType().GetProperty("ParentId").GetValue(item) == null).ToList();
+            TreeNodes = DataListTItem.Select(item => new TreeNode<TModel>() { DataItem = item }).ToList();
             TopTItems.ForEach(top => GetChildren(top));
             StateHasChanged();
 
             tree.ExpandAll();
             StateHasChanged();
         }
-     
+
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (firstRender)
             {
+
                 await Load();
+                if (CheckedKeys.Count() > 0)
+                {
+                    tree.ChildNodes.ForEach(node => EnumChildren(node));
+
+                }
+                StateHasChanged();
+
+
+
+            }
+
+        }
+        public void EnumChildren(TreeNode<TModel> treeNode)
+        {
+            if (treeNode.ChildNodes.Count > 0)
+            {
+                treeNode.ChildNodes.ForEach(child => EnumChildren(child));
+            }
+            else
+            {
+                var dataItemId = (int)treeNode.DataItem.GetType().GetProperty("Id").GetValue(treeNode.DataItem);
+
+                if (CheckedKeys.Contains(dataItemId))
+                {
+                    Console.WriteLine("find checked key:" + dataItemId);
+                    treeNode.SetChecked(true);
+
+                }
+                else
+                {
+                }
             }
 
         }
@@ -107,114 +204,13 @@ namespace Wings.Framework.Ui.Ant.Components
         }
 
 
-        // public List<TModel> GetChildren(TModel data)
-        // {
-        //     var children = data.GetType().GetProperty("Children").GetValue(data);
-        //     return data.GetType().GetProperty("Children").GetValue(data) as List<TModel>;
-        // }
-        /// <summary>
-        /// ËøôÈÉ®ÂàÜÂÜôÁöÑ‰∏çÂ•Ω Ë¶ÅÈáçÊñ∞ÂÜçÂÜô
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        //public List<TModel> GetChildren(TModel data)
-        //{
-        //    // var originData = ParseData(data);
-        //    return (List<TModel>)data.GetType().GetProperty("Children").GetValue(data) as List<TModel>;
 
 
 
-        //}
-        public bool IsLeaf(TModel data)
-        {
-            return DataListTItem.Any(item => (item.GetType().GetProperty("ParentId").GetValue(item) as int?) == (int)item.GetType().GetProperty("Id").GetValue(data));
-        }
-        /// <summary>
-        /// Ê∑ªÂä†ÂêåÁ∫ß
-        /// </summary>
-        //public void OpenAddMenuForm()
-        //{
-        //    editType = EditType.Insert;
-        //    var dest = System.Activator.CreateInstance(CRUDModel.Create);
-        //    EditValue = dest;
-        //    StateHasChanged();
-        //}
-
-        /// <summary>
-        /// Ê∑ªÂä†‰∏ãÁ∫ß
-        /// </summary>
-        //public void OpenSubMenuForm()
-        //{
-        //    editType = EditType.Insert;
-        //    var dest = System.Activator.CreateInstance(CRUDModel.Create);  //mapper.Map(selectedData, typeof(TModel), CRUDModel.Create);
-        //    dest.GetType().GetProperty("ParentId").SetValue(dest, SelectedData.GetType().GetProperty("Id").GetValue(SelectedData));
-        //    EditValue = dest;
-        //    StateHasChanged();
-        //}
-
-        //public void OpenEditMenuForm()
-        //{
-        //    editType = EditType.Update;
-        //    var dest = mapper.Map(SelectedData, typeof(TModel), CRUDModel.Update);
-        //    EditValue = dest;
-        //    StateHasChanged();
-        //}
-
-        //public void OpenDeleteConfirmModal()
-        //{
-        //    _modalService.Confirm(new ConfirmOptions()
-        //    {
-        //        Title = "Á°ÆÂÆöÂà†Èô§ËØ•Êù°ËÆ∞ÂΩï?",
-        //        OnOk = async (e) =>
-        //        {
-        //            await DataSource.Delete(SelectedData);
-        //            await Load();
-        //        },
-        //        OnCancel = (e) => null
-        //    });
-        //}
-
-        //public RenderFragment dynamicEditComponent => builder =>
-        //{
-        //    Type editModelType = null;
-        //    switch (editType)
-        //    {
-        //        case EditType.Detail:
-        //        case EditType.Insert:
-        //            editModelType = CRUDModel.Create;
-        //            break;
-        //        case EditType.Update:
-        //            editModelType = CRUDModel.Update;
-        //            break;
-
-        //    }
-
-        //    editModelType = typeof(AntDynamicForm<>).MakeGenericType(editModelType);
-
-        //    builder.OpenComponent(0, editModelType);
-        //    builder.AddAttribute(1, "Value", EditValue);
-        //    builder.AddAttribute(2, "OnSubmit",
-        //       EventCallback.Factory.Create(this,
-        //       RuntimeHelpers.CreateInferredEventCallback(this, async __value =>
-        //        {
-        //            EditValue = null;
-        //            await Load();
 
 
 
-        //        }, new object())));
-        //    builder.AddAttribute(3, "EditType", editType);
 
-        //    builder.CloseComponent();
-
-        //};
-        private object ParseData(object data)
-        {
-            return JsonSerializer.Deserialize(JsonSerializer.Serialize(data), typeof(TModel), new JsonSerializerOptions { PropertyNameCaseInsensitive = false });
-        }
-
-
-        
 
     }
 

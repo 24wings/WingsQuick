@@ -9,9 +9,9 @@
 <DataSourceManager TModel="TModel" @ref="DataSource"></DataSourceManager>
 
 <Table @ref="table" TItem="TModel" DataSource="@Data" Total="Total" @bind-PageIndex="PageIndex"
-    @bind-PageSize="PageSize">
-    <Selection Key="@(typeof(TModel).GetProperty("Id").GetValue(context).ToString())" />
-    @foreach (var item in PropList)
+    @bind-PageSize="PageSize" SelectedRows="SelectedRows" SelectedRowsChanged="(value)=>OnSelectedRowsChange(value)" >
+    <Selection Key="@(typeof(TModel).GetProperty("Id").GetValue(context).ToString())"  />
+    @foreach (var item in PropList) 
     {
         <Column Title="@GetPropertyTitle(item)" TData="object">
             <AntDynamicProp TModel="TModel" Value="context" Property="item"></AntDynamicProp>
@@ -19,14 +19,20 @@
     }
     <ActionColumn>
         <Space>
+            <SpaceItem><Button OnClick="()=>SelectRow(context)">详情</Button></SpaceItem>
+            <SpaceItem><Button OnClick="()=>OnEditRow(context)">编辑</Button></SpaceItem>
             <SpaceItem><Button Danger OnClick="()=>OpenDeleteConfirmModal(context)">删除</Button></SpaceItem>
         </Space>
     </ActionColumn>
 </Table>
+
+
+
 @if (render)
 {
     @if (editType == EditType.Insert)
     {
         @dynamicEditComponent
+      
     }
 }

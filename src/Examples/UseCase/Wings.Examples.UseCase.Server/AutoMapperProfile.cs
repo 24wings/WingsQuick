@@ -26,6 +26,9 @@ namespace Wings.Examples.UseCase.Server
             .ForMember((dvo) => dvo.Link, opt => opt.MapFrom(m => m.Url))
             .ReverseMap()
             ;
+            CreateMap<Permission, PermissionListDvo>()
+                .ForMember(dvo=>dvo.Title,opt=>opt.MapFrom(m=>m.Label))
+                .ReverseMap();
         }
     }
 }

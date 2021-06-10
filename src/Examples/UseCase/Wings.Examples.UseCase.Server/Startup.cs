@@ -26,6 +26,7 @@ using System.Text;
 using System.Security.Claims;
 using Wings.Examples.UseCase.Server.Services.Repositorys;
 using Wings.Examples.UseCase.Server.Services.UnitOfWork;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Wings.Examples.UseCase.Server
 {
@@ -41,7 +42,7 @@ namespace Wings.Examples.UseCase.Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = "server=localhost;user=root;password=704104..;database=ef";
+            var connectionString = "server=47.117.86.106;port=3307;user=root;password=704104..;database=ef";
             var serverVersion = new MySqlServerVersion(new Version(5, 0, 1));
 
             services.AddControllersWithViews()
@@ -109,13 +110,13 @@ p.WithOrigins("http://localhost:5000")
             app.UseAuthorization();
 
             app.UseMvc(routeBuilder =>
-{
-    routeBuilder.EnableDependencyInjection();
+            {
+                routeBuilder.EnableDependencyInjection();
                 // and this line to enable OData query option, for example $filter
                 routeBuilder.Select().Expand().Filter().OrderBy().MaxTop(100).Count();
-    var builder = new ODataConventionModelBuilder(app.ApplicationServices);
+                var builder = new ODataConventionModelBuilder(app.ApplicationServices);
 
-    routeBuilder.MapODataServiceRoute("ODataRoute", "odata", builder.GetEdmModel());
+                routeBuilder.MapODataServiceRoute("ODataRoute", "odata", builder.GetEdmModel());
 
                 // uncomment the following line to Work-around for #1175 in beta1
                 // routeBuilder.EnableDependencyInjection();
@@ -123,11 +124,12 @@ p.WithOrigins("http://localhost:5000")
 
             app.UseEndpoints(endpoints =>
             {
-                
+
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
                 endpoints.MapFallbackToFile("index.html");
             });
         }
+    
     }
 }

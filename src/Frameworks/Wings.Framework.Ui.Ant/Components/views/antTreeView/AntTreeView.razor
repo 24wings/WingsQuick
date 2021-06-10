@@ -1,42 +1,18 @@
 @namespace Wings.Framework.Ui.Ant.Components
 @inherits TreeViewBase<TModel>
 @typeparam TModel 
-
+ 
 <DataSourceManager TModel="TModel" @ref="DataSource"></DataSourceManager>
 
-    <Tree @ref="tree" BlockNode ShowLine ShowExpand TItem="TModel" 
+    <Tree @ref="tree" BlockNode Checkable="Checkable"  ShowLine ShowExpand TItem="TModel" 
          DataSource="TopTItems"
         TitleExpression="@(x => x.DataItem.GetType().GetProperty("Title").GetValue(x.DataItem)?.ToString())"
         ChildrenExpression="@(x => x.DataItem.Children)" 
-          IsLeafExpression="x => IsLeaf(x.DataItem)"
-                KeyExpression="@(x => x.DataItem.GetType().GetProperty("Id").GetValue(x.DataItem)?.ToString())"
+          IsLeafExpression="@(x => x.DataItem.Children?.Count==0)"
+                KeyExpression="@(x => x.DataItem.Id.ToString())"
        
-          
-          SelectedData="@SelectedData" SelectedDataChanged="(value)=>ChangeSelectedData(value)">
+           
+          SelectedData="@SelectedData"  SelectedDataChanged="(value)=>ChangeSelectedData(value)" OnCheckBoxChanged="OnCheckBoxChange">
     </Tree>
 
 
-
-    @*<Row Gutter="16">
-        <Col Span="8">
-        </Col>
-        <Col Span="12" Push="2">
-        @if (SelectedData != null)
-        {
-            <div>
-                <Button Type="primary" OnClick="OpenAddMenuForm">添加同级</Button>
-                <Button Type="primary" OnClick="OpenSubMenuForm">添加下级</Button>
-                <Button Type="primary" OnClick="OpenEditMenuForm">编辑</Button>
-                <Button Type="danger" OnClick="OpenDeleteConfirmModal">删除</Button>
-
-            </div>
-            <AntDetailView TModel="TModel" Value="SelectedData"></AntDetailView>
-            @if (EditValue != null)
-            {
-                @dynamicEditComponent
-            }
-
-
-        }
-        </Col>
-    </Row>*@

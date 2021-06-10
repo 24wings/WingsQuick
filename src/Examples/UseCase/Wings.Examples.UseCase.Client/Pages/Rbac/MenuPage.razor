@@ -20,7 +20,7 @@
             <Button Type="primary" Size="small" OnClick="() => createForm.ShowModal(IMapper.Map<MenuListDvo,MenuCreateDvo>(new MenuListDvo { ParentId = SelectedData.ParentId }))">添加同级</Button>
             <Button Type="primary" Size="small" OnClick="() => createForm.ShowModal(IMapper.Map<MenuListDvo,MenuCreateDvo>(new MenuListDvo { ParentId = SelectedData.Id }))">添加下级</Button>
             <Button Type="primary" Size="small" OnClick="() => updateForm.ShowModal(IMapper.Map<MenuListDvo,MenuCreateDvo>(SelectedData))">编辑</Button>
-            <Button Type="danger" Size="small" OnClick="async () => { await DataSource.Delete(SelectedData); await tree.Refresh(); }" Disabled="SelectedData == null">删除</Button>
+            <Button Type="danger" Size="small" OnClick="OpenDeleteConfirmModal" Disabled="SelectedData == null">删除</Button>
         </div>
         <AntDetailView TModel="MenuListDvo" Value="SelectedData"> </AntDetailView>
 

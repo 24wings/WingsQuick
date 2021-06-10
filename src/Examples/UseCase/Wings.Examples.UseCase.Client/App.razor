@@ -29,7 +29,6 @@
         {
             Console.WriteLine(token);
             httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("bearer" + token.Replace("\"",""));
-
         }
         else
         {

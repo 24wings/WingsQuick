@@ -11,6 +11,9 @@ namespace Wings.Framework.Ui.Ant.Components
 {
     public abstract class AntSearchBarBase<TModel> : ModelComponentBase<TModel>
     {
+
+        public AntDynamicForm<TModel> dynamicForm { get; set; }
+
         [Parameter]
         public DataSourceManager<TModel> dataSourceManager { get; set; }
         [Parameter]

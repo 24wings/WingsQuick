@@ -22,6 +22,12 @@ namespace Wings.Examples.UseCase.Server.Seed
              new Menu{Id=201,ParentId=200,Code="person-center",Name="UI设置",Icon="cloud",TreePath=",200,201,"},
              new Menu{Id=202,ParentId=200,Code="menu",Name="菜单管理",Icon="cloud",Url="/rbac/menu", TreePath=",200,202,"},
 
+             #region 开发者菜单
+             new Menu{Id=900,ParentId=null,Name="开发者",Icon="cloud",TreePath=",900,"},
+             new Menu{Id=901,ParentId=900,Name="权限管理",Icon="cloud",TreePath=",900,901,",Url="/developer/permission"}
+
+                #endregion
+
 
          };
 
@@ -29,7 +35,8 @@ namespace Wings.Examples.UseCase.Server.Seed
 
         public static readonly List<Permission> allPermissions = new List<Permission>
         {
-            new Permission{Id=0, Label="角色权限"}
+            new Permission{Id=100, Label="页面设置",Value="PageSetting",TreePath=",100,"},
+            new Permission{Id=101,Label="页面结构设置",Value="PageStructSetting",ParentId=100,TreePath=",100,101,"}
         };
 
 
@@ -49,9 +56,14 @@ namespace Wings.Examples.UseCase.Server.Seed
             // 加入菜单
             await context.Menus.AddRangeAsync(allMenus);
             var adminRole = new RbacRole { Id = 1, Code = "admin", NormalizedName = "admin", Name = "admin", Menus = allMenus };
+            var userRoles = new RbacRole { Id = 2, Code = "user", NormalizedName = "user", Name = "user", Menus = allMenus.Where(m => m.Id < 900).ToList() };
+            await context.Permissions.AddRangeAsync(allPermissions);
+            userRoles.Permissions = allPermissions;
+            adminRole.Permissions = allPermissions;
             if (!await context.Roles.AnyAsync())
             {
                 await context.Roles.AddAsync(adminRole);
+                await context.Roles.AddAsync(userRoles);
                 await context.SaveChangesAsync();
             }
 
@@ -71,6 +83,10 @@ namespace Wings.Examples.UseCase.Server.Seed
                 var result = await userStore.CreateAsync(new RbacUser { Email = "13419597065", UserName = "13419597065", nickname = "刺月无影", roleId = 1, companyId = 1 }, "Shadow2016..");
                 var admin = await userStore.FindByNameAsync("13419597065");
                 await userStore.AddToRoleAsync(admin, "admin");
+
+                var result2 = await userStore.CreateAsync(new RbacUser { Email = "user", UserName = "user", nickname = "用户", roleId = 1, companyId = 1 }, "Shadow2016..");
+                var user = await userStore.FindByNameAsync("user");
+                await userStore.AddToRoleAsync(user, "user");
             }
 
             await context.SaveChangesAsync();

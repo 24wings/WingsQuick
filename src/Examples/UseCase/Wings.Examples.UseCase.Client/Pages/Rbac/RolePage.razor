@@ -1,0 +1,101 @@
+﻿@namespace Wings.Examples.UseCase.Client.Pages
+@page "/rbac/role"
+@inject HttpClient HttpClient
+
+<DataSourceManager TModel="RoleListDvo" @ref="DataSource"></DataSourceManager>
+<AntTableView TModel="RoleListDvo" SelectedRow="SelectedData" SelectedRowChanged="LoadRoleMenu" OnTableActionEvent="OnEdit"></AntTableView>
+@if (SelectedData != null)
+{
+    @*@System.Text.Json.JsonSerializer.Serialize(SelectedData);*@
+}
+@* 详情tabs面板 *@
+@if (SelectedData != null && RoleMenus != null && RolePermisssions != null)
+{
+    <Tabs>
+        <TabPane Key="1">
+            <Tab>角色菜单</Tab>
+            <ChildContent>
+                <AntTreeView DataListTItem="RoleMenus" TModel="MenuListDvo"></AntTreeView>
+            </ChildContent>
+        </TabPane>
+        <TabPane Key="2">
+            <Tab>角色权限</Tab>
+            <ChildContent>
+                <AntTreeView TModel="PermissionListDvo" DataListTItem="RolePermisssions"></AntTreeView>
+            </ChildContent>
+        </TabPane>
+    </Tabs>
+
+}
+
+@if (editData != null)
+{
+    @System.Text.Json.JsonSerializer.Serialize(editData);
+
+<Modal Visible="editData!=null" Width="900" Title="编辑角色" OnOk="HandleOk" OnCancel="HandleCancel">
+    <Tabs>
+        <TabPane Key="1">
+            <Tab>基本信息</Tab>
+            <ChildContent>
+                <AntDynamicForm TModel="RoleListDvo" Value="editData"></AntDynamicForm>
+            </ChildContent>
+        </TabPane>
+        <TabPane Key="2">
+            <Tab>角色菜单</Tab>
+            <ChildContent>
+                <AntTreeView Checkable="true" @bind-CheckedNodes="editData.Menus" TModel="MenuListDvo"></AntTreeView>
+            </ChildContent>
+        </TabPane>
+        <TabPane Key="3">
+            <Tab>角色权限</Tab>
+            <ChildContent>
+                <AntTreeView Checkable="true" DataListTItem="editData.Permissions" TModel="PermissionListDvo"></AntTreeView>
+            </ChildContent>
+        </TabPane>
+    </Tabs>
+
+</Modal>
+}
+
+@*  *@
+@code{
+    RoleListDvo SelectedData;
+    RoleListDvo editData;
+    List<MenuListDvo> RoleMenus { get; set; }
+    List<PermissionListDvo> RolePermisssions { get; set; }
+    public DataSourceManager<RoleListDvo> DataSource { get; set; }
+    public void LoadRoleMenu(RoleListDvo data)
+    {
+        RoleMenus = null;
+        RolePermisssions = null;
+        if (data != null)
+        {
+            RoleMenus = data.Menus;
+            RolePermisssions = data.Permissions;
+            SelectedData = data;
+        }
+        else
+        {
+            SelectedData = null;
+        }
+        StateHasChanged();
+
+    }
+
+    public void OnEdit(TableActionEvent<RoleListDvo> data)
+    {
+        editData = data.Data;
+
+    }
+
+    public async Task HandleOk()
+    {
+        await DataSource.Update(editData);
+        editData = null;
+    }
+    public async Task HandleCancel()
+    {
+        editData = null;
+    }
+
+}

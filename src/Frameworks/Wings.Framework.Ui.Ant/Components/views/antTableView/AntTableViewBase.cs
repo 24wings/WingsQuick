@@ -11,11 +11,21 @@ using Wings.Framework.Shared.Attributes;
 using Wings.Framework.Shared.Dtos;
 using Wings.Framework.Ui.Core.Components;
 using System.Text.Json;
+using AntDesign.TableModels;
 
 namespace Wings.Framework.Ui.Ant.Components
 {
+    public class TableActionEvent<TModel>
+    {
+        /// <summary>
+        /// edit,select,
+        /// </summary>
+        public string ActionName { get; set; }
 
-    public abstract class AntTableViewBase<TModel> : ModelComponentBase<TModel>
+        public TModel Data { get; set; }
+
+    }
+    public partial class AntTableViewBase<TModel> : ModelComponentBase<TModel> 
     {
         protected Table<TModel> table { get; set; }
         protected EditType editType { get; set; } = EditType.Detail;
@@ -30,15 +40,33 @@ namespace Wings.Framework.Ui.Ant.Components
         protected int PageSize = 10;
         protected int Total = 0;
         public List<TModel> Data { get; set; } = new List<TModel>();
-        protected List<TModel> SelectedRows { get; set; } = new List<TModel>();
+        [Parameter]
+        public List<TModel> SelectedRows { get; set; } = new List<TModel>();
+
+        [Parameter]
+        public EventCallback<List<TModel>> SelectedRowsChanged { get; set; }
+
+        [Parameter]
+        public TModel SelectedRow { get; set; }
+        [Parameter]
+        public EventCallback<TModel> SelectedRowChanged { get; set; }
+
         protected List<PropertyInfo> PropList { get; set; } = new List<PropertyInfo>();
         protected List<WhereConditionPair> whereConditionPairs { get; set; } = new List<WhereConditionPair>();
+        [Parameter]
+        public EventCallback<TableActionEvent<TModel>> OnTableActionEvent { get; set; }
+
+        public async Task OnEditRow(TModel item)
+        {
+           await OnTableActionEvent.InvokeAsync(new TableActionEvent<TModel> { ActionName = "edit", Data = item });
+        }
+
         protected async override Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
             if (!render)
             {
-                PropList = new List<PropertyInfo>(typeof(TModel).GetProperties());
+                PropList = new List<PropertyInfo>(typeof(TModel).GetProperties().Where(prop=>prop.GetCustomAttribute<IgnoreAttribute>()==null));
                 render = true;
                 CRUDModel = typeof(TModel).GetCustomAttribute<CrudModelAttribute>();
             }
@@ -55,6 +83,42 @@ namespace Wings.Framework.Ui.Ant.Components
             {
                 await Load();
             }
+
+        }
+
+        public async Task SelectRow(TModel item)
+        {
+            if (SelectedRow != null)
+            {
+                var id = (int)item.GetType().GetProperty("Id").GetValue(item);
+
+                var selectedId = (int)item.GetType().GetProperty("Id").GetValue(SelectedRow);
+                if (id == selectedId)
+                {
+                    SelectedRow = default(TModel);
+                    await SelectedRowChanged.InvokeAsync(SelectedRow);
+                }
+                else
+                {
+                    SelectedRow = item;
+                    await SelectedRowChanged.InvokeAsync(SelectedRow);
+                }
+            }
+            else
+            {
+                SelectedRow = item;
+                await SelectedRowChanged.InvokeAsync(item);
+            }
+            
+            
+
+        }
+
+        public async Task OnSelectedRowsChange(IEnumerable<TModel> models)
+        {
+            await SelectedRowsChanged.InvokeAsync(models.ToList());
+            SelectedRows = models.ToList();
+
 
         }
 

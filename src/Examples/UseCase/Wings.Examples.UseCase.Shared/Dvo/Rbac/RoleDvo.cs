@@ -48,13 +48,14 @@ namespace Wings.Examples.UseCase.Shared.Dvo
 
         public string Code { get; set; }
 
-        [PropTreeView]
-        [TreeSelectField("/api/Menu/Load")]
-        [Display(Name = "角色菜单")]
-        public List<MenuListDvo> MenuList { get; set; }
-
+        
+        [Display(Name="创建时间")]
         public DateTime CreateAt { get; set; } = DateTime.Now;
 
+        [Ignore]
+        public List<MenuListDvo> Menus { get; set; }
+        [Ignore]
+        public List<PermissionListDvo> Permissions { get; set; }
     }
 
     public class MenuTreeSelectDvo

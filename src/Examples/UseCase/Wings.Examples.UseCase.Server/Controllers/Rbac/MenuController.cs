@@ -67,10 +67,13 @@ namespace Wings.Examples.UseCase.Server.Controllers
         {
           var user= await userManager.FindByNameAsync(User.Identity.Name);
            var roleNames= await userManager.GetRolesAsync(user);
-           var roles= await appDbContext.Roles.Where(role => roleNames.Contains(role.Name)).Include(role=>role.Menus).ToListAsync();
+
+            
+           var roles= await appDbContext.Roles.Include(role => role.Menus).Where(role => roleNames.Contains(role.NormalizedName)).ToListAsync();
             var allMenus = new List<Menu>();
             roles.ForEach(role => allMenus.AddRange(role.Menus));
             var ids = allMenus.Select(menu => menu.Id).Distinct();
+            Console.WriteLine( ids.Count());
             return await appDbContext.Menus.Where(menu => ids.Contains(menu.Id)).ProjectTo<MenuData>(mapper.ConfigurationProvider).ToListAsync();
 
             //return await appDbContext.Menus.ProjectTo<MenuData>(mapper.ConfigurationProvider).ToListAsync();

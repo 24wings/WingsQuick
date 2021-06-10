@@ -21,7 +21,7 @@ namespace Wings.Examples.UseCase.Server
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-              await  InitSeedDb(services);
+                await InitSeedDb(services);
             }
             host.Run();
         }
@@ -35,9 +35,9 @@ namespace Wings.Examples.UseCase.Server
 
         public static async Task InitSeedDb(IServiceProvider services)
         {
-            var config = services.GetRequiredService<IConfiguration>();
-            if (config.GetValue<bool>("initDb"))
-            {
+            //var config = services.GetRequiredService<IConfiguration>();
+            //if (config.GetValue<bool>("initDb"))
+            //{
                 try
                 {
                     // 初始化默认的开发者资源
@@ -48,7 +48,7 @@ namespace Wings.Examples.UseCase.Server
                     var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogError(ex, "An error occurred seeding the DB.");
                 }
-            }
+            //}
         }
     }
 }

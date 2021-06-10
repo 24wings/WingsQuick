@@ -4,23 +4,17 @@
 @inherits AntDynamicFormBase<TModel>;
 
 
-<br>
-<style>
-    .gutter-row {
-        padding: 5px 0;
-    }
-</style>
 
 
 <DataSourceManager TModel="TModel" @ref="DataSource"></DataSourceManager>
-@if (render&&Visible)
+@if(render  )
 {
-    if (mode=="modal")
+    if (mode == "modal"  && Visible)
     {
 
         <Modal Visible="@_visible" Width="900" Title="@GetTitle()" OnOk="@HandleOk" OnCancel="@HandleCancel">
 
-           
+
             <EditForm EditContext="editContext">
                 <DataAnnotationsValidator />
                 <ValidationSummary />
@@ -30,7 +24,7 @@
 
                         <AntDesign.Col Class="gutter-row" Span="12">
                             <AntDynamicField Property="item" Value="Value" TModel="TModel"
-                    OnValueChange="(value=>changeValue(item,value))" FieldValue="GetFieldValue(item)">
+                                             OnValueChange="(value=>changeValue(item,value))" FieldValue="GetFieldValue(item)">
                             </AntDynamicField>
                         </AntDesign.Col>
 
@@ -44,9 +38,8 @@
             @ValueString
         </Modal>
     }
-    else
+    if(mode=="inline")
     {
-    
         <EditForm EditContext="editContext">
             <DataAnnotationsValidator />
             <ValidationSummary />
@@ -56,16 +49,13 @@
 
                     <AntDesign.Col Class="gutter-row" Span="12">
                         <AntDynamicField Property="item" Value="Value" TModel="TModel"
-                OnValueChange="(value=>changeValue(item,value))" FieldValue="GetFieldValue(item)">
+                                         OnValueChange="(value=>changeValue(item,value))" FieldValue="GetFieldValue(item)">
                         </AntDynamicField>
                     </AntDesign.Col>
 
                 }
             </Row>
-            <div style="text-align: right;">
-                <Button Type="primary" OnClick="HandleOk">查询</Button>
-                <Button Type="default">重置</Button>
-            </div>
+            
 
         </EditForm>
 

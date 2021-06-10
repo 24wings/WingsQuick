@@ -24,7 +24,6 @@ namespace Wings.Examples.UseCase.Shared.Dvo
         public  int? ParentId { get; set; }
         [Display(Name = "链接")]
         public string Path { get; set; }
-
         [Display(Name = "图标")]
         public string Icon { get; set; }
         public List<MenuListDvo> Children { get; set; } = new List<MenuListDvo>();

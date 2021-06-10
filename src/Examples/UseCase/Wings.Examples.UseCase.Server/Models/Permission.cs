@@ -18,5 +18,7 @@ namespace Wings.Examples.UseCase.Server.Models
         /// 权限代码
         /// </summary>
         public string Value { get; set; }
+        public virtual List<RbacRole> Roles { get; set; }
+
     }
 }

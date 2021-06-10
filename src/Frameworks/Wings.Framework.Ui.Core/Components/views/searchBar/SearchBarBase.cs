@@ -1,6 +1,6 @@
 namespace Wings.Framework.Ui.Core.Components
 {
-    public abstract class SearchBarBase<TModel> : ModelComponentBase<TModel>
+    public partial class SearchBar<TModel> : ModelComponentBase<TModel> where TModel:class
     {
         protected override void OnInitialized()
         {
