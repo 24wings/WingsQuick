@@ -1,13 +1,24 @@
 ﻿@namespace Wings.Examples.UseCase.Client.Pages
 @page "/rbac/role"
 @inject HttpClient HttpClient
+@inject ModalService _modalService
 
 <DataSourceManager TModel="RoleListDvo" @ref="DataSource"></DataSourceManager>
-<AntTableView TModel="RoleListDvo" SelectedRow="SelectedData" SelectedRowChanged="LoadRoleMenu" OnTableActionEvent="OnEdit"></AntTableView>
-@if (SelectedData != null)
-{
-    @*@System.Text.Json.JsonSerializer.Serialize(SelectedData);*@
-}
+<AntTableView TModel="RoleListDvo"   @ref="table">
+    <ToolbarTemplate><Button OnClick="OnCreate" Type="primary">新增</Button></ToolbarTemplate>
+    <ActionColumnTemplate>
+        <Space>
+            <SpaceItem>
+                <Space>
+                    <SpaceItem><Button Size="small" OnClick="()=>LoadRoleMenu(context)">详情</Button></SpaceItem>
+                    <SpaceItem><Button Size="small" OnClick="()=>OnEdit(context)">编辑</Button></SpaceItem>
+                    <SpaceItem><Button  Size="small" Danger OnClick="()=>OpenDeleteConfirmModal(context)">删除</Button></SpaceItem>
+                </Space>
+            </SpaceItem>
+        </Space>
+    </ActionColumnTemplate>
+</AntTableView>
+
 @* 详情tabs面板 *@
 @if (SelectedData != null && RoleMenus != null && RolePermisssions != null)
 {
@@ -30,7 +41,6 @@
 
 @if (editData != null)
 {
-    @System.Text.Json.JsonSerializer.Serialize(editData);
 
 <Modal Visible="editData!=null" Width="900" Title="编辑角色" OnOk="HandleOk" OnCancel="HandleCancel">
     <Tabs>
@@ -59,6 +69,7 @@
 
 @*  *@
 @code{
+    AntTableView<RoleListDvo> table { get; set; }
     RoleListDvo SelectedData;
     RoleListDvo editData;
     List<MenuListDvo> RoleMenus { get; set; }
@@ -66,6 +77,7 @@
     public DataSourceManager<RoleListDvo> DataSource { get; set; }
     public void LoadRoleMenu(RoleListDvo data)
     {
+        SelectedData = data;
         RoleMenus = null;
         RolePermisssions = null;
         if (data != null)
@@ -82,20 +94,47 @@
 
     }
 
-    public void OnEdit(TableActionEvent<RoleListDvo> data)
+    public void OnEdit(RoleListDvo data)
     {
-        editData = data.Data;
+        editData = data;
 
+    }
+
+    public void OnCreate()
+    {
+        editData = new RoleListDvo();
     }
 
     public async Task HandleOk()
     {
-        await DataSource.Update(editData);
+        if (editData.Id != 0)
+        {
+            await DataSource.Update(editData);
+        }
+        else
+        {
+            await DataSource.Insert(editData);
+        }
+
         editData = null;
+        await table.Load();
     }
     public async Task HandleCancel()
     {
         editData = null;
+    }
+
+    public void OpenDeleteConfirmModal(RoleListDvo data)
+    {
+        _modalService.Confirm(new ConfirmOptions()
+        {
+            Title = "确定删除该条记录?",
+            OnOk = async (e) =>
+            {
+                await DataSource.Delete(data);
+                await table.Load();
+            },
+        });
     }
 
 }

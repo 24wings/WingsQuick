@@ -59,8 +59,6 @@ namespace Wings.Examples.UseCase.Client
             .AddAntDesignTheme()
             .UseAntDesignTheme();
 
-
-
             await builder.Build().RunAsync();
         }
     }

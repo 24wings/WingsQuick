@@ -24,7 +24,8 @@ namespace Wings.Examples.UseCase.Server.Seed
 
              #region 开发者菜单
              new Menu{Id=900,ParentId=null,Name="开发者",Icon="cloud",TreePath=",900,"},
-             new Menu{Id=901,ParentId=900,Name="权限管理",Icon="cloud",TreePath=",900,901,",Url="/developer/permission"}
+             new Menu{Id=901,ParentId=900,Name="权限管理",Icon="cloud",TreePath=",900,901,",Url="/developer/permission"},
+             new Menu{Id=902,ParentId=900,Name="代码生成",Icon="cloud",TreePath=",900,902,",Url="/developer/code-generator"}
 
                 #endregion
 

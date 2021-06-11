@@ -27,6 +27,9 @@ using System.Security.Claims;
 using Wings.Examples.UseCase.Server.Services.Repositorys;
 using Wings.Examples.UseCase.Server.Services.UnitOfWork;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.CookiePolicy;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Wings.Examples.UseCase.Server
 {
@@ -72,6 +75,7 @@ p.WithOrigins("http://localhost:5000")
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
+
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
@@ -82,10 +86,32 @@ p.WithOrigins("http://localhost:5000")
                         ValidAudience = Configuration["JwtAudience"],
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtSecurityKey"]))
                     };
-                });
+                })
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,opt=>
+                {
+                    opt.AccessDeniedPath = "/Login";
+                    opt.Cookie.HttpOnly =false;
+                })
+                ;
 
-            services.AddAuthorization(options => options.AddPolicy("13419597065", policy => policy.RequireClaim(ClaimTypes.Name)));
+            services.AddAuthorization(options =>
+            {
+
+                options.AddPolicy("13419597065", policy => policy.RequireClaim(ClaimTypes.Name));
+                
+
+                }); 
             services.AddScoped<UnitOfWork>();
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = false;
+                //options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                //options.Cookie.SameSite = SameSiteMode.None;
+                options.LoginPath = "/Login";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+                //options.SlidingExpiration = true;
+            });
 
         }
 
@@ -96,6 +122,7 @@ p.WithOrigins("http://localhost:5000")
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebAssemblyDebugging();
             }
 
             // app.UseHttpsRedirection();
@@ -106,7 +133,7 @@ p.WithOrigins("http://localhost:5000")
 
 
             app.UseCors("cors");
-            app.UseAuthentication();
+            app.UseAuthentication().UseCookiePolicy(new CookiePolicyOptions { HttpOnly = HttpOnlyPolicy.None, MinimumSameSitePolicy = SameSiteMode.None });
             app.UseAuthorization();
 
             app.UseMvc(routeBuilder =>
@@ -130,6 +157,6 @@ p.WithOrigins("http://localhost:5000")
                 endpoints.MapFallbackToFile("index.html");
             });
         }
-    
+
     }
 }

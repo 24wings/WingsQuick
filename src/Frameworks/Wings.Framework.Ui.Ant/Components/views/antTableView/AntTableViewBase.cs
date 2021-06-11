@@ -42,7 +42,10 @@ namespace Wings.Framework.Ui.Ant.Components
         public List<TModel> Data { get; set; } = new List<TModel>();
         [Parameter]
         public List<TModel> SelectedRows { get; set; } = new List<TModel>();
-
+        [Parameter]
+        public RenderFragment<TModel> ActionColumnTemplate { get; set; }
+        [Parameter]
+        public RenderFragment ToolbarTemplate { get; set; }
         [Parameter]
         public EventCallback<List<TModel>> SelectedRowsChanged { get; set; }
 

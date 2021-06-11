@@ -1,0 +1,124 @@
+﻿@namespace Wings.Examples.UseCase.Client.Pages
+@page "/developer/code-generator"
+@inherits CodeGeneratorBase
+
+<EditForm EditContext="editContext">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <Row Gutter="16">
+        <AntDesign.Col Class="gutter-row" Span="4">
+            <label>主模型</label>
+
+        </AntDesign.Col>
+        <AntDesign.Col Class="gutter-row" Span="18">
+            <Select @bind-Value="@MainModalFullName"
+                    Style="width: 420px;"
+                    TItemValue="string"
+                    TItem="string"
+                    EnableSearch>
+                <SelectOptions>
+                    @foreach (var type in TypeOptions)
+                    {
+                        <SelectOption TItemValue="string" TItem="string" Value="@type.FullName" Label="@(type.FullName)" />
+                    }
+                </SelectOptions>
+            </Select>
+        </AntDesign.Col>
+    </Row>
+
+    <Row Gutter="16" Style="margin-top:20px">
+        <AntDesign.Col Class="gutter-row" Span="4">
+            <label>页面类型</label>
+
+        </AntDesign.Col>
+        <AntDesign.Col Class="gutter-row" Span="18">
+            <RadioGroup @bind-Value="@PageType">
+                <Radio Value="@("stable-table")">标准表格</Radio>
+                <Radio Value="@("stable-tree")">标准树</Radio>
+                <Radio Value="@("master-order-table")">主子表格</Radio>
+                <Radio Value="@("master-order-tree")">主子树</Radio>
+            </RadioGroup>
+        </AntDesign.Col>
+    </Row>
+
+    <Row Gutter="16" Style="margin-top:20px">
+        <AntDesign.Col Class="gutter-row" Span="4">
+            <label>是否有查询</label>
+        </AntDesign.Col>
+        <AntDesign.Col Class="gutter-row" Span="18">
+            <Switch Checked="HasSearchBar" OnChange="@((value) => { HasSearchBar = value; StateHasChanged(); })" CheckedChildren="有" UnCheckedChildren="无" />
+
+        </AntDesign.Col>
+    </Row>
+    @if (HasSearchBar)
+    {
+        <Row Gutter="16">
+            <AntDesign.Col Class="gutter-row" Span="4">
+                <label>查询工具条</label>
+
+            </AntDesign.Col>
+            <AntDesign.Col Class="gutter-row" Span="18">
+                <Select @bind-Value="@SearchBarTypeFullName"
+                        Style="width: 420px;"
+                        TItemValue="string"
+                        TItem="string"
+                        EnableSearch>
+                    <SelectOptions>
+                        @foreach (var type in TypeOptions)
+                        {
+                            <SelectOption TItemValue="string" TItem="string" Value="@type.FullName" Label="@(type.FullName)" />
+                        }
+                    </SelectOptions>
+                </Select>
+            </AntDesign.Col>
+        </Row>
+    }
+    <Row Gutter="16">
+        <AntDesign.Col Class="gutter-row" Span="4">
+            <label>新增模型</label>
+
+        </AntDesign.Col>
+        <AntDesign.Col Class="gutter-row" Span="18">
+            <Select @bind-Value="@CreateFormModelFullName"
+                    Style="width: 420px;"
+                    TItemValue="string"
+                    TItem="string"
+                    EnableSearch>
+                <SelectOptions>
+                    @foreach (var type in TypeOptions)
+                    {
+                        <SelectOption TItemValue="string" TItem="string" Value="@type.FullName" Label="@(type.FullName)" />
+                    }
+                </SelectOptions>
+            </Select>
+        </AntDesign.Col>
+    </Row>
+    <Row Gutter="16">
+        <AntDesign.Col Class="gutter-row" Span="4">
+            <label>更新模型</label>
+
+        </AntDesign.Col>
+        <AntDesign.Col Class="gutter-row" Span="18">
+            <Select @bind-Value="@UpdateFormModelFullName"
+                    Style="width: 420px;"
+                    TItemValue="string"
+                    TItem="string"
+                    EnableSearch>
+                <SelectOptions>
+                    @foreach (var type in TypeOptions)
+                    {
+                        <SelectOption TItemValue="string" TItem="string" Value="@type.FullName" Label="@(type.FullName)" />
+                    }
+                </SelectOptions>
+            </Select>
+        </AntDesign.Col>
+    </Row>
+
+    <Button Type="primary" OnClick="GenerateCode">生成</Button>
+</EditForm>
+
+@if (CodeConfig != null)
+{
+    <Code CodeConfig="CodeConfig"></Code>
+}
+

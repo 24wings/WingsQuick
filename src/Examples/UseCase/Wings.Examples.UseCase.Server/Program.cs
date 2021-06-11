@@ -21,7 +21,7 @@ namespace Wings.Examples.UseCase.Server
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                await InitSeedDb(services);
+                //await InitSeedDb(services);
             }
             host.Run();
         }

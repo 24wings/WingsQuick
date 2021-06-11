@@ -1,0 +1,92 @@
+﻿@namespace Wings.Examples.UseCase.Client.Pages 
+@inherits ComponentBase
+@typeparam TListModel
+@typeparam TCreateModel
+@typeparam TUpdateModel
+
+<Tabs>
+    <TabPane Key="razor">
+        <Tab>Client/@(typeof(TListModel).Name).razor </Tab>
+        <ChildContent>
+            <div style="position:relative" id="">
+                <Button Type="default" OnClick="@(()=>CopyCode("client-razor-code"))" Shape="circle" Icon="copy"  style="position:absolute;right:20px;top:20px;" />
+
+                <pre id="client-razor-code">
+@("@")namespace Wings.Examples.UseCase.Client.Pages
+
+@("@")inject HttpClient HttpClient
+@("@")inject ModalService _modalService
+
+@("@")inherits @(typeof(TListModel).Name)Base
+@("<")DataSourceManager TModel="@typeof(TListModel).Name}" @("@")ref="DataSource"> @("</DataSourceManager>")
+&lt;AntTableView TModel="@(typeof(TListModel).Name)" @("@")ref="table">
+     &lt;ToolbarTemplate>&gt;Button OnClick="OnCreate" Type="primary">新增&lt;/Button>&lt;/ToolbarTemplate>
+     &lt;ActionColumnTemplate&gt;
+            &lt;Space&gt;
+            &lt;SpaceItem&gt;
+                &lt;Space&gt;
+                    &lt;SpaceItem&gt;&lt;Button Size="small" OnClick="()=>LoadRoleMenu(context)">详情&lt;/Button&gt;&lt;/SpaceItem&gt;
+                    &lt;SpaceItem&gt;&lt;Button Size="small" OnClick="()=>OnEdit(context)">编辑&lt;/Button&gt;&lt;/SpaceItem&gt;
+                    &lt;SpaceItem&gt;&lt;Button Size="small" Danger OnClick="()=>OpenDeleteConfirmModal(context)">删除&lt;/Button&gt;&lt;/SpaceItem&gt;
+                &lt;/Space&gt;
+            &lt;/SpaceItem&gt;
+        &lt;/Space&gt;
+    &lt;/ActionColumnTemplate&gt;
+
+&lt;/AntTableView&gt;
+
+&lt;AntDynamicForm TModel="@typeof(TCreateModel).Name" @("@")ref="createForm" OnSubmit="async () => {await createForm.InsertAsync();await table.Refresh(); }"&gt;&lt;/AntDynamicForm&gt;
+&lt;AntDynamicForm TModel="@typeof(TUpdateModel).Name" @("@")ref="updateForm" OnSubmit="async () =>{await updateForm.UpdateAsync();await table.Refresh(); }"&gt;&lt;/AntDynamicForm&gt;
+
+</pre>
+            </div>
+        </ChildContent>
+
+    </TabPane>
+    <TabPane Key="componentBase">
+        <Tab>Client/@(typeof(TListModel).Name)Base.cs </Tab>
+        <ChildContent>
+            <pre>
+ using AntDesign;
+ using Microsoft.AspNetCore.Components;
+ using Microsoft.AspNetCore.Components.Forms;
+ using System;
+ using System.Collections.Generic;
+ using System.Linq;
+ using System.Reflection;
+ using System.Threading.Tasks;
+ using Wings.Examples.UseCase.Shared.Dto;
+
+ namespace Wings.Examples.UseCase.Client.Pages
+ {
+     public class @(typeof(TListModel).Name)Base:ComponentBase{
+
+    public AntTableView&lt;@typeof(TListModel)&gt; table{get;set;}
+     public DataSourceManager&lt;@typeof(TListModel).Name&gt;  DataSource{get;set;}
+     public AntDynamicForm&lt;@(typeof(TCreateModel).Name)&gt; createForm{get;set;}
+     public AntDynamicForm&lt;@(typeof(TUpdateModel).Name)&gt; updateForm{get;set;}
+
+    public void OpenDeleteConfirmModal(RoleListDvo data)
+    {
+        _modalService.Confirm(new ConfirmOptions()
+        {
+            Title = "确定删除该条记录?",
+            OnOk = async (e) =>
+            {
+                await DataSource.Delete(data);
+                await table.Load();
+            },
+        });
+    }
+     }
+}
+            
+</pre>
+        </ChildContent>
+
+    </TabPane>
+</Tabs>
+
+
+
+

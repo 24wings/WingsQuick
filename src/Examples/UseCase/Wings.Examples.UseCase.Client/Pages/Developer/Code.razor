@@ -1,0 +1,13 @@
+﻿@namespace Wings.Examples.UseCase.Client.Pages
+@inherits CodeBase
+@if (CodeConfig != null)
+{
+                if (CodeConfig.PageType == "stable-table")
+                {
+                @dynamicCodeComponent
+                }
+
+}
+@code {
+
+}

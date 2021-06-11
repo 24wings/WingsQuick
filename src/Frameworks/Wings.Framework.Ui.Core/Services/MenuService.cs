@@ -45,12 +45,13 @@ namespace Wings.Framework.Ui.Core.Services
             var requestMessage = new HttpRequestMessage()
             {
                 Method = new HttpMethod("Get"),
-                RequestUri = new Uri(configService.url + "/api/menu/My"),
+                RequestUri = new Uri(navigationManager.BaseUri+"api/menu/My"),
                
             };
            var authToken= await local.GetItemAsStringAsync("authToken");
             if (authToken == null)
             {
+                
                 if (navigationManager.Uri != "/Login")
                 {
                     navigationManager.NavigateTo("/Login");
