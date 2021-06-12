@@ -19,6 +19,7 @@ namespace Wings.Examples.UseCase.Client.Services
         Task<LoginResult> Login(LoginModel loginModel);
         Task Logout();
         Task<RegisterResult> Register(RegisterModel registerModel);
+        Task<UserInfoDto> GetUserInfo();
     }
     public class AuthService : IAuthService
     {
@@ -40,7 +41,7 @@ namespace Wings.Examples.UseCase.Client.Services
 
         public async Task<RegisterResult> Register(RegisterModel registerModel)
         {
-            var result = await _httpClient.PostJsonAsync<RegisterResult>(configService.url+ "/api/accounts", registerModel);
+            var result = await _httpClient.PostJsonAsync<RegisterResult>(configService.url+ "/api/account", registerModel);
 
             return result;
         }
@@ -61,6 +62,12 @@ namespace Wings.Examples.UseCase.Client.Services
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", loginResult.Token);
 
             return loginResult;
+        }
+
+        public async Task<UserInfoDto> GetUserInfo()
+        {
+          return  await _httpClient.GetJsonAsync<UserInfoDto>(configService.url + "/api/Account/GetMyUserInfo");
+            
         }
 
         public async Task Logout()

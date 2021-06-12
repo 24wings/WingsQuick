@@ -6,35 +6,50 @@ using Microsoft.AspNetCore.Components;
 using Wings.Framework.Shared.Dtos;
 using Wings.Framework.Ui.Core.Services;
 using System.Text.Json;
+using Wings.Examples.UseCase.Client.Services;
 
 namespace Wings.Examples.UseCase.Client.Shared
 {
     public class NavMenuBase : ComponentBase
     {
-       public bool collapsed = false;
+        public bool collapsed = false;
 
 
 
-       protected void ToggleCollapsed()
+        protected void ToggleCollapsed()
         {
             collapsed = !collapsed;
         }
         [Inject]
         protected MenuService menuService { get; set; }
-
-        protected List<MenuData> MenuDataList { get; set; } = new List<MenuData>();
+        [Inject]
+        protected IAuthService authService { get; set; }
+        [Parameter]
+        public List<MenuData> MenuDataList { get; set; } = new List<MenuData>();
         protected List<MenuData> TopMenu { get; set; } = new List<MenuData>();
         protected async override Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            MenuDataList = await menuService.LoadMenus();
-            if (MenuDataList != null) { 
-            TopMenu = MenuDataList.Where(menu => menu.ParentId == 0 || menu.ParentId == null).ToList();
-         
-            }
+          
+                if (MenuDataList != null)
+                {
+                    TopMenu = MenuDataList.Where(menu => menu.ParentId == 0 || menu.ParentId == null).ToList();
+
+                }
 
         }
-     
 
+        
+        protected override void OnAfterRender(bool firstRender)
+        {
+            if (firstRender)
+            {
+                if (MenuDataList != null)
+                {
+                    TopMenu = MenuDataList.Where(menu => menu.ParentId == 0 || menu.ParentId == null).ToList();
+
+                }
+            }
+        }
     }
 }

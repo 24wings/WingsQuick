@@ -1,23 +1,47 @@
 ﻿@inject HttpClient HttpClient
 @inject NavigationManager NavigationManager
+@using Wings.Examples.UseCase.Shared.Dto
 <a href="#">注册</a>
 <a href="#">注册</a>
 <a href="#">注册</a>
 <a href="#">注册</a>
 <a href="#">注册</a>
-<a href="#">注册</a>
-<a href="#">注册</a>
-<a href="#">注册</a>
-<a href="#">注册</a>
-<a href="#">注册</a>
-<a href="#">注册</a>
-<a @onclick="Logout">注销</a>
+
+@if (user != null)
+{
+    <Dropdown Placement="@PlacementType.BottomLeft" >
+        <Overlay>
+            <Menu  AutoCloseDropdown="@false">
+                <MenuItem Icon="user" >
+                    <NavLink href="/PersonCenter/PersonSetting">个人中心</NavLink>
+                    
+                </MenuItem>
+                <MenuItem Icon="setting">
+
+                    个人设置
+                </MenuItem>
+                <MenuDivider />
+                <MenuItem Icon="logout" OnClick="Logout">
+                    注销
+                </MenuItem>
+            </Menu>
+        </Overlay>
+        <ChildContent>
+          
+            <Avatar Size="small" Src="/images/avatar.jpg"></Avatar>
+            <a class="ant-dropdown-link" style="color: lightgreen;padding-right:15px">@(user.Nickname)</a>
+        </ChildContent>
+    </Dropdown>
+    
+}
+
 @code {
 
-
+    [Parameter]
+    public UserDto user { get; set; }
     public async Task Logout()
     {
-        var res= await HttpClient.GetAsync("/api/Login/Logout");
+        var res = await HttpClient.GetAsync("/api/Login/Logout");
         NavigationManager.NavigateTo("/Login");
     }
 }

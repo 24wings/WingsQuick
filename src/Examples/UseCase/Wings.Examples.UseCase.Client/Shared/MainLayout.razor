@@ -1,4 +1,6 @@
 ﻿@inherits LayoutComponentBase
+@inject IAuthService authService
+
 <Layout Style="min-height: 100vh; ">
     <Sider Collapsible Collapsed=@collapsed OnCollapse=@onCollapse>
         @if (collapsed)
@@ -11,12 +13,13 @@
             <div class="logo " />
 
         }
-
-       <NavMenu></NavMenu>
+        @if(MenuDataList!=null){
+        <NavMenu MenuDataList="MenuDataList"></NavMenu>
+        }
     </Sider>
     <Layout Class="site-layout">
-        <Header Class="site-layout-background" Style=" padding: 0 15px; background-color: #fff; box-shadow: 0 0 5px 5px rgb(0 0 0 / 20%);">
-            <div  style="display:flex">
+        <Header Class="site-layout-background" Style=" padding: 0 25px; background-color: #fff; box-shadow: 0 0 5px 5px rgb(0 0 0 / 20%);">
+            <div style="display:flex">
                 <div style="display: inline-block;width:100%">
 
                     @if (collapsed)
@@ -30,7 +33,7 @@
 
                 </div>
                 <div style="flex-shrink:0;display:inline-block">
-                   <LoginDisplay></LoginDisplay>
+                    <LoginDisplay user="user"></LoginDisplay>
                 </div>
             </div>
         </Header>
@@ -50,11 +53,23 @@
 
 @code {
     bool collapsed;
-
+    public UserDto user { get; set; }
     void onCollapse(bool collapsed)
     {
         Console.WriteLine(collapsed);
         this.collapsed = collapsed;
+    }
+    public List<MenuData> MenuDataList { get; set; } 
+    protected async override Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        var userInfo = await authService.GetUserInfo();
+        if (userInfo != null)
+        {
+            MenuDataList = userInfo.MenuDataList;
+            user = userInfo.User;
+        }
+
     }
 }
 

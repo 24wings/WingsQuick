@@ -2,7 +2,7 @@ using System;
 
 namespace Wings.Framework.Ui.Core
 {
-
+    
 
     public class StateContainer
     {
