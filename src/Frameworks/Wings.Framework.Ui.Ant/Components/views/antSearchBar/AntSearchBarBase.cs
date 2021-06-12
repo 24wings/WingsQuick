@@ -20,7 +20,6 @@ namespace Wings.Framework.Ui.Ant.Components
         public EventCallback<List<WhereConditionPair>> OnSearch { get; set; }
         public async Task OnSearchButtonClick(TModel value)
         {
-            Console.WriteLine(value);
             var whereConditionPair = typeof(TModel).GetProperties().Where(prop => prop.GetCustomAttribute<WhereAttribute>() != null && prop.GetValue(value) != null).Select(prop =>
                 {
                     var whereAttribute = prop.GetCustomAttribute<WhereAttribute>();
@@ -34,7 +33,11 @@ namespace Wings.Framework.Ui.Ant.Components
                 }
             ).ToList();
             await OnSearch.InvokeAsync(whereConditionPair);
-            // await dataSourceManager.Load()
+     
+        }
+        public void OnResetButtonClick()
+        {
+            dynamicForm.ResetForm();
         }
 
     }

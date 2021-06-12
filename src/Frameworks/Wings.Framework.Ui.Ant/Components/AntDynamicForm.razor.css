@@ -1,3 +1,4 @@
-﻿.gutter-row {
+﻿::deep .gutter-row {
     padding: 5px 0;
+    margin-top:10px;
 }

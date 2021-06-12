@@ -5,7 +5,7 @@ using Wings.Examples.UseCase.Server.Services.Repositorys;
 
 namespace Wings.Examples.UseCase.Server.Models
 {
-    public class Menu:TreeEntity
+    public class Menu:TreeEntity,BaseEntity
     {
         public override int Id { get; set; }
         public int Order { get; set; }

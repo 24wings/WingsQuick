@@ -48,8 +48,8 @@ namespace Wings.Examples.UseCase.Shared.Dvo
 
         public string Code { get; set; }
 
-        
-        [Display(Name="创建时间")]
+        [Ignore]
+        [Display(Name = "创建时间")]
         public DateTime CreateAt { get; set; } = DateTime.Now;
 
         [Ignore]

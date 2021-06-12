@@ -193,3 +193,9 @@ app {
     text-align: center;
     border: 1px solid lightgray;
 }
+
+.source-code {
+    background: rgba(0,0,0,0.8);
+    color: #fff;
+    font-size: 0.8rem;
+}

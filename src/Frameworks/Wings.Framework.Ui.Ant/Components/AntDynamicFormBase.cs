@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -15,6 +16,9 @@ namespace Wings.Framework.Ui.Ant.Components
 {
     public abstract class AntDynamicFormBase<TModel> : ModelComponentBase<TModel>
     {
+        [Parameter]
+        public int DefaultFieldSpan { get; set; } = 12;
+
         /// <summary>
         /// such value as : inline,modal
         /// </summary>
@@ -32,6 +36,23 @@ namespace Wings.Framework.Ui.Ant.Components
 
 
         protected bool _visible = true;
+
+        public List<AntDynamicField<TModel>> Fields { get; set; } = new List<AntDynamicField<TModel>>();
+        protected AntDynamicField<TModel> childFieldComponent
+        {
+            set => Fields.Add(value);
+        }
+        protected override void OnAfterRender(bool firstRender)
+        {
+            if (firstRender)
+            {
+            }
+        }
+
+        private void CallChildMethod(int index, int value)
+        {
+            Fields.ElementAt(index);
+        }
 
         protected bool render { get; set; } = false;
         [Parameter]
@@ -52,7 +73,7 @@ namespace Wings.Framework.Ui.Ant.Components
         {
             await DataSource.Update(Value);
         }
-     
+
         protected override void OnInitialized()
         {
             Console.WriteLine("Value:" + Value);
@@ -66,14 +87,35 @@ namespace Wings.Framework.Ui.Ant.Components
 
 
                 editContext = new EditContext(Value);
-                props = typeof(TModel).GetProperties()
-                .Where(prop => prop.GetCustomAttribute<IgnoreAttribute>() == null)
-                .ToList();
+                LoadPropertitys();
                 render = true;
             }
-            Console.WriteLine("Dynamic Form see");
         }
+        protected void LoadPropertitys()
+        {
+            if (props.Count > 0)
+            {
+                props = new List<PropertyInfo>();
+            }
+            else
+            {
+                props = typeof(TModel).GetProperties()
+               .Where(prop => prop.GetCustomAttribute<IgnoreAttribute>() == null)
+               .ToList();
+            }
+            
+            
+        }
+        /// <summary>
+        /// 重置表单
+        /// </summary>
+        public void ResetForm()
+        {
+            Value = (TModel)System.Activator.CreateInstance(typeof(TModel));
+            editContext = new EditContext(Value);
+            
 
+        }
 
 
         protected void changeValue(PropertyInfo prop, object value)
@@ -92,16 +134,7 @@ namespace Wings.Framework.Ui.Ant.Components
         {
             if (editContext.Validate())
             {
-                switch (editType)
-                {
-                    case EditType.Insert:
-                        await DataSource.Insert(Value);
-                        break;
-                    case EditType.Update:
-                        await DataSource.Update(Value);
-                        break;
 
-                }
 
                 await OnSubmit.InvokeAsync(Value);
                 Visible = false;

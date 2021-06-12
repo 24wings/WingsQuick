@@ -10,6 +10,7 @@ namespace Wings.Framework.Shared.Attributes
         /// <value></value>
         public bool Edit { get; set; } = true;
         public Type ComponentType { get; set; }
+        public int Span { get; set; } = 12;
     }
 
 }

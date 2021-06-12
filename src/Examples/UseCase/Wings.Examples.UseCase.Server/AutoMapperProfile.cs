@@ -15,6 +15,7 @@ namespace Wings.Examples.UseCase.Server
             CreateMap<Menu, MenuListDvo>()
 
             .ForMember((dvo) => dvo.Title, opt => opt.MapFrom(menu => menu.Name))
+              .ForMember((dvo) => dvo.Path, opt => opt.MapFrom(m => m.Url))
             .ReverseMap()
             ;
             CreateMap<RbacRole, RoleListDvo>()
@@ -26,6 +27,11 @@ namespace Wings.Examples.UseCase.Server
             .ForMember((dvo) => dvo.Link, opt => opt.MapFrom(m => m.Url))
             .ReverseMap()
             ;
+            CreateMap<Menu, MenuCreateDvo>()
+           .ForMember((dvo) => dvo.Path, opt => opt.MapFrom(m => m.Url))
+           .ForMember((dvo) => dvo.Title, opt => opt.MapFrom(m => m.Name))
+           .ReverseMap()
+           ;
             CreateMap<Permission, PermissionListDvo>()
                 .ForMember(dvo=>dvo.Title,opt=>opt.MapFrom(m=>m.Label))
                 .ReverseMap();

@@ -1,1 +1,48 @@
-﻿
+﻿@namespace Wings.Examples.UseCase.Client.Pages
+@page "/rbac/role2"
+@inject HttpClient HttpClient
+@inject ModalService _modalService
+@inject IMapper mapper
+
+<DataSourceManager TModel="RoleListDvo" @ref="DataSource"> </DataSourceManager>
+<AntTableView TModel="RoleListDvo" @ref="table">
+    <ToolbarTemplate><Button OnClick="()=>createForm.ShowModal(new RoleListDvo())" Type="primary">新增</Button></ToolbarTemplate>
+    <ActionColumnTemplate>
+        <Space>
+            <SpaceItem>
+                <Space>
+
+                    <SpaceItem><Button Size="small" OnClick="()=>updateForm.ShowModal(mapper.Map<RoleListDvo,RoleListDvo>(context))">编辑</Button></SpaceItem>
+                    <SpaceItem><Button Size="small" Danger OnClick="async ()=> { SelectedData = context; OpenDeleteConfirmModal();} ">删除</Button></SpaceItem>
+                </Space>
+            </SpaceItem>
+        </Space>
+    </ActionColumnTemplate>
+
+</AntTableView>
+
+<AntDynamicForm TModel="RoleListDvo" mode="modal" @ref="createForm" OnSubmit="async () => {await createForm.InsertAsync();await table.Load(); }"></AntDynamicForm>
+<AntDynamicForm TModel="RoleListDvo"  mode="modal" @ref="updateForm" OnSubmit="async () =>{await updateForm.UpdateAsync();await table.Load(); }"></AntDynamicForm>
+
+@code {
+    public AntTableView<RoleListDvo> table;
+    public RoleListDvo SelectedData { get; set; }
+    AntDynamicForm<RoleListDvo> createForm;
+    AntDynamicForm<RoleListDvo> updateForm;
+    public DataSourceManager<RoleListDvo> DataSource { get; set; }
+    public void OpenDeleteConfirmModal()
+    {
+        _modalService.Confirm(new ConfirmOptions()
+        {
+            Title = "确定删除该条记录?",
+            OnOk = async (e) =>
+            {
+                await DataSource.Delete(SelectedData);
+                await table.Load();
+            },
+            OnCancel = (e) => null
+        });
+    }
+
+}
+

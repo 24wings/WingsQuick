@@ -20,7 +20,10 @@ namespace Wings.Framework.Ui.Ant.Components
 
         protected Type type { get; set; }
 
-
+        public  void Refresh()
+        {
+            StateHasChanged();
+        }
 
         [Parameter]
         public EventCallback<object> OnValueChange { get; set; }

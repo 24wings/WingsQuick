@@ -41,7 +41,7 @@ namespace Wings.Examples.UseCase.Shared.Dvo
         public string Code { get; set; }
         [Display(Name = "上级菜单")]
         [Editable(false)]
-        public int ParentId { get; set; }
+        public int? ParentId { get; set; }
         [IconPickerField]
         [Display(Name = "图标")]
         public string Icon { get; set; }

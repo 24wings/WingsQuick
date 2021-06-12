@@ -17,15 +17,15 @@
     @if (SelectedData != null)
     {
         <div>
-            <Button Type="primary" Size="small" OnClick="() => createForm.ShowModal(IMapper.Map<MenuListDvo,MenuCreateDvo>(new MenuListDvo { ParentId = SelectedData.ParentId }))">添加同级</Button>
-            <Button Type="primary" Size="small" OnClick="() => createForm.ShowModal(IMapper.Map<MenuListDvo,MenuCreateDvo>(new MenuListDvo { ParentId = SelectedData.Id }))">添加下级</Button>
+            <Button Type="primary" Size="small" OnClick="() => createForm.ShowModal(new MenuCreateDvo { ParentId = SelectedData.ParentId })">添加同级</Button>
+            <Button Type="primary" Size="small" OnClick="() => createForm.ShowModal(new MenuCreateDvo { ParentId = SelectedData.Id })">添加下级</Button>
             <Button Type="primary" Size="small" OnClick="() => updateForm.ShowModal(IMapper.Map<MenuListDvo,MenuCreateDvo>(SelectedData))">编辑</Button>
             <Button Type="danger" Size="small" OnClick="OpenDeleteConfirmModal" Disabled="SelectedData == null">删除</Button>
         </div>
         <AntDetailView TModel="MenuListDvo" Value="SelectedData"> </AntDetailView>
 
-        <AntDynamicForm TModel="MenuCreateDvo" @ref="createForm" OnSubmit="async () => {await createForm.InsertAsync();await tree.Refresh(); }"></AntDynamicForm>
-        <AntDynamicForm TModel="MenuCreateDvo" @ref="updateForm" OnSubmit="async () =>{await updateForm.UpdateAsync();await tree.Refresh(); }"></AntDynamicForm>
+        <AntDynamicForm TModel="MenuCreateDvo" mode="modal" @ref="createForm" OnSubmit="async () => {await createForm.InsertAsync();await tree.Refresh(); }"></AntDynamicForm>
+        <AntDynamicForm TModel="MenuCreateDvo" mode="modal" @ref="updateForm" OnSubmit="async () =>{await updateForm.UpdateAsync();await tree.Refresh(); }"></AntDynamicForm>
     }
         </Col>
        

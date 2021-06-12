@@ -12,6 +12,12 @@ namespace Wings.Examples.UseCase.Client.Pages
 {
     public class CodeGeneratorBase:ComponentBase
     {
+        /// <summary>
+        /// 页面路径
+        /// </summary>
+        public string PagePath { get; set; }
+
+        public bool HasPagePath { get; set; }
 
         public string MainModalFullName { get; set; }
         /// <summary>

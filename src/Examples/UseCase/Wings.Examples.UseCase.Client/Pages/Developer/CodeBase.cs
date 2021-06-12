@@ -36,8 +36,16 @@ namespace Wings.Examples.UseCase.Client.Pages
                             );
                         Console.WriteLine(PageComponent);
                         break;
+                    case "stable-tree":
+                        PageComponent = typeof(TreeViewPageCodeTemplate<object, object, object>).GetGenericTypeDefinition().MakeGenericType(
+                         mainModel,
+                          createForm,
+                          updateFormModel
+                          );
+                        break;
                 }
                 builder.OpenComponent(0, PageComponent);
+                builder.AddAttribute(1,"CodeConfig", CodeConfig);
                 builder.CloseComponent();
 
             }

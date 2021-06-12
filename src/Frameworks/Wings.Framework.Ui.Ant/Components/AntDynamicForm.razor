@@ -7,7 +7,7 @@
 
 
 <DataSourceManager TModel="TModel" @ref="DataSource"></DataSourceManager>
-@if(render  )
+@if(render)
 {
     if (mode == "modal"  && Visible)
     {
@@ -19,15 +19,17 @@
                 <DataAnnotationsValidator />
                 <ValidationSummary />
                 <Row Gutter="16">
+                    @if (render) { 
                     @foreach (var item in props)
                     {
 
-                        <AntDesign.Col Class="gutter-row" Span="12">
-                            <AntDynamicField Property="item" Value="Value" TModel="TModel"
+                        <AntDesign.Col Class="gutter-row" Span="@(item.GetCustomAttribute<FormFieldAttribute>()==null?DefaultFieldSpan:item.GetCustomAttribute<FormFieldAttribute>().Span )">
+                            <AntDynamicField Property="item" Value="Value" TModel="TModel" @ref="childFieldComponent"
                                              OnValueChange="(value=>changeValue(item,value))" FieldValue="GetFieldValue(item)">
                             </AntDynamicField>
                         </AntDesign.Col>
 
+                    }
                     }
                 </Row>
 
@@ -46,8 +48,8 @@
                 @foreach (var item in props)
                 {
 
-                    <AntDesign.Col Class="gutter-row" Span="12">
-                        <AntDynamicField Property="item" Value="Value" TModel="TModel"
+                    <AntDesign.Col Class="gutter-row" Span="@(item.GetCustomAttribute<FormFieldAttribute>()==null?DefaultFieldSpan:item.GetCustomAttribute<FormFieldAttribute>().Span )">
+                        <AntDynamicField Property="item" Value="Value" TModel="TModel" @ref="childFieldComponent"
                                          OnValueChange="(value=>changeValue(item,value))" FieldValue="GetFieldValue(item)">
                         </AntDynamicField>
                     </AntDesign.Col>

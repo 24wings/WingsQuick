@@ -13,6 +13,10 @@ using IdentityServer4.EntityFramework.Extensions;
 
 namespace Wings.Examples.UseCase.Server.Models
 {
+    public interface BaseEntity
+    {
+         int Id { get; set; }
+    }
     /// <summary>
     /// Database abstraction for a combined <see cref="DbContext"/> using ASP.NET Identity and Identity Server.
     /// </summary>

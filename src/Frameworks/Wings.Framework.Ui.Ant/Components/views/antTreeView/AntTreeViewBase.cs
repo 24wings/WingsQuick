@@ -157,6 +157,7 @@ namespace Wings.Framework.Ui.Ant.Components
             tree.ExpandAll();
             StateHasChanged();
         }
+        
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
@@ -200,6 +201,7 @@ namespace Wings.Framework.Ui.Ant.Components
         }
         public async Task Refresh()
         {
+            DataListTItem = null;
             await Load();
         }
 

@@ -11,32 +11,54 @@
             <div style="position:relative" id="">
                 <Button Type="default" OnClick="@(()=>CopyCode("client-razor-code"))" Shape="circle" Icon="copy"  style="position:absolute;right:20px;top:20px;" />
 
-                <pre id="client-razor-code">
+                <pre id="client-razor-code" class="source-code">
 @("@")namespace Wings.Examples.UseCase.Client.Pages
 
 @("@")inject HttpClient HttpClient
 @("@")inject ModalService _modalService
+@("@")inject IMapper mapper
 
-@("@")inherits @(typeof(TListModel).Name)Base
-@("<")DataSourceManager TModel="@typeof(TListModel).Name}" @("@")ref="DataSource"> @("</DataSourceManager>")
+@("<")DataSourceManager TModel="@typeof(TListModel).Name" @("@")ref="DataSource"> @("</DataSourceManager>")
 &lt;AntTableView TModel="@(typeof(TListModel).Name)" @("@")ref="table">
-     &lt;ToolbarTemplate>&gt;Button OnClick="OnCreate" Type="primary">新增&lt;/Button>&lt;/ToolbarTemplate>
+     &lt;ToolbarTemplate&gt;&lt;Button OnClick="()=>createForm.ShowModal(new @(typeof(TCreateModel).Name)())" Type="primary">新增&lt;/Button>&lt;/ToolbarTemplate&gt;
      &lt;ActionColumnTemplate&gt;
             &lt;Space&gt;
             &lt;SpaceItem&gt;
                 &lt;Space&gt;
-                    &lt;SpaceItem&gt;&lt;Button Size="small" OnClick="()=>LoadRoleMenu(context)">详情&lt;/Button&gt;&lt;/SpaceItem&gt;
-                    &lt;SpaceItem&gt;&lt;Button Size="small" OnClick="()=>OnEdit(context)">编辑&lt;/Button&gt;&lt;/SpaceItem&gt;
-                    &lt;SpaceItem&gt;&lt;Button Size="small" Danger OnClick="()=>OpenDeleteConfirmModal(context)">删除&lt;/Button&gt;&lt;/SpaceItem&gt;
-                &lt;/Space&gt;
-            &lt;/SpaceItem&gt;
-        &lt;/Space&gt;
+                
+                    &lt;SpaceItem&gt;&lt;Button Size="small" OnClick="()=>updateForm.ShowModal(mapper.Map&lt;@(typeof(TListModel).Name),@(typeof(TCreateModel).Name)&gt;(context))">编辑&lt;/Button&gt;&lt;/SpaceItem&gt;
+    &lt;SpaceItem&gt;&lt;Button Size="small" Danger OnClick="async ()=> { SelectedData = context; OpenDeleteConfirmModal();} ">删除&lt;/Button&gt;&lt;/SpaceItem&gt;
+    &lt;/Space&gt;
+    &lt;/SpaceItem&gt;
+    &lt;/Space&gt;
     &lt;/ActionColumnTemplate&gt;
 
-&lt;/AntTableView&gt;
+    &lt;/AntTableView&gt;
 
-&lt;AntDynamicForm TModel="@typeof(TCreateModel).Name" @("@")ref="createForm" OnSubmit="async () => {await createForm.InsertAsync();await table.Refresh(); }"&gt;&lt;/AntDynamicForm&gt;
-&lt;AntDynamicForm TModel="@typeof(TUpdateModel).Name" @("@")ref="updateForm" OnSubmit="async () =>{await updateForm.UpdateAsync();await table.Refresh(); }"&gt;&lt;/AntDynamicForm&gt;
+    &lt;AntDynamicForm  mode="modal" TModel="@typeof(TCreateModel).Name" @("@")ref="createForm" OnSubmit="async () => {await createForm.InsertAsync();await table.Load(); }"&gt;&lt;/AntDynamicForm&gt;
+    &lt;AntDynamicForm  mode="modal" TModel="@typeof(TUpdateModel).Name" @("@")ref="updateForm" OnSubmit="async () =>{await updateForm.UpdateAsync();await table.Load(); }"&gt;&lt;/AntDynamicForm&gt;
+
+    @("@")code {
+    public AntTableView&lt;@typeof(TListModel).Name&gt; table;
+    public @typeof(TListModel).Name SelectedData { get; set; }
+    AntDynamicForm&lt;@typeof(TCreateModel).Name&gt; createForm;
+    AntDynamicForm&lt;@typeof(TCreateModel).Name&gt; updateForm;
+    public DataSourceManager&lt;@typeof(TListModel).Name&gt; DataSource { get; set; }
+    public void OpenDeleteConfirmModal()
+    {
+    _modalService.Confirm(new ConfirmOptions()
+    {
+    Title = "确定删除该条记录?",
+    OnOk = async (e) =>
+    {
+    await DataSource.Delete(SelectedData);
+    await table.Load();
+    },
+    OnCancel = (e) => null
+    });
+    }
+
+    }
 
 </pre>
             </div>

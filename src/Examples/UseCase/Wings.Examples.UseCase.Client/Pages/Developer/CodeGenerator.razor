@@ -52,7 +52,7 @@
     </Row>
     @if (HasSearchBar)
     {
-        <Row Gutter="16">
+        <Row Gutter="16" Style="margin-top:20px">
             <AntDesign.Col Class="gutter-row" Span="4">
                 <label>查询工具条</label>
 
@@ -73,7 +73,7 @@
             </AntDesign.Col>
         </Row>
     }
-    <Row Gutter="16">
+    <Row Gutter="16" Style="margin-top:20px">
         <AntDesign.Col Class="gutter-row" Span="4">
             <label>新增模型</label>
 
@@ -93,7 +93,7 @@
             </Select>
         </AntDesign.Col>
     </Row>
-    <Row Gutter="16">
+    <Row Gutter="16" Style="margin-top:20px">
         <AntDesign.Col Class="gutter-row" Span="4">
             <label>更新模型</label>
 
@@ -114,7 +114,7 @@
         </AntDesign.Col>
     </Row>
 
-    <Button Type="primary" OnClick="GenerateCode">生成</Button>
+    <Button Type="primary" OnClick="GenerateCode" Style="margin-top:20px">生成</Button>
 </EditForm>
 
 @if (CodeConfig != null)

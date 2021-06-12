@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Wings.Examples.UseCase.Server.Models
 {
-    public class RbacUser : IdentityUser<int>
+    public class RbacUser : IdentityUser<int>,BaseEntity
     {
         public string nickname { get; set; }
 

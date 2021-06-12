@@ -1,0 +1,79 @@
+﻿@namespace Wings.Examples.UseCase.Client.Pages 
+@inherits ComponentBase
+@typeparam TListModel
+@typeparam TCreateModel
+@typeparam TUpdateModel
+
+<Tabs>
+    <TabPane Key="razor">
+        <Tab>Client/@(typeof(TListModel).Name).razor </Tab>
+        <ChildContent>
+            <div style="position:relative" id="">
+                <Button Type="default" OnClick="@(()=>CopyCode("client-razor-code"))" Shape="circle" Icon="copy"  style="position:absolute;right:20px;top:20px;" />
+                 
+                <pre id="client-razor-code" class="source-code">
+@if(CodeConfig.HasPagePath){
+<span> @("@")page "@(CodeConfig.PagePath)"</span>
+}
+@("@")namespace Wings.Examples.UseCase.Client.Pages
+
+@("@")inject HttpClient HttpClient 
+@("@")inject ModalService _modalService
+@("@")inject IMapper mapper
+                    &lt;Row Gutter="16"&gt;
+                        &lt;Col Span="8"&gt;
+                        @("<")DataSourceManager TModel="@typeof(TListModel).Name" @("@")ref="DataSource"> @("</DataSourceManager>")
+                        &lt;AntTreeView @("@")bind-SelectedData="SelectedData" TModel="@(typeof(TListModel).Name)" @("@")ref="tree"&gt; &lt;/AntTreeView&gt;
+ &lt;/Col&gt;
+                &lt;Col Span="12" Push="2"&gt;
+    @("@")if(SelectedData != null)
+    {
+                &lt;div&gt;
+                    
+                &lt;Button Type="primary" Size="small" OnClick="() => createForm.ShowModal(new @(typeof(TCreateModel).Name) { ParentId = SelectedData.ParentId })">
+    添加同级&lt;/Button&gt;
+                &lt;Button Type="primary" Size="small" OnClick="() => createForm.ShowModal(new  @(typeof(TCreateModel).Name) { ParentId = SelectedData.Id })">添加下级&lt;/Button&gt;
+                &lt;Button Type="primary" Size="small" OnClick="() => updateForm.ShowModal(mapper.Map&lt;@(typeof(TListModel).Name),@(typeof(TCreateModel).Name)&gt;(SelectedData))">编辑&lt;/Button&gt;
+                &lt;Button Type="danger" Size="small" OnClick="OpenDeleteConfirmModal" Disabled="SelectedData == null">删除&lt;/Button&gt;
+    &lt;/div&gt;
+    &lt;AntDetailView TModel="MenuListDvo" Value="SelectedData"&gt; &lt;/AntDetailView&gt;
+    &lt;AntDynamicForm  mode="modal" TModel="@typeof(TCreateModel).Name" @("@")ref="createForm" OnSubmit="async () => {await createForm.InsertAsync();await tree.Refresh(); }"&gt;&lt;/AntDynamicForm&gt;
+    &lt;AntDynamicForm  mode="modal" TModel="@typeof(TUpdateModel).Name" @("@")ref="updateForm" OnSubmit="async () =>{await updateForm.UpdateAsync();await tree.Refresh(); }"&gt;&lt;/AntDynamicForm&gt;
+}
+    &lt;/Col&gt;
+    &lt;/Row&gt;
+
+    @("@")code {
+    public AntTreeView&lt;@typeof(TListModel).Name&gt; tree;
+    public @typeof(TListModel).Name SelectedData { get; set; }
+    AntDynamicForm&lt;@typeof(TCreateModel).Name&gt; createForm;
+    AntDynamicForm&lt;@typeof(TCreateModel).Name&gt; updateForm;
+    public DataSourceManager&lt;@typeof(TListModel).Name&gt; DataSource { get; set; }
+    public void OpenDeleteConfirmModal()
+    {
+    _modalService.Confirm(new ConfirmOptions()
+    {
+    Title = "确定删除该条记录?",
+    OnOk = async (e) =>
+    {
+    await DataSource.Delete(SelectedData);
+    await tree.Refresh();
+    },
+    OnCancel = (e) => null
+    });
+    }
+
+    }
+
+</pre>
+            </div>
+        </ChildContent>
+
+    </TabPane>
+    
+
+</Tabs>
+
+
+
+

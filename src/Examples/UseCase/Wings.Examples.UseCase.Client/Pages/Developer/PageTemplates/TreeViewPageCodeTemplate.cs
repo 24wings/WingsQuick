@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Wings.Examples.UseCase.Client.Pages
 {
-    public partial class TablePageCodeTemplate<TListModel, TCreateModel, TUpdateModel>:ComponentBase
+    public partial class TreeViewPageCodeTemplate<TListModel, TCreateModel, TUpdateModel>:ComponentBase
     {
         [Parameter]
         public CodeGeneratorBase CodeConfig { get; set; }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Wings.Examples.UseCase.Server.Models
 {
-    public class RbacRole:IdentityRole<int>
+    public class RbacRole:IdentityRole<int>,BaseEntity
     {
         public string Code { get; set; }
 
