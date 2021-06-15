@@ -4,6 +4,7 @@ using Wings.Examples.UseCase.Shared.Dto;
 using Wings.Framework.Shared.Dtos;
 using Wings.Examples.UseCase.Shared.Dvo;
 using Wings.Examples.UseCase.Server.Models;
+using Wings.Examples.UseCase.Server.Controllers.Admin;
 
 namespace Wings.Examples.UseCase.Server
 {
@@ -35,6 +36,23 @@ namespace Wings.Examples.UseCase.Server
             CreateMap<Permission, PermissionListDvo>()
                 .ForMember(dvo=>dvo.Title,opt=>opt.MapFrom(m=>m.Label))
                 .ReverseMap();
+
+            CreateMap<Category, CategoryListDvo>()
+                .ForMember(dvo => dvo.Title, entity => entity.MapFrom(m => m.Name))
+                      .ForMember(dvo => dvo.Attrs, entity => entity.MapFrom(m => m.Attrs))
+                .ReverseMap();
+
+            CreateMap<Attr, AttrListDvo>()
+               .ForMember(dvo=>dvo.AttrCategoryId,opt=>opt.MapFrom(entity=>entity.AttrCategoryId))
+               .ForMember(dvo=>dvo.AttrCategoryOption,opt=>opt.MapFrom(entity=>entity.AttrCategory))
+               .ReverseMap();
+            CreateMap<AttrCategory, AttrCategoryOption>()
+           .ForMember(dvo => dvo.Label, entity => entity.MapFrom(m => m.Name))
+           .ReverseMap();
+            CreateMap<AttrCategory, AttrCategoryListDvo>().ReverseMap();
+            //CreateMap<AttrWithAttrCatetory, AttrListDvo>()
+            //    .ForMember(attr => attr.AttrCategoryOption, withCateory => withCateory.MapFrom(opt => opt.AttrCategoryOption))
+            //    .ForMember(attr => attr, withCateory => withCateory.MapFrom(opt => opt.AttrListDvo)).ReverseMap();
         }
     }
 }

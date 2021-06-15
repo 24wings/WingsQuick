@@ -14,7 +14,7 @@ using Wings.Examples.UseCase.Shared.Dto;
 using Wings.Examples.UseCase.Shared.Dvo;
 using Wings.Framework.Shared.Dtos;
 
-namespace Wings.Examples.UseCase.Server.Controllers
+namespace Wings.Examples.UseCase.Server.Controllers.Admin
 {
     [Route("api/[controller]/[action]")]
     [ApiController]

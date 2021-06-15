@@ -23,7 +23,7 @@ namespace Wings.Framework.Ui.Ant.Components
             render = true;
             base.OnInitialized();
             type = DynamicComponentScanner.GetPropComponentTypeByProperty<TModel>(Property);
-            Console.WriteLine(type);
+            Console.WriteLine("prop type:"+Property.PropertyType+"  type:"+ type);
 
 
         }
@@ -32,7 +32,7 @@ namespace Wings.Framework.Ui.Ant.Components
         protected RenderFragment dynamicComponent => builder =>
         {
 
-
+            
 
             builder.OpenComponent(0, type);
             builder.AddAttribute(1, "Property", Property);

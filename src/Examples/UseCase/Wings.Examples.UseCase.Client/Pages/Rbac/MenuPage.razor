@@ -5,7 +5,7 @@
 @inject ModalService _modalService
 @using System.Text.Json
 
-<DataSourceManager TModel="MenuListDvo" @ref="DataSource"></DataSourceManager>
+<DataSourceManager  TModel="MenuListDvo" @ref="DataSource"></DataSourceManager>
 <Row Gutter="16">
     <Col Span="8">
     <AntTreeView TModel="MenuListDvo" @bind-SelectedData="SelectedData" @ref="tree"></AntTreeView>

@@ -13,7 +13,10 @@
     {
 
         <Modal Visible="@_visible" Width="900" Title="@GetTitle()" OnOk="@HandleOk" OnCancel="@HandleCancel">
-
+            @if (Value != null)
+            {
+                @JsonSerializer.Serialize(Value)
+            }
 
             <EditForm EditContext="editContext">
                 <DataAnnotationsValidator />

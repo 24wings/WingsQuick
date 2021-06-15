@@ -106,6 +106,8 @@ namespace Wings.Framework.Ui.Core.Services
         {
             var propertyType = property.PropertyType;
             Type componentType = null;
+            var fieldAttribute = property.GetCustomAttribute<FormFieldAttribute>();
+
             if (propertyType.IsGenericType)
             {
                 var genericTypeDefinition = propertyType.GetGenericTypeDefinition();
@@ -121,8 +123,16 @@ namespace Wings.Framework.Ui.Core.Services
                 if (genericTypeDefinition == typeof(List<object>).GetGenericTypeDefinition())
                 {
 
-                    var fieldAttribute = property.GetCustomAttribute<FormFieldAttribute>();
-                    componentType = fieldAttribute.ComponentType;
+               
+                    try
+                    {
+                        componentType = PropComponentPairs.Where(pair => pair.ComponentType.FullName.Contains(fieldAttribute.ComponentType)).FirstOrDefault()?.ComponentType;
+                        Console.WriteLine("get type:" + componentType);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("====" + e);
+                    }
                 }
                 if (propertyType.IsEnum)
                 {
@@ -135,12 +145,33 @@ namespace Wings.Framework.Ui.Core.Services
                 componentType = FieldComponentPairs.Where(pair => pair.DataType == propertyType.FullName).FirstOrDefault()?.ComponentType;
             }
 
-            if (componentType == null)
+            if ( fieldAttribute!=null)
+            {
+                try
+                {
+                    Console.WriteLine("attribute type:" + fieldAttribute.ComponentType);
+
+                    componentType = FieldComponentPairs.Where(pair => pair.ComponentType.FullName.Contains(fieldAttribute.ComponentType)).FirstOrDefault()?.ComponentType;
+                    if (componentType != null)
+                    {
+                        Console.WriteLine("yes found componentType:" + componentType.FullName);
+                    }
+                }catch(Exception e)
+                {
+                    Console.WriteLine("exception: not found" + e);
+                    Console.WriteLine(e);
+                }
+                
+
+            }
+            if(componentType==null)
             {
                 Console.WriteLine("error: not found component for field type:" + propertyType);
+                return null;
             }
             if (componentType.IsGenericType)
             {
+                Console.WriteLine(typeof(TModel).Name);
                 componentType = componentType.MakeGenericType(typeof(TModel));
             }
             return componentType;

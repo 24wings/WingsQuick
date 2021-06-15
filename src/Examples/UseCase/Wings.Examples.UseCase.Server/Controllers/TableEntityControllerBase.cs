@@ -64,6 +64,7 @@ namespace Wings.Examples.UseCase.Server.Controllers
         {
             var newRecord = mapper.Map<TCreateDto, TEntity>(item);
             var entity = await unitOfWork.GetRepository<TEntity>().Insert(newRecord);
+            await unitOfWork.appDbContext.SaveChangesAsync();
             return mapper.Map<TEntity, TCreateDto>(entity.Entity);
         }
     }

@@ -1,0 +1,51 @@
+﻿@namespace Wings.Examples.UseCase.Client.Pages
+@page "/shop/tags/attribute"
+@inject HttpClient HttpClient
+@inject ModalService _modalService
+@inject IMapper mapper
+
+<DataSourceManager TModel="AttrListDvo" @ref="DataSource"> </DataSourceManager>
+<AntTableView TModel="AttrListDvo" @ref="table">
+    <ToolbarTemplate><Button OnClick="()=>createForm.ShowModal(new AttrListDvo())" Type="primary">新增</Button></ToolbarTemplate>
+    <ActionColumnTemplate>
+        <Space>
+            <SpaceItem>
+                <Space>
+
+                    <SpaceItem><Button Size="small" OnClick="()=>updateForm.ShowModal(mapper.Map<AttrListDvo,AttrListDvo>(context))">编辑</Button></SpaceItem>
+                    <SpaceItem><Button Size="small" Danger OnClick="async ()=> { SelectedData = context; OpenDeleteConfirmModal();} ">
+                        删除
+                        
+                        </Button></SpaceItem>
+                </Space>
+            </SpaceItem>
+        </Space>
+    </ActionColumnTemplate>
+
+</AntTableView>
+
+<AntDynamicForm mode="modal" TModel="AttrListDvo" @ref="createForm" OnSubmit="async () => {await createForm.InsertAsync();await table.Load(); }"></AntDynamicForm>
+<AntDynamicForm mode="modal" TModel="AttrListDvo" @ref="updateForm" OnSubmit="async () =>{await updateForm.UpdateAsync();await table.Load(); }"></AntDynamicForm>
+
+@code {
+    public AntTableView<AttrListDvo> table;
+    public AttrListDvo SelectedData { get; set; }
+    AntDynamicForm<AttrListDvo> createForm;
+    AntDynamicForm<AttrListDvo> updateForm;
+    public DataSourceManager<AttrListDvo> DataSource { get; set; }
+    public void OpenDeleteConfirmModal()
+    {
+        _modalService.Confirm(new ConfirmOptions()
+        {
+            Title = "确定禁用该条记录?",
+            OnOk = async (e) =>
+            {
+                await DataSource.Delete(SelectedData);
+                await table.Load();
+            },
+            OnCancel = (e) => null
+        });
+    }
+
+}
+

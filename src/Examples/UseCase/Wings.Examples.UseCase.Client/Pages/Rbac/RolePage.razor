@@ -59,7 +59,7 @@
         <TabPane Key="3">
             <Tab>角色权限</Tab>
             <ChildContent>
-                <AntTreeView Checkable="true" DataListTItem="editData.Permissions" TModel="PermissionListDvo"></AntTreeView>
+                <AntTreeView Checkable="true" @bind-CheckedNodes="editData.Permissions" TModel="PermissionListDvo"></AntTreeView>
             </ChildContent>
         </TabPane>
     </Tabs>

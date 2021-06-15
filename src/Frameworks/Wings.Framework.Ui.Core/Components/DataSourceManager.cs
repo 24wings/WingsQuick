@@ -20,6 +20,8 @@ namespace Wings.Framework.Ui.Core.Components
         private HttpClient httpClient { get; set; }
         [Parameter]
         public ODataAdapter<TModel> oDataAdapter { get; set; }
+        [Parameter]
+        public int DefaultPageSize { get; set; } = 10;
 
         [Inject]
         private IConfiguration Configuration { get; set; }
@@ -32,7 +34,7 @@ namespace Wings.Framework.Ui.Core.Components
                 {
                     var a = Configuration.GetSection("ConnectionStrings");
                     Console.WriteLine("key" + a.Key + ":" + a.Value);
-                    var dataAdapterOptions = new DataAdapterOptions { LoadUrl = Configuration.GetConnectionString("url") + dataSourceAttribute.LoadUrl };
+                    var dataAdapterOptions = new DataAdapterOptions { LoadUrl = Configuration.GetConnectionString("url") + dataSourceAttribute.LoadUrl ,PageSize=dataSourceAttribute.PageSize|10};
                     Console.WriteLine(dataAdapterOptions.LoadUrl);
                     oDataAdapter = new ODataAdapter<TModel>(dataAdapterOptions);
 
@@ -77,8 +79,9 @@ namespace Wings.Framework.Ui.Core.Components
             var rtn = await oDataAdapter.LoadAsync(whereConditionPairs);
             return rtn;
         }
-        public async Task<Paged<TModel>> Load()
+        public async Task<Paged<TModel>> Load(int pageIndex=0)
         {
+            
             var emptyWhereCondition = new List<WhereConditionPair>();
             var rtn = await oDataAdapter.LoadAsync(emptyWhereCondition);
             return rtn;

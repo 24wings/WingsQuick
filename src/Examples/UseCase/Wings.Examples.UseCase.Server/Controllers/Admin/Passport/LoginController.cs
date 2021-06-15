@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using Wings.Examples.UseCase.Server.Models;
 using Wings.Examples.UseCase.Shared.Dto;
 
-namespace Wings.Examples.UseCase.Server.Controllers
+namespace Wings.Examples.UseCase.Server.Controllers.Admin
 {
     [Route("api/[controller]")]
     [ApiController]

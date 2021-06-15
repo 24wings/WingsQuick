@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
 @inject IAuthService authService
-
+@inject NavigationManager NavigationManager
 <Layout Style="min-height: 100vh; ">
     <Sider Collapsible Collapsed=@collapsed OnCollapse=@onCollapse>
         @if (collapsed)
@@ -59,15 +59,35 @@
         Console.WriteLine(collapsed);
         this.collapsed = collapsed;
     }
-    public List<MenuData> MenuDataList { get; set; } 
+    public List<MenuData> MenuDataList { get; set; }
     protected async override Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        var userInfo = await authService.GetUserInfo();
-        if (userInfo != null)
+
+        try {
+            var userInfo = await authService.GetUserInfo();
+            if (userInfo != null)
+            {
+                MenuDataList = userInfo.MenuDataList;
+                user = userInfo.User;
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/Login");
+            }
+        }catch(Exception e)
         {
-            MenuDataList = userInfo.MenuDataList;
-            user = userInfo.User;
+                if (NavigationManager.Uri.EndsWith("/Login"))
+                {
+
+                }
+                else
+                {
+                    NavigationManager.NavigateTo("/Login");
+
+                }
+            
+
         }
 
     }

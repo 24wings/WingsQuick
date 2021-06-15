@@ -19,8 +19,7 @@ namespace Wings.Framework.Ui.Ant.Components
         public DateTime?[] RangeValue { get; set; } = new DateTime?[] { };
         [Parameter]
         public PropertyInfo Prop { get; set; }
-        [Parameter]
-        public EventCallback<object> OnValueChange { get; set; }
+    
         protected void changeValue(DateRangeChangedEventArgs args)
         {
 

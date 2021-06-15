@@ -15,17 +15,8 @@ using AntDesign.TableModels;
 
 namespace Wings.Framework.Ui.Ant.Components
 {
-    public class TableActionEvent<TModel>
-    {
-        /// <summary>
-        /// edit,select,
-        /// </summary>
-        public string ActionName { get; set; }
-
-        public TModel Data { get; set; }
-
-    }
-    public partial class AntTableViewBase<TModel> : ModelComponentBase<TModel> 
+    
+    public abstract class AntTableViewBase<TModel> : ModelComponentBase<TModel> 
     {
         protected Table<TModel> table { get; set; }
         protected EditType editType { get; set; } = EditType.Detail;
@@ -56,20 +47,16 @@ namespace Wings.Framework.Ui.Ant.Components
 
         protected List<PropertyInfo> PropList { get; set; } = new List<PropertyInfo>();
         protected List<WhereConditionPair> whereConditionPairs { get; set; } = new List<WhereConditionPair>();
-        [Parameter]
-        public EventCallback<TableActionEvent<TModel>> OnTableActionEvent { get; set; }
+    
 
-        public async Task OnEditRow(TModel item)
-        {
-           await OnTableActionEvent.InvokeAsync(new TableActionEvent<TModel> { ActionName = "edit", Data = item });
-        }
+     
 
         protected async override Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
             if (!render)
             {
-                PropList = new List<PropertyInfo>(typeof(TModel).GetProperties().Where(prop=>prop.GetCustomAttribute<IgnoreAttribute>()==null));
+                PropList = new List<PropertyInfo>(typeof(TModel).GetProperties().Where(prop=>prop.GetCustomAttribute<IgnoreColumnAttribute>()==null&& prop.GetCustomAttribute<IgnoreAttribute>() == null));
                 render = true;
                 CRUDModel = typeof(TModel).GetCustomAttribute<CrudModelAttribute>();
             }

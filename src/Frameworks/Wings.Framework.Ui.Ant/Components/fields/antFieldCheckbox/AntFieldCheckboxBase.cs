@@ -13,19 +13,18 @@ namespace Wings.Framework.Ui.Ant.Components
     {
         [Parameter]
         public object FieldValue { get; set; }
-        [Parameter]
-        public System.Reflection.PropertyInfo Prop { get; set; }
-        [Parameter]
-        public EventCallback<object> OnValueChange { get; set; }
+       
+   
 
         protected async Task changeValue(bool value)
         {
+            Property.SetValue(Value, value);
             await OnValueChange.InvokeAsync(value);
         }
         protected override void OnInitialized()
         {
+            base.OnInitialized();
 
-            display = Prop.GetCustomAttribute<DisplayAttribute>();
         }
     }
 }

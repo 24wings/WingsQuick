@@ -1,0 +1,10 @@
+﻿@namespace Wings.Framework.Ui.Ant.Components
+@using System.ComponentModel.DataAnnotations
+@attribute [ComponentDataType("System.Boolean")]
+@attribute [Display(Name = "ant-deisgnBoolean属性")]
+@inherits AntPropStringBase<TModel>
+@typeparam TModel
+@if (Value != null)
+{
+    <Checkbox  Checked="@((bool)Property.GetValue(Value))" Disabled="true"></Checkbox>
+}

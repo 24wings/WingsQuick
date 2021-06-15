@@ -19,12 +19,10 @@ namespace Wings.Framework.Ui.Ant.Components
     {
         [Parameter]
         public object FieldValue { get; set; }
-        protected DisplayAttribute display;
-        public bool Value { get; set; }
+    
         [Parameter]
         public System.Reflection.PropertyInfo Prop { get; set; }
-        [Parameter]
-        public EventCallback<object> OnValueChange { get; set; }
+
         public List<AntOption> Options { get; set; } = new List<AntOption> { };
         public object SelectedValue { get; set; }
 

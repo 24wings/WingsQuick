@@ -36,7 +36,7 @@
                 &lt;Button Type="primary" Size="small" OnClick="() => updateForm.ShowModal(mapper.Map&lt;@(typeof(TListModel).Name),@(typeof(TCreateModel).Name)&gt;(SelectedData))">编辑&lt;/Button&gt;
                 &lt;Button Type="danger" Size="small" OnClick="OpenDeleteConfirmModal" Disabled="SelectedData == null">删除&lt;/Button&gt;
     &lt;/div&gt;
-    &lt;AntDetailView TModel="MenuListDvo" Value="SelectedData"&gt; &lt;/AntDetailView&gt;
+    &lt;AntDetailView TModel="@(typeof(TListModel).Name)" Value="SelectedData"&gt; &lt;/AntDetailView&gt;
     &lt;AntDynamicForm  mode="modal" TModel="@typeof(TCreateModel).Name" @("@")ref="createForm" OnSubmit="async () => {await createForm.InsertAsync();await tree.Refresh(); }"&gt;&lt;/AntDynamicForm&gt;
     &lt;AntDynamicForm  mode="modal" TModel="@typeof(TUpdateModel).Name" @("@")ref="updateForm" OnSubmit="async () =>{await updateForm.UpdateAsync();await tree.Refresh(); }"&gt;&lt;/AntDynamicForm&gt;
 }

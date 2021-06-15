@@ -11,8 +11,7 @@ namespace Wings.Framework.Ui.Ant.Components
 
 
 
-        [Parameter]
-        public EventCallback<object> OnValueChange { get; set; }
+
 
 
         protected async Task changeValue(object e)

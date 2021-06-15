@@ -1,0 +1,54 @@
+﻿@page "/shop/tags/category"
+@namespace Wings.Examples.UseCase.Client.Pages
+
+@inject HttpClient HttpClient
+@inject ModalService _modalService
+@inject IMapper mapper
+<Row Gutter="16">
+    <Col Span="8">
+    <DataSourceManager TModel="CategoryListDvo" @ref="DataSource"> </DataSourceManager>
+    <Button Type="primary" Size="small" OnClick="() => createForm.ShowModal(new  CategoryListDvo())">添加顶级</Button>
+    <AntTreeView @bind-SelectedData="SelectedData" TModel="CategoryListDvo" @ref="tree"> </AntTreeView>
+    </Col>
+    <Col Span="12" Push="2">
+    @if (SelectedData != null)
+    {
+        <div>
+
+            <Button Type="primary" Size="small" OnClick="() => createForm.ShowModal(new CategoryListDvo { ParentId = SelectedData.ParentId })">
+                添加同级
+            </Button>
+            <Button Type="primary" Size="small" OnClick="() => createForm.ShowModal(new  CategoryListDvo { ParentId = SelectedData.Id })">添加下级</Button>
+            <Button Type="primary" Size="small" OnClick="() => updateForm.ShowModal(mapper.Map<CategoryListDvo,CategoryListDvo>(SelectedData))">编辑</Button>
+            <Button Type="danger" Size="small" OnClick="OpenDeleteConfirmModal" Disabled="SelectedData == null">删除</Button>
+        </div>
+        <AntDetailView TModel="CategoryListDvo" Value="SelectedData"> </AntDetailView>
+
+    }
+    <AntDynamicForm mode="modal" TModel="CategoryListDvo" @ref="createForm" OnSubmit="async () => {await createForm.InsertAsync();await tree.Refresh(); }"></AntDynamicForm>
+    <AntDynamicForm mode="modal" TModel="CategoryListDvo" @ref="updateForm" OnSubmit="async () =>{await updateForm.UpdateAsync();await tree.Refresh(); }"></AntDynamicForm>
+    </Col>
+</Row>
+
+@code {
+    public AntTreeView<CategoryListDvo> tree;
+    public CategoryListDvo SelectedData { get; set; }
+    AntDynamicForm<CategoryListDvo> createForm;
+    AntDynamicForm<CategoryListDvo> updateForm;
+    public DataSourceManager<CategoryListDvo> DataSource { get; set; }
+    public void OpenDeleteConfirmModal()
+    {
+        _modalService.Confirm(new ConfirmOptions()
+        {
+            Title = "确定删除该条记录?",
+            OnOk = async (e) =>
+            {
+                await DataSource.Delete(SelectedData);
+                await tree.Refresh();
+            },
+            OnCancel = (e) => null
+        });
+    }
+
+}
+

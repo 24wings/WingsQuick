@@ -11,8 +11,7 @@ namespace Wings.Framework.Ui.Ant.Components
         [Parameter]
         public object FieldValue { get; set; }
         public string MyValue { get; set; }
-        [Parameter]
-        public EventCallback<object> OnValueChange { get; set; }
+ 
 
 
         protected override void OnInitialized()

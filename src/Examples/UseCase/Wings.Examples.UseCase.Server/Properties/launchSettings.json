@@ -19,10 +19,11 @@
     },
     "Wings.Api": {
       "commandName": "Project",
-      "launchUrl": "weatherforecast",
+      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
+      "nativeDebugging": false,
       "applicationUrl": "https://localhost:8001;http://localhost:80"
     },
     "Docker": {

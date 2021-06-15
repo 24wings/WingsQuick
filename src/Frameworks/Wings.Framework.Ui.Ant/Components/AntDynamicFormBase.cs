@@ -93,16 +93,12 @@ namespace Wings.Framework.Ui.Ant.Components
         }
         protected void LoadPropertitys()
         {
-            if (props.Count > 0)
-            {
-                props = new List<PropertyInfo>();
-            }
-            else
-            {
+          
+            
                 props = typeof(TModel).GetProperties()
-               .Where(prop => prop.GetCustomAttribute<IgnoreAttribute>() == null)
+               .Where(prop => prop.GetCustomAttribute<IgnoreFieldAttribute>() == null&&prop.GetCustomAttribute<IgnoreAttribute>()==null)
                .ToList();
-            }
+            
             
             
         }

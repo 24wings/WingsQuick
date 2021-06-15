@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Components;
+using Wings.Framework.Shared.Attributes;
 
 namespace Wings.Framework.Ui.Ant.Components
 {
@@ -18,7 +20,7 @@ namespace Wings.Framework.Ui.Ant.Components
             // first render
             if (!render)
             {
-                PropertyList.AddRange(typeof(TModel).GetProperties());
+                PropertyList.AddRange(typeof(TModel).GetProperties().Where(prop=>prop.GetCustomAttribute<IgnoreAttribute>()==null&&prop.GetCustomAttribute<IgnoreDetailAttribute>()==null));
             }
         }
 

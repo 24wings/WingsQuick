@@ -33,7 +33,7 @@ namespace Wings.Examples.UseCase.Server.Controllers
       
 
         [HttpPost]
-        public new async Task<bool> Update([FromBody] RoleListDvo roleListDvo)
+        public override async Task<bool> Update([FromBody] RoleListDvo roleListDvo)
         {
           var dbRole= await appDbContext.Roles.FirstOrDefaultAsync(role => role.Id==roleListDvo.Id);
             var role = mapper.Map<RoleListDvo, RbacRole>(roleListDvo);

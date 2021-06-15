@@ -45,7 +45,7 @@ namespace Wings.Examples.UseCase.Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = "server=47.117.86.106;port=3307;user=root;password=704104..;database=ef";
+            var connectionString = "server=localhost;port=3306;user=root;password=704104..;database=ef";
             var serverVersion = new MySqlServerVersion(new Version(5, 0, 1));
 
             services.AddControllersWithViews()
@@ -106,6 +106,7 @@ p.WithOrigins("http://localhost:5000")
             {
                 // Cookie settings
                 options.Cookie.HttpOnly = false;
+                //options.Cookie.SecurePolicy = CookieSecurePolicy.None;
                 //options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
                 //options.Cookie.SameSite = SameSiteMode.None;
                 options.LoginPath = "/Login";
@@ -122,9 +123,9 @@ p.WithOrigins("http://localhost:5000")
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebAssemblyDebugging();
+              
             }
-
+            app.UseWebAssemblyDebugging();
             // app.UseHttpsRedirection();
 
             app.UseRouting();

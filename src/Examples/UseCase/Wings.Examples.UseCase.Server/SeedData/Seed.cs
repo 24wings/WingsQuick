@@ -22,12 +22,34 @@ namespace Wings.Examples.UseCase.Server.Seed
              new Menu{Id=201,ParentId=200,Code="person-center",Name="UI设置",Icon="cloud",TreePath=",200,201,"},
              new Menu{Id=202,ParentId=200,Code="menu",Name="菜单管理",Icon="cloud",Url="/rbac/menu", TreePath=",200,202,"},
 
+             #region 电商菜单
+             new Menu{Id=300,ParentId=0,Name="电商平台",Icon="cloud",TreePath=",300,"},
+             new Menu{Id=310,ParentId=300,Name="商品标签",Icon="cloud",TreePath=",300,310,"},
+             new Menu{Id=311,ParentId=310,Name="商品分类",Icon="cloud",TreePath=",300,310,311,",Url="/shop/tags/category"},
+             new Menu{Id=312,ParentId=310,Name="商品特性",Icon="cloud",TreePath=",300,310,312,",Url="/shop/tags/attribute"},
+             new Menu{Id=313,ParentId=310,Name="特性分类",Icon="cloud",TreePath=",300,310,313,",Url="/shop/tags/attribute-category"},
+             new Menu{Id=320,ParentId=300,Name="商品管理",Icon="cloud",TreePath=",300,320,"},
+             new Menu{Id=321,ParentId=320,Name="产品管理",Icon="cloud",TreePath=",300,320,321,",Url="/shop/goods/goods"},
+             new Menu{Id=322,ParentId=320,Name="订单管理",Icon="cloud",TreePath=",300,320,322,"},
+
+
+
+
+            #endregion
+
+
+
              #region 开发者菜单
              new Menu{Id=900,ParentId=null,Name="开发者",Icon="cloud",TreePath=",900,"},
              new Menu{Id=901,ParentId=900,Name="权限管理",Icon="cloud",TreePath=",900,901,",Url="/developer/permission"},
              new Menu{Id=902,ParentId=900,Name="代码生成",Icon="cloud",TreePath=",900,902,",Url="/developer/code-generator"}
 
-                #endregion
+             #endregion
+
+             
+
+
+
 
 
          };

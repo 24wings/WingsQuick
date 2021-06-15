@@ -22,8 +22,7 @@ namespace Wings.Framework.Ui.Ant.Components
         protected HttpClient httpClient { get; set; }
         [Inject]
         protected IConfiguration configuration { get; set; }
-        [Parameter]
-        public EventCallback<object> OnValueChange { get; set; }
+  
         protected Type DataType { get; set; }
         public List<object> DataList { get; set; } = new List<object>();
         protected string[] selectedKeys { get; set; }

@@ -17,109 +17,6 @@ namespace Wings.Examples.UseCase.Server.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.6");
 
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.DeviceFlowCodes", b =>
-                {
-                    b.Property<string>("UserCode")
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Data")
-                        .IsRequired()
-                        .HasMaxLength(50000)
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<string>("DeviceCode")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<DateTime?>("Expiration")
-                        .IsRequired()
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("SessionId")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("SubjectId")
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
-
-                    b.HasKey("UserCode");
-
-                    b.HasIndex("DeviceCode")
-                        .IsUnique();
-
-                    b.HasIndex("Expiration");
-
-                    b.ToTable("DeviceCodes");
-                });
-
-            modelBuilder.Entity("IdentityServer4.EntityFramework.Entities.PersistedGrant", b =>
-                {
-                    b.Property<string>("Key")
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<string>("ClientId")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<DateTime?>("ConsumedTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Data")
-                        .IsRequired()
-                        .HasMaxLength(50000)
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<DateTime?>("Expiration")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("SessionId")
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<string>("SubjectId")
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.HasKey("Key");
-
-                    b.HasIndex("Expiration");
-
-                    b.HasIndex("SubjectId", "ClientId", "Type");
-
-                    b.HasIndex("SubjectId", "SessionId", "Type");
-
-                    b.ToTable("PersistedGrants");
-                });
-
             modelBuilder.Entity("MenuRbacRole", b =>
                 {
                     b.Property<int>("MenusId")
@@ -182,12 +79,10 @@ namespace Wings.Examples.UseCase.Server.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("longtext");
@@ -223,12 +118,10 @@ namespace Wings.Examples.UseCase.Server.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("varchar(128)");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<string>("Value")
                         .HasColumnType("longtext");
@@ -253,6 +146,112 @@ namespace Wings.Examples.UseCase.Server.Migrations
                     b.ToTable("PermissionRbacRole");
                 });
 
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Attr", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("AttrCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("InputType")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Values")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttrCategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Attrs");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.AttrCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Enable")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AttrCategories");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("BannerUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FrontDesc")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FrontName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("IconUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ImgUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsShow")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Keywords")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Level")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("ShowIndex")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TreePath")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<string>("WapBannerUrl")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Menu", b =>
                 {
                     b.Property<int>("Id")
@@ -263,13 +262,13 @@ namespace Wings.Examples.UseCase.Server.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("CreateAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.Property<string>("Icon")
                         .HasColumnType("longtext");
 
                     b.Property<DateTime>("LastUpdateAt")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
@@ -380,7 +379,7 @@ namespace Wings.Examples.UseCase.Server.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -518,6 +517,26 @@ namespace Wings.Examples.UseCase.Server.Migrations
                         .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Attr", b =>
+                {
+                    b.HasOne("Wings.Examples.UseCase.Server.Models.AttrCategory", "AttrCategory")
+                        .WithMany()
+                        .HasForeignKey("AttrCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Wings.Examples.UseCase.Server.Models.Category", null)
+                        .WithMany("Attrs")
+                        .HasForeignKey("CategoryId");
+
+                    b.Navigation("AttrCategory");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Category", b =>
+                {
+                    b.Navigation("Attrs");
                 });
 #pragma warning restore 612, 618
         }

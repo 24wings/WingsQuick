@@ -149,11 +149,10 @@ namespace Wings.Framework.Ui.Ant.Components
                 DataListTItem = resData.Data;
 
             }
-            TopTItems = DataListTItem.Where(item => (int?)item.GetType().GetProperty("ParentId").GetValue(item) == null).ToList();
+            TopTItems = DataListTItem.Where(item => (int?)item.GetType().GetProperty("ParentId").GetValue(item) == null|| (int?)item.GetType().GetProperty("ParentId").GetValue(item)==0).ToList();
             TreeNodes = DataListTItem.Select(item => new TreeNode<TModel>() { DataItem = item }).ToList();
             TopTItems.ForEach(top => GetChildren(top));
             StateHasChanged();
-
             tree.ExpandAll();
             StateHasChanged();
         }

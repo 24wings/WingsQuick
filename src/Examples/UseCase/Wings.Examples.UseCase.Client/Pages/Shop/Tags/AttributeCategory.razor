@@ -1,0 +1,61 @@
+﻿@namespace Wings.Examples.UseCase.Client.Pages
+@page "/shop/tags/attribute-category"
+@inject HttpClient HttpClient
+@inject ModalService _modalService
+@inject IMapper mapper
+@inject TagsService TagsService
+<DataSourceManager TModel="AttrCategoryListDvo" @ref="DataSource"> </DataSourceManager>
+<AntTableView TModel="AttrCategoryListDvo" @ref="table">
+    <ToolbarTemplate><Button OnClick="()=>createForm.ShowModal(new AttrCategoryListDvo())" Type="primary">新增</Button></ToolbarTemplate>
+    <ActionColumnTemplate>
+        <Space>
+            <SpaceItem>
+                <Space>
+
+                    <SpaceItem><Button Size="small" OnClick="()=>updateForm.ShowModal(mapper.Map<AttrCategoryListDvo,AttrCategoryListDvo>(context))">编辑</Button></SpaceItem>
+                    <SpaceItem><Button Size="small" Danger OnClick="async ()=> { SelectedData = context; OpenDeleteConfirmModal();} ">
+                        @if (context.Enable)
+                        {
+                                   <span>禁用</span>
+                        }
+                        else
+                        {
+                            <span>启用</span>
+                        }
+                        </Button></SpaceItem>
+                </Space>
+            </SpaceItem>
+        </Space>
+    </ActionColumnTemplate>
+
+</AntTableView>
+
+<AntDynamicForm mode="modal" TModel="AttrCategoryListDvo" @ref="createForm" OnSubmit="async () => {await createForm.InsertAsync();await table.Load(); }"></AntDynamicForm>
+<AntDynamicForm mode="modal" TModel="AttrCategoryListDvo" @ref="updateForm" OnSubmit="async () =>{await updateForm.UpdateAsync();await table.Load(); }"></AntDynamicForm>
+
+@code {
+    public AntTableView<AttrCategoryListDvo> table;
+    public AttrCategoryListDvo SelectedData { get; set; }
+    AntDynamicForm<AttrCategoryListDvo> createForm;
+    AntDynamicForm<AttrCategoryListDvo> updateForm;
+    public DataSourceManager<AttrCategoryListDvo> DataSource { get; set; }
+    public void OpenDeleteConfirmModal()
+    {
+        _modalService.Confirm(new ConfirmOptions()
+        {
+            Title = "确定删除该条记录?",
+            OnOk = async (e) =>
+            {
+                await TagsService.DisabledAttrCategory(SelectedData.Id, !SelectedData.Enable);
+                await table.Load();
+            },
+            OnCancel = (e) => null
+        });
+    }
+
+}
+
+
+@code {
+
+}

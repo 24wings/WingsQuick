@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Wings.Examples.UseCase.Shared.Attributes;
 using Wings.Framework.Shared.Attributes;
 using Wings.Framework.Shared.Dtos;
-using Wings.Shared.Dto;
+
 
 namespace Wings.Examples.UseCase.Shared.Dvo
 {
@@ -11,7 +11,7 @@ namespace Wings.Examples.UseCase.Shared.Dvo
         Create = typeof(MenuCreateDvo),
         Update = typeof(MenuCreateDvo)
     )]
-    [DataSource("/api/Menu")]
+    [DataSource("/api/Menu",PageSize =100)]
     public class MenuListDvo:BasicTree<MenuListDvo>
     {
         [Display(Name = "Id")]

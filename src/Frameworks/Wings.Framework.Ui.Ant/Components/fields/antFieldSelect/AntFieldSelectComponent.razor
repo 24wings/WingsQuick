@@ -1,0 +1,15 @@
+﻿@namespace Wings.Framework.Ui.Ant.Components
+@typeparam TModel
+@inherits ComponentBase
+
+<DataSourceManager TModel="TModel" @ref="DataSource"></DataSourceManager>
+<AntDesign.Select @bind-Value="SelectedItem" DefaultValue="DefaultSelectedItem" AllowClear="AllowClear" @ref="antSelect" TItem="TModel" TItemValue="TModel" EnableSearch  OnSelectedItemChanged="(value)=>OnSelectedItemChange()">
+    <SelectOptions >
+        @if(Options!=null){
+        @foreach(var option in Options ){
+        <SelectOption TItem="TModel" Label="@(option.Label)"   Id="@option.Label" TItemValue="TModel"  Value="@option"></SelectOption>
+        }
+        }
+    </SelectOptions>
+</AntDesign.Select>
+

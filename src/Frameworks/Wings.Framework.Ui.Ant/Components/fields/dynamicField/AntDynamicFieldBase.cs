@@ -25,8 +25,7 @@ namespace Wings.Framework.Ui.Ant.Components
             StateHasChanged();
         }
 
-        [Parameter]
-        public EventCallback<object> OnValueChange { get; set; }
+   
         protected override void OnInitialized()
         {
             render = true;

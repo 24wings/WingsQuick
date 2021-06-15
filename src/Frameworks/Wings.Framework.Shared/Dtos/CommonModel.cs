@@ -3,6 +3,11 @@ using System.Collections.Generic;
 
 namespace Wings.Framework.Shared.Dtos
 {
+    public interface ILabel
+    {
+        public int Id { get; set; }
+        public string Label { get; set; }
+    }
     public interface BasicTree<T> 
     {
          int Id { get; set; }

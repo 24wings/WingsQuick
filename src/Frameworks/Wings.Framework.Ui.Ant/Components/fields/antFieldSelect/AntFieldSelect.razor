@@ -1,0 +1,19 @@
+﻿@namespace Wings.Framework.Ui.Ant.Components
+@inherits FieldComponentBase<TModel>
+@typeparam TModel
+
+
+<Row Gutter="16">
+    <AntDesign.Col Class="gutter-row" Span="6">
+        @(FieldLabel)
+    </AntDesign.Col>
+    <AntDesign.Col Class="gutter-row" Span="12">
+
+        @dynamicFieldSelectComponent
+
+    </AntDesign.Col>
+
+</Row>
+@code {
+
+}

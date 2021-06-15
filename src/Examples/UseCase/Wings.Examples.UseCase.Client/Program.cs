@@ -54,6 +54,7 @@ namespace Wings.Examples.UseCase.Client
             .AddScoped<LocalStorageService>()
             //.AddScoped<UserService>()
             .AddScoped<ResourceService>()
+             .AddScoped<TagsService>()
             .AddFileReaderService()
             .AddAntDesign()
             .AddAntDesignTheme()

@@ -12,6 +12,7 @@ namespace Wings.Framework.Ui.Core.Data
     {
         public string LoadMethod { get; set; }
         public string LoadUrl { get; set; }
+        public int PageSize { get; set; }
     }
     public interface IDataAdapter<T>
     {
@@ -36,7 +37,7 @@ namespace Wings.Framework.Ui.Core.Data
         }
         public Task<Paged<T>> LoadAsync(List<WhereConditionPair> queryObject)
         {
-            return LoadAsync(queryObject, 10, 0);
+            return LoadAsync(queryObject, options.PageSize, 0);
         }
 
         public async Task<Paged<T>> LoadAsync(List<WhereConditionPair> query, int top, int skip)
@@ -63,7 +64,7 @@ namespace Wings.Framework.Ui.Core.Data
                 }
             }
             var client = new HttpClient();
-            var res = await client.GetStringAsync(options.LoadUrl + "?$count=true" + filter);
+            var res = await client.GetStringAsync(options.LoadUrl + "?$count=true" + filter+"&top="+top+"&skip="+skip);
             return JsonSerializer.Deserialize<Paged<T>>(res, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
     }

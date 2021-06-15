@@ -20,7 +20,8 @@ namespace Wings.Framework.Ui.Core.Components
 
         protected DetailViewAttribute detailViewAttribute { get; set; }
         protected bool Show { get; set; } = true;
-
+        [Parameter]
+        public EventCallback<object> OnValueChange { get; set; }
         protected override void OnInitialized()
         {
 
