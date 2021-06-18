@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,10 +12,11 @@ namespace Wings.Examples.UseCase.Server.Models {
     /// </summary>
     public class Attr:BaseEntity
     {
+        [Key]
         public int Id { get; set; }
         
-        public virtual int AttrCategoryId { get; set; }
-        public virtual AttrCategory AttrCategory { get; set; }
+        public  virtual int AttrCategoryId { get; set; }
+        public  virtual AttrCategory AttrCategory { get; set; }
 
         public string Name { get; set; }
         public bool InputType { get; set; }

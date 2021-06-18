@@ -30,6 +30,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Wings.Examples.UseCase.Server.Services;
 
 namespace Wings.Examples.UseCase.Server
 {
@@ -45,7 +46,7 @@ namespace Wings.Examples.UseCase.Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = "server=localhost;port=3306;user=root;password=704104..;database=ef";
+            var connectionString = "server=localhost;port=3306;user=root;password=704104..;database=ef; ConvertZeroDateTime=True";
             var serverVersion = new MySqlServerVersion(new Version(5, 0, 1));
 
             services.AddControllersWithViews()
@@ -100,7 +101,8 @@ p.WithOrigins("http://localhost:5000")
                 options.AddPolicy("13419597065", policy => policy.RequireClaim(ClaimTypes.Name));
                 
 
-                }); 
+                });
+            services.AddScoped<TokenService>();
             services.AddScoped<UnitOfWork>();
             services.ConfigureApplicationCookie(options =>
             {

@@ -146,6 +146,66 @@ namespace Wings.Examples.UseCase.Server.Migrations
                     b.ToTable("PermissionRbacRole");
                 });
 
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Ad", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("AdPositionId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("Enable")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Link")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("MediaType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdPositionId");
+
+                    b.ToTable("Ads");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.AdPosition", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Desc")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Width")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AdPositions");
+                });
+
             modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Attr", b =>
                 {
                     b.Property<int>("Id")
@@ -153,9 +213,6 @@ namespace Wings.Examples.UseCase.Server.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("AttrCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<bool>("InputType")
@@ -173,8 +230,6 @@ namespace Wings.Examples.UseCase.Server.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AttrCategoryId");
-
-                    b.HasIndex("CategoryId");
 
                     b.ToTable("Attrs");
                 });
@@ -194,6 +249,50 @@ namespace Wings.Examples.UseCase.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AttrCategories");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Brand", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("AppListPicUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal>("FloorPrice")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<bool>("IsNew")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsShow")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ListPicUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Mame")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("NewPicUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("NewSortOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PicUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("SimpleDesc")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Category", b =>
@@ -232,8 +331,8 @@ namespace Wings.Examples.UseCase.Server.Migrations
                     b.Property<int?>("ParentId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("ShowIndex")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<int>("ShowIndex")
+                        .HasColumnType("int");
 
                     b.Property<int>("SortOrder")
                         .HasColumnType("int");
@@ -250,6 +349,350 @@ namespace Wings.Examples.UseCase.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Channel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("IconUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Channels");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Collect", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("AddTime")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GoodId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsAttention")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WxUserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Collects");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("AddTime")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("GoodId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NewContent")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("TypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WxUserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.CommentPicture", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PicUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentId");
+
+                    b.ToTable("CommentPictures");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Coupon", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("MaxAmount")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("MinAmount")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("MinGoodsAmount")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("SendEndDate")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SendStartDate")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SendType")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TypeMoney")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("UseEndDate")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UseStartDate")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Coupons");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Good", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("AddTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<int?>("AttributeCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BrandId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("CounterPrice")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("ExtraPrice")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("GoodsBrief")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("GoodsDesc")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("GoodsNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("GoodsSn")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("GoodsUnit")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsAppExclusive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsHot")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("IsLimited")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsNew")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsOnSale")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Keywords")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ListPicUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PrimaryPicUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("PrimaryProductId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PromotionDesc")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("PromotionTag")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("SellVolume")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("app_exclusive_price")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("retail_price")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttributeCategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Goods");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.GoodAttr", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("AttrId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GoodId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AttrId");
+
+                    b.HasIndex("GoodId");
+
+                    b.ToTable("GoodAttrs");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.GoodGallery", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("GoodId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ImgDesc")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GoodId");
+
+                    b.ToTable("GoodGallerys");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.GoodIssue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Answer")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("GoodId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Question")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GoodId");
+
+                    b.ToTable("GoodIssues");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.GoodSpecification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("GoodId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PicUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("SpecificationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GoodId");
+
+                    b.HasIndex("SpecificationId");
+
+                    b.ToTable("GoodSpecifications");
                 });
 
             modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Menu", b =>
@@ -311,6 +754,34 @@ namespace Wings.Examples.UseCase.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Permissions");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("GoodId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("GoodSn")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("GoodSpecificationIds")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("GoodsNumber")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("RetailPrice")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GoodId");
+
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.RbacRole", b =>
@@ -438,6 +909,230 @@ namespace Wings.Examples.UseCase.Server.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Region", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("AgencyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Regions");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Shipper", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Shippers");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Specification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Specifications");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Topic", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Avatar")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsShow")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ItemPicUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<decimal>("PriceInfo")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("ReadCount")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ScenePicUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SubTitle")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("TemplateId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("TopicCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TopicTagId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TopicCategoryId");
+
+                    b.ToTable("Topics");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.TopicCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("PicUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TopicCategorys");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.WxUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Avatar")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Birthday")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastLoginIp")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("LastLoginTime")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Mobile")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Nickname")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("RegisterIp")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("RegisterTime")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("WeixinOpenid")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("WxUserLevelId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WxUserLevelId");
+
+                    b.ToTable("WxUsers");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.WxUserCoupon", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("CouponId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CouponNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsedTime")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WxUserCoupons");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.WxUserLevel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WxUserLevels");
+                });
+
             modelBuilder.Entity("MenuRbacRole", b =>
                 {
                     b.HasOne("Wings.Examples.UseCase.Server.Models.Menu", null)
@@ -519,24 +1214,171 @@ namespace Wings.Examples.UseCase.Server.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Ad", b =>
+                {
+                    b.HasOne("Wings.Examples.UseCase.Server.Models.AdPosition", "AdPosition")
+                        .WithMany()
+                        .HasForeignKey("AdPositionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AdPosition");
+                });
+
             modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Attr", b =>
                 {
                     b.HasOne("Wings.Examples.UseCase.Server.Models.AttrCategory", "AttrCategory")
-                        .WithMany()
+                        .WithMany("Attrs")
                         .HasForeignKey("AttrCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Wings.Examples.UseCase.Server.Models.Category", null)
-                        .WithMany("Attrs")
-                        .HasForeignKey("CategoryId");
-
                     b.Navigation("AttrCategory");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.CommentPicture", b =>
+                {
+                    b.HasOne("Wings.Examples.UseCase.Server.Models.Comment", "Comment")
+                        .WithMany("CommentPictures")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Comment");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Good", b =>
+                {
+                    b.HasOne("Wings.Examples.UseCase.Server.Models.AttrCategory", "AttributeCategory")
+                        .WithMany()
+                        .HasForeignKey("AttributeCategoryId");
+
+                    b.HasOne("Wings.Examples.UseCase.Server.Models.Category", "Category")
+                        .WithMany("Goods")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AttributeCategory");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.GoodAttr", b =>
+                {
+                    b.HasOne("Wings.Examples.UseCase.Server.Models.Attr", "Attr")
+                        .WithMany()
+                        .HasForeignKey("AttrId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Wings.Examples.UseCase.Server.Models.Good", "Good")
+                        .WithMany("GoodAttrs")
+                        .HasForeignKey("GoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Attr");
+
+                    b.Navigation("Good");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.GoodGallery", b =>
+                {
+                    b.HasOne("Wings.Examples.UseCase.Server.Models.Good", "Good")
+                        .WithMany()
+                        .HasForeignKey("GoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Good");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.GoodIssue", b =>
+                {
+                    b.HasOne("Wings.Examples.UseCase.Server.Models.Good", "Good")
+                        .WithMany("Issues")
+                        .HasForeignKey("GoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Good");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.GoodSpecification", b =>
+                {
+                    b.HasOne("Wings.Examples.UseCase.Server.Models.Good", "Good")
+                        .WithMany("GoodSpecifications")
+                        .HasForeignKey("GoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Wings.Examples.UseCase.Server.Models.Specification", "Specification")
+                        .WithMany()
+                        .HasForeignKey("SpecificationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Good");
+
+                    b.Navigation("Specification");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Product", b =>
+                {
+                    b.HasOne("Wings.Examples.UseCase.Server.Models.Good", "Good")
+                        .WithMany("Products")
+                        .HasForeignKey("GoodId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Good");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Topic", b =>
+                {
+                    b.HasOne("Wings.Examples.UseCase.Server.Models.TopicCategory", "TopicCategory")
+                        .WithMany()
+                        .HasForeignKey("TopicCategoryId");
+
+                    b.Navigation("TopicCategory");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.WxUser", b =>
+                {
+                    b.HasOne("Wings.Examples.UseCase.Server.Models.WxUserLevel", "WxUserLevel")
+                        .WithMany()
+                        .HasForeignKey("WxUserLevelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("WxUserLevel");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.AttrCategory", b =>
+                {
+                    b.Navigation("Attrs");
                 });
 
             modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Category", b =>
                 {
-                    b.Navigation("Attrs");
+                    b.Navigation("Goods");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Comment", b =>
+                {
+                    b.Navigation("CommentPictures");
+                });
+
+            modelBuilder.Entity("Wings.Examples.UseCase.Server.Models.Good", b =>
+                {
+                    b.Navigation("GoodAttrs");
+
+                    b.Navigation("GoodSpecifications");
+
+                    b.Navigation("Issues");
+
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

@@ -15,6 +15,8 @@
         {
         <Upload Action="/api/common/upload"
                 Name="avatar"
+                        FileList="fileList"
+
                 Class="avatar-uploader"
                 ListType="picture-card"
                 ShowUploadList="false"
@@ -45,6 +47,11 @@
     bool loading = false;
 
     string imageUrl;
+    List<UploadFileItem> fileList = new List<UploadFileItem>
+    {
+
+    };
+
 
     bool BeforeUpload(UploadFileItem file)
     {
@@ -61,15 +68,22 @@
         return isJpgOrPng && isLt2M;
     }
 
-    void HandleChange(UploadInfo fileinfo)
+    async Task HandleChange(UploadInfo fileinfo)
     {
         loading = fileinfo.File.State == UploadState.Uploading;
 
         if (fileinfo.File.State == UploadState.Success)
         {
             imageUrl = fileinfo.File.ObjectURL;
+
         }
-        InvokeAsync(StateHasChanged);
+        fileList.Where(file => file.State == UploadState.Success && !string.IsNullOrWhiteSpace(file.Response)).ForEach(async file =>
+        {
+            var result = file.GetResponse<ResponseModel>();
+            Property.SetValue(Value, result.url);
+            await OnValueChange.InvokeAsync(result.url);
+        });
+     await   InvokeAsync(StateHasChanged);
     }
 
     public class ResponseModel

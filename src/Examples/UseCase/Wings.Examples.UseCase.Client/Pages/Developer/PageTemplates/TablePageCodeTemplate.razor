@@ -1,4 +1,4 @@
-﻿@namespace Wings.Examples.UseCase.Client.Pages 
+﻿@namespace Wings.Examples.UseCase.Client.Pages
 @inherits ComponentBase
 @typeparam TListModel
 @typeparam TCreateModel
@@ -9,7 +9,7 @@
         <Tab>Client/@(typeof(TListModel).Name).razor </Tab>
         <ChildContent>
             <div style="position:relative" id="">
-                <Button Type="default" OnClick="@(()=>CopyCode("client-razor-code"))" Shape="circle" Icon="copy"  style="position:absolute;right:20px;top:20px;" />
+                <Button Type="default" OnClick="@(()=>CopyCode("client-razor-code"))" Shape="circle" Icon="copy" style="position:absolute;right:20px;top:20px;" />
 
                 <pre id="client-razor-code" class="source-code">
 @("@")namespace Wings.Examples.UseCase.Client.Pages

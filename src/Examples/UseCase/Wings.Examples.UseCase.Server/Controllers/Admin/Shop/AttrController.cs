@@ -29,12 +29,13 @@ namespace Wings.Examples.UseCase.Server.Controllers.Admin
         {
 
             var item = mapper.Map<AttrListDvo, Attr>(dvo);
-            item.AttrCategory = null;
+           var attrcategory=  unitOfWork.appDbContext.AttrCategories.FirstOrDefault(item => item.Id == dvo.AttrCategoryOption.Id);
+            item.AttrCategory = attrcategory;
             unitOfWork.appDbContext.Attrs.Update(item);
             await unitOfWork.appDbContext.SaveChangesAsync();
             return dvo;
 
-
+             
         }
 
 

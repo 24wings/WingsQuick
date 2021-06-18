@@ -13,8 +13,7 @@ namespace Wings.Framework.Ui.Ant.Components
 {
     public partial class AntFieldSelect<TModel> : FieldComponentBase<TModel>
     {
-        [Parameter]
-        public EventCallback<object> OnValueChange { get; set; }
+       
         protected override void OnInitialized()
         {
             base.OnInitialized();

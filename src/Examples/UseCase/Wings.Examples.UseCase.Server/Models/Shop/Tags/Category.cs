@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Wings.Examples.UseCase.Server.Services.Repositorys;
@@ -8,6 +9,7 @@ namespace Wings.Examples.UseCase.Server.Models
 {
     public class Category: TreeEntity
     {
+        [Key]
         public override int Id { get; set; }
 
         public string Name { get; set; }
@@ -38,8 +40,10 @@ namespace Wings.Examples.UseCase.Server.Models
 
         public string FrontName { get; set; }
 
-        public virtual List<Attr> Attrs { get; set; }
+ 
 
         public override string TreePath { get; set; }
+
+        public virtual List<Good> Goods { get; set; }
     }
 }

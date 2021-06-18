@@ -8,7 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Aliyun.OSS.SDK.NetCore" Version="2.13.0" />
     <PackageReference Include="AntDesign" Version="0.8.0" />
+    <PackageReference Include="jose-jwt" Version="3.1.1" />
+    <PackageReference Include="JWT" Version="8.2.2" />
+    <PackageReference Include="Magicodes.WxMiniProgram.Sdk" Version="0.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="5.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.6" />
@@ -35,10 +39,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Wings.Examples.UseCase.Client\Wings.Examples.UseCase.Client.csproj" />
     <ProjectReference Include="..\Wings.Examples.UseCase.Shared\Wings.Examples.UseCase.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\Mini\" />
   </ItemGroup>
 
 </Project>

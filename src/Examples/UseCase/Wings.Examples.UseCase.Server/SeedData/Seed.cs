@@ -88,7 +88,7 @@ namespace Wings.Examples.UseCase.Server.Seed
                 await context.Roles.AddAsync(adminRole);
                 await context.Roles.AddAsync(userRoles);
                 await context.SaveChangesAsync();
-            }
+            } 
 
             // 创建开发者公司
             //await context.companys.AddAsync(new Company { id = 1, name = "开发者公司", status = CompanyStatus.Approve, code = "developer", description = "负责开发,运维不同公司的业务系统", menuIds = string.Join(",", allMenus.Select(m => m.id)) });

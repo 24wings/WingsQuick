@@ -27,6 +27,37 @@ namespace Wings.Examples.UseCase.Server.Models
 
         public DbSet<AttrCategory> AttrCategories { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Shipper> Shippers { get; set; }
+        public DbSet<Region> Regions { get; set; }
+
+        public DbSet<Topic> Topics { get; set; }
+
+        public DbSet<Brand> Brands { get; set; }
+
+
+        public DbSet<Ad> Ads { get; set; }
+
+        public DbSet<AdPosition> AdPositions { get; set; }
+        public DbSet<TopicCategory> TopicCategorys { get; set; }
+
+        public DbSet<Channel> Channels { get; set; }
+
+        public DbSet<Good> Goods { get; set; }
+        public DbSet<Product> Products { get; set; }
+
+        public DbSet<Specification> Specifications { get; set; }
+        public DbSet<GoodSpecification> GoodSpecifications { get; set; }
+        public DbSet<GoodAttr> GoodAttrs { get; set; }
+        public DbSet<GoodIssue> GoodIssues { get; set; }
+        public DbSet<GoodGallery> GoodGallerys { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<CommentPicture> CommentPictures { get; set; }
+
+        public DbSet<Collect> Collects { get; set; }
+        public DbSet<Coupon> Coupons { get; set; }
+        public DbSet<WxUser> WxUsers { get; set; }
+        public DbSet<WxUserCoupon> WxUserCoupons { get; set; }
+        public DbSet<WxUserLevel> WxUserLevels { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options)
                    : base(options)
         {
