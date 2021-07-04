@@ -15,8 +15,8 @@ using AntDesign.TableModels;
 
 namespace Wings.Framework.Ui.Ant.Components
 {
-    
-    public abstract class AntTableViewBase<TModel> : ModelComponentBase<TModel> 
+
+    public abstract class AntTableViewBase<TModel> : ModelComponentBase<TModel>
     {
         protected Table<TModel> table { get; set; }
         protected EditType editType { get; set; } = EditType.Detail;
@@ -47,16 +47,27 @@ namespace Wings.Framework.Ui.Ant.Components
 
         protected List<PropertyInfo> PropList { get; set; } = new List<PropertyInfo>();
         protected List<WhereConditionPair> whereConditionPairs { get; set; } = new List<WhereConditionPair>();
-    
+        public Dictionary<string, object> OnRow(RowData<TModel> row) => new()
+        {
+            ["id"] = row.Data.GetType().GetProperty("Id").GetValue(row.Data),
+            ["onclick"] = ((Action)async delegate
+          {
+              SelectedRow = row.Data;
+              await SelectedRowChanged.InvokeAsync(row.Data);
+              StateHasChanged();
 
-     
+              Console.WriteLine($"row {row.Data} was clicked");
+          })
+        };
+
+
 
         protected async override Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
             if (!render)
             {
-                PropList = new List<PropertyInfo>(typeof(TModel).GetProperties().Where(prop=>prop.GetCustomAttribute<IgnoreColumnAttribute>()==null&& prop.GetCustomAttribute<IgnoreAttribute>() == null));
+                PropList = new List<PropertyInfo>(typeof(TModel).GetProperties().Where(prop => prop.GetCustomAttribute<IgnoreColumnAttribute>() == null && prop.GetCustomAttribute<IgnoreAttribute>() == null));
                 render = true;
                 CRUDModel = typeof(TModel).GetCustomAttribute<CrudModelAttribute>();
             }
@@ -99,8 +110,8 @@ namespace Wings.Framework.Ui.Ant.Components
                 SelectedRow = item;
                 await SelectedRowChanged.InvokeAsync(item);
             }
-            
-            
+
+
 
         }
 

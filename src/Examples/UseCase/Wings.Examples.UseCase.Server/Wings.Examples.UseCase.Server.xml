@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Wings.Examples.UseCase.Server</name>
+    </assembly>
+    <members>
+        <member name="M:Wings.Examples.UseCase.Server.Controllers.Admin.AccountController.GetMyUserInfo">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Wings.Examples.UseCase.Server.Controllers.miniShop.IndexController.Index">
+            <summary>
+            缓存尚未实现
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Wings.Examples.UseCase.Server.Models.Menu.TreePath">
+            <summary>
+            菜单的树路径
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Wings.Examples.UseCase.Server.Models.Menu.Icon">
+            <summary>
+            图标
+            </summary>
+        </member>
+        <member name="P:Wings.Examples.UseCase.Server.Models.Permission.Label">
+            <summary>
+            权限名称
+            </summary>
+        </member>
+        <member name="P:Wings.Examples.UseCase.Server.Models.Permission.Value">
+            <summary>
+            权限代码
+            </summary>
+        </member>
+        <member name="T:Wings.Examples.UseCase.Server.Models.Attr">
+            <summary>
+            商品属性
+            </summary>
+        </member>
+        <member name="M:Wings.Examples.UseCase.Server.Seed.SeedData.InitializeDefaultDeveloperResource(System.IServiceProvider)">
+            <summary>
+            初始化开发者
+            </summary>
+            <param name="serviceProvider"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Wings.Examples.UseCase.Server.Seed.SeedData.InitializeDeveloperCompany(System.IServiceProvider)">
+            <summary>
+            初始化开发者公司
+            </summary>
+            <param name="serviceProvider"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Wings.Examples.UseCase.Server.Services.Repositorys.BaseTreeRepository`1.GetAncestors(`0)">
+            <summary>
+            获得上级元素
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Wings.Examples.UseCase.Server.Services.TokenModel.ID">
+            <summary>
+            ID
+            </summary>
+        </member>
+        <member name="P:Wings.Examples.UseCase.Server.Services.TokenModel.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Wings.Examples.UseCase.Server.Services.TokenModel.Phone">
+            <summary>
+            手机
+            </summary>
+        </member>
+        <member name="P:Wings.Examples.UseCase.Server.Services.TokenModel.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:Wings.Examples.UseCase.Server.Services.TokenModel.Sub">
+            <summary>
+            身份
+            </summary>
+        </member>
+        <member name="P:Wings.Examples.UseCase.Server.Services.TokenService.secretKey">
+            <summary>
+            生成JWT字符串
+            </summary>
+        </member>
+        <member name="M:Wings.Examples.UseCase.Server.Services.TokenService.GetJWT(Wings.Examples.UseCase.Server.Services.TokenModel)">
+            <summary>
+            生成JWT字符串
+            </summary>
+            <param name="tokenModel"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

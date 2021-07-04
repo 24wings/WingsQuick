@@ -78,7 +78,7 @@ namespace Wings.Examples.UseCase.Server.Seed
 
             // 加入菜单
             await context.Menus.AddRangeAsync(allMenus);
-            var adminRole = new RbacRole { Id = 1, Code = "admin", NormalizedName = "admin", Name = "admin", Menus = allMenus };
+            var adminRole = new RbacRole { Id = 1, Code = "admin", NormalizedName = "admin", Name = "admin", Menus = allMenus,Permissions=new List<Permission> { } };
             var userRoles = new RbacRole { Id = 2, Code = "user", NormalizedName = "user", Name = "user", Menus = allMenus.Where(m => m.Id < 900).ToList() };
             await context.Permissions.AddRangeAsync(allPermissions);
             userRoles.Permissions = allPermissions;

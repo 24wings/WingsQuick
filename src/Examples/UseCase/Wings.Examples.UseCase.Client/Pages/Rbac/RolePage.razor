@@ -2,9 +2,13 @@
 @page "/rbac/role"
 @inject HttpClient HttpClient
 @inject ModalService _modalService
-
+@if(SelectedRole!=null)
+{
+    <h1>true</h1>
+    @(System.Text.Json.JsonSerializer.Serialize(SelectedRole))
+}
 <DataSourceManager TModel="RoleListDvo" @ref="DataSource"></DataSourceManager>
-<AntTableView TModel="RoleListDvo"   @ref="table">
+<AntTableView TModel="RoleListDvo" @ref="table" @bind-SelectedRow="SelectedRole">
     <ToolbarTemplate><Button OnClick="OnCreate" Type="primary">新增</Button></ToolbarTemplate>
     <ActionColumnTemplate>
         <Space>
@@ -12,10 +16,10 @@
                 <Space>
                     <SpaceItem><Button Size="small" OnClick="()=>LoadRoleMenu(context)">详情</Button></SpaceItem>
                     <SpaceItem><Button Size="small" OnClick="()=>OnEdit(context)">编辑</Button></SpaceItem>
-                    <SpaceItem><Button  Size="small" Danger OnClick="()=>OpenDeleteConfirmModal(context)">删除</Button></SpaceItem>
+                    <SpaceItem><Button Size="small" Danger OnClick="()=>OpenDeleteConfirmModal(context)">删除</Button></SpaceItem>
                 </Space>
             </SpaceItem>
-        </Space> 
+        </Space>
     </ActionColumnTemplate>
 </AntTableView>
 
@@ -42,33 +46,34 @@
 @if (editData != null)
 {
 
-<Modal Visible="editData!=null" Width="900" Title="编辑角色" OnOk="HandleOk" OnCancel="HandleCancel">
-    <Tabs>
-        <TabPane Key="1">
-            <Tab>基本信息</Tab>
-            <ChildContent>
-                <AntDynamicForm TModel="RoleListDvo" Value="editData"></AntDynamicForm>
-            </ChildContent>
-        </TabPane>
-        <TabPane Key="2">
-            <Tab>角色菜单</Tab>
-            <ChildContent>
-                <AntTreeView Checkable="true" @bind-CheckedNodes="editData.Menus" TModel="MenuListDvo"></AntTreeView>
-            </ChildContent>
-        </TabPane>
-        <TabPane Key="3">
-            <Tab>角色权限</Tab>
-            <ChildContent>
-                <AntTreeView Checkable="true" @bind-CheckedNodes="editData.Permissions" TModel="PermissionListDvo"></AntTreeView>
-            </ChildContent>
-        </TabPane>
-    </Tabs>
+    <Modal Visible="editData!=null" Width="900" Title="编辑角色" OnOk="HandleOk" OnCancel="HandleCancel">
+        <Tabs>
+            <TabPane Key="1">
+                <Tab>基本信息</Tab>
+                <ChildContent>
+                    <AntDynamicForm TModel="RoleListDvo" Value="editData"></AntDynamicForm>
+                </ChildContent>
+            </TabPane>
+            <TabPane Key="2">
+                <Tab>角色菜单</Tab>
+                <ChildContent>
+                    <AntTreeView Checkable="true" @bind-CheckedNodes="editData.Menus" TModel="MenuListDvo"></AntTreeView>
+                </ChildContent>
+            </TabPane>
+            <TabPane Key="3">
+                <Tab>角色权限</Tab>
+                <ChildContent>
+                    <AntTreeView Checkable="true" @bind-CheckedNodes="editData.Permissions" TModel="PermissionListDvo"></AntTreeView>
+                </ChildContent>
+            </TabPane>
+        </Tabs>
 
-</Modal>
+    </Modal>
 }
 
 @*  *@
 @code{
+  public RoleListDvo SelectedRole { get; set; }
     AntTableView<RoleListDvo> table { get; set; }
     RoleListDvo SelectedData;
     RoleListDvo editData;

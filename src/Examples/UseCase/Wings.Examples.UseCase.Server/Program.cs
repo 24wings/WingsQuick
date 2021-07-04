@@ -8,13 +8,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Wings.Examples.UseCase.Server.Seed;
+using Wings.Framework.Ui.Core.Services;
 
 namespace Wings.Examples.UseCase.Server
 {
+
     public class Program
     {
         public static async Task Main(string[] args)
         {
+         
             var host = CreateHostBuilder(args).Build();
 
 

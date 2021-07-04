@@ -1,0 +1,19 @@
+﻿@namespace Wings.Examples.UseCase.Client.Pages
+
+@inherits InterfaceCodeGenBase
+
+@if (PageData != null)
+{
+    <div style="position:relative" id="">
+        <Button Type="default" OnClick="@(()=>CopyCode("client-razor-code"))" Shape="circle" Icon="copy" style="position:absolute;right:20px;top:20px;" />
+<pre id="client-razor-code" class="source-code">
+
+
+@GetImport()
+</pre>
+        </div>
+        }
+
+        @code {
+
+        }

@@ -96,6 +96,15 @@ namespace Wings.Framework.Ui.Core.Components
 
         }
 
+        public async Task<TModel> Detail(int id)
+        {
+            var dataSource = typeof(TModel).GetCustomAttribute<DataSourceAttribute>();
+            var url = Configuration.GetConnectionString("url") + dataSource.Detail;
+            var res = await httpClient.GetStringAsync(url + "?id=" +id);
+            Console.WriteLine(res);
+            return JsonSerializer.Deserialize<TModel>(res, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        }
+
         public async Task<object> Delete(TModel data)
         {
             var dataSource = typeof(TModel).GetCustomAttribute<DataSourceAttribute>();

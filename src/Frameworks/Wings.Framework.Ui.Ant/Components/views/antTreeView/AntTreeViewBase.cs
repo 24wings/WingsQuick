@@ -16,7 +16,8 @@ using Wings.Framework.Ui.Core.Components;
 
 namespace Wings.Framework.Ui.Ant.Components
 {
-    public partial class AntTreeView<TModel> : TreeViewBase<TModel> where TModel : BasicTree<TModel>
+    public partial class AntTreeView<TModel> : TreeView<TModel> 
+        where TModel : BasicTree<TModel>
     {
         [Parameter]
         public List<WhereConditionPair> InitFilter { get; set; } = new List<WhereConditionPair>();

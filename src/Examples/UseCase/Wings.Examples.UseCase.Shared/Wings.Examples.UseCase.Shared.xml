@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Wings.Examples.UseCase.Shared</name>
+    </assembly>
+    <members>
+        <member name="P:Wings.Examples.UseCase.Shared.Attributes.PageAttribute.Title">
+            <summary>
+            页面标题
+            </summary>
+            <value></value>
+        </member>
+        <member name="P:Wings.Examples.UseCase.Shared.Attributes.PageAttribute.SubTitle">
+            <summary>
+            页面子标题
+            </summary>
+            <value></value>
+        </member>
+        <member name="T:Wings.Examples.UseCase.Shared.Attributes.TablePageAttribute">
+            <summary>
+            表格页面
+            </summary>
+        </member>
+        <member name="T:Wings.Examples.UseCase.Shared.Dto.CategoryListViewDto">
+            <summary>
+            CategoryListView
+            </summary>
+        </member>
+        <member name="P:Wings.Examples.UseCase.Shared.Dto.RegisterModel.Code">
+            <summary>
+            验证码
+            </summary>
+        </member>
+        <member name="T:Wings.Examples.UseCase.Shared.Dvo.Grade">
+            <summary>
+            年级
+            </summary>
+        </member>
+        <member name="T:Wings.Examples.UseCase.Shared.Dvo.ExampleDynamicForm">
+            <summary>
+            动态表单
+            </summary>
+        </member>
+        <member name="P:Wings.Examples.UseCase.Shared.Dvo.PermissionListDvo.Title">
+            <summary>
+            权限名称
+            </summary>
+        </member>
+        <member name="P:Wings.Examples.UseCase.Shared.Dvo.PermissionListDvo.Value">
+            <summary>
+            权限代码
+            </summary>
+        </member>
+    </members>
+</doc>

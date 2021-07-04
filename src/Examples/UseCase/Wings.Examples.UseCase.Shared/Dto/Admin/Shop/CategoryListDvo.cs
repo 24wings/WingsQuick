@@ -7,10 +7,34 @@ using System.Threading.Tasks;
 using Wings.Framework.Shared.Attributes;
 using Wings.Framework.Shared.Attributes.FieldAttributes;
 using Wings.Framework.Shared.Dtos;
+using Wings.Framework.Shared.Dtos.Admin;
 
 namespace Wings.Examples.UseCase.Shared.Dto
 {
-    
+
+    /// <summary>
+    /// CategoryListView
+    /// </summary>
+    [SearchBar(typeof(CategorySearchBar))]
+    [DataGrid]
+    [Display(Name="分类页面")]
+    [DataSource("/api/AttrCategory")]
+    public class CategoryListViewDto 
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+    }
+    //[Tab]
+    public class CategoryDetailViewDto
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+    }
+
+
     public class CategorySearchBar
     {
         public string Name { get; set; }

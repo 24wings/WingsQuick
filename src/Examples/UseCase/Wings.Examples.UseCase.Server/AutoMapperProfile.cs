@@ -64,6 +64,8 @@ namespace Wings.Examples.UseCase.Server
                 .ForMember(dto=>dto.Name,opt=>opt.MapFrom(good=>good.Attr.Name))
                 .ForMember(dto => dto.Value, opt => opt.MapFrom(good => good.Value))
                 ;
+            CreateMap<RoleListView, RbacRole>().ReverseMap();
+            CreateMap<RoleDetailView, RbacRole>().ReverseMap();
             //CreateMap<AttrWithAttrCatetory, AttrListDvo>()
             //    .ForMember(attr => attr.AttrCategoryOption, withCateory => withCateory.MapFrom(opt => opt.AttrCategoryOption))
             //    .ForMember(attr => attr, withCateory => withCateory.MapFrom(opt => opt.AttrListDvo)).ReverseMap();

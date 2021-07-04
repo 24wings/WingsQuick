@@ -17,6 +17,7 @@ namespace Wings.Framework.Ui.Core.Services
         public static List<ComponentPair> ComponentPairs { get; set; } = new List<ComponentPair>();
         private static List<ComponentPair> PropComponentPairs { get; set; } = new List<ComponentPair>();
         private static List<ComponentPair> FieldComponentPairs { get; set; } = new List<ComponentPair>();
+        private static List<ComponentPair> ViewComponentPairs { get; set; } = new List<ComponentPair>();
         /// <summary>
         /// 根据Assembly扫描动态组件
         /// </summary>
@@ -35,6 +36,7 @@ namespace Wings.Framework.Ui.Core.Services
             ComponentPairs.AddRange(componentPairs);
             PropComponentPairs.AddRange(componentPairs.Where(pair => pair.ComponentType.HasImplementedRawGeneric(typeof(PropertyComponentBase<>)) && !pair.ComponentType.IsAbstract).ToList());
             FieldComponentPairs.AddRange(componentPairs.Where(pair => pair.ComponentType.HasImplementedRawGeneric(typeof(FieldComponentBase<>)) && !pair.ComponentType.IsAbstract).ToList());
+            ViewComponentPairs.AddRange(componentPairs.Where(pair => pair.ComponentType.HasImplementedRawGeneric(typeof(ModelComponentBase<>)) && !pair.ComponentType.IsAbstract).ToList());
 
         }
 
@@ -43,6 +45,14 @@ namespace Wings.Framework.Ui.Core.Services
             ComponentPairs = new List<ComponentPair>();
         }
 
+        public static Type GetViewComponentType(Type type)
+        {
+            Console.WriteLine(type);
+            Console.WriteLine(type.GetCustomAttribute<ViewAttribute>(true));
+            var name = type.GetCustomAttribute<ViewAttribute>(true).ComponentType;
+            return ViewComponentPairs.Where(type => type.ComponentFullName.Contains(name)).FirstOrDefault().ComponentType;
+
+        }
         public static Type GetPropComponentTypeByProperty<TModel>(PropertyInfo property)
         {
             var propertyType = property.PropertyType;

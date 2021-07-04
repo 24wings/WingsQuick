@@ -20,7 +20,7 @@ namespace Wings.Examples.UseCase.Server.Controllers.miniShop
         private readonly IMapper mapper;
 
         public GoodsController(AppDbContext _appDbContext,IMapper _mapper) { appDbContext = _appDbContext; mapper = _mapper; }
-
+        [HttpGet]
         public async Task<object> Detail([FromQuery]int id) {
             var userModel = TokenService.Decode(HttpContext.Request.Headers["X-Nideshop-Token"].FirstOrDefault());
             bool userHasCollect = false;

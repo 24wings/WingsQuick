@@ -1,0 +1,31 @@
+﻿@page "/Developer/InterfaceCodePage"
+@namespace Wings.Examples.UseCase.Client.Pages
+@inherits InterfaceCodePageBase
+<div style="min-height:600px">
+    <Row>
+        <Col Span="6" >
+        <Search @bind-Value="@searchKey" Placeholder="输入关键字" />
+    
+        <Tree ShowIcon SearchValue="@searchKey"
+              DataSource="InterfaceModels"
+              TitleExpression="x => x.DataItem.Title"
+              ChildrenExpression="x => x.DataItem.Children"
+              SearchExpression="x=> x.DataItem.Title.ToLower().Contains(searchKey.ToLower())"
+               @bind-SelectedData="@selectedData"
+              ></Tree>
+        </Col>
+        <Col Span="18">
+        @if(selectedData!=null)
+        {
+            if (selectedData.IsNamespace == false)
+            {
+
+                <InterfaceCodeGen PageData="GetPageData()" ></InterfaceCodeGen>
+            }
+        }
+        </Col>
+    </Row>
+</div>
+
+
+

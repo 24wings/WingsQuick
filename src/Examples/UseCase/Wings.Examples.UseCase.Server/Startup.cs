@@ -31,6 +31,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Wings.Examples.UseCase.Server.Services;
+using Microsoft.AspNet.OData.Formatter;
+using Microsoft.Net.Http.Headers;
+using System.IO;
+using Microsoft.OpenApi.Models;
 
 namespace Wings.Examples.UseCase.Server
 {
@@ -46,10 +50,23 @@ namespace Wings.Examples.UseCase.Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOData();
+
             var connectionString = "server=localhost;port=3306;user=root;password=704104..;database=ef; ConvertZeroDateTime=True";
             var serverVersion = new MySqlServerVersion(new Version(5, 0, 1));
 
-            services.AddControllersWithViews()
+            services.AddControllersWithViews(options =>
+            {
+                foreach (var outputFormatter in options.OutputFormatters.OfType<ODataOutputFormatter>().Where(_ => _.SupportedMediaTypes.Count == 0))
+                {
+                    outputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/odata"));
+                }
+
+                foreach (var inputFormatter in options.InputFormatters.OfType<ODataInputFormatter>().Where(_ => _.SupportedMediaTypes.Count == 0))
+                {
+                    inputFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/odata"));
+                }
+            })
             .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddRazorPages();
@@ -71,7 +88,6 @@ p.WithOrigins("http://localhost:5000")
           .AddEntityFrameworkStores<AppDbContext>();
 
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddOData();
             services.AddMvc(mvc => { mvc.EnableEndpointRouting = false; });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -115,6 +131,34 @@ p.WithOrigins("http://localhost:5000")
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 //options.SlidingExpiration = true;
             });
+            services.AddSwaggerGen(c=> {
+                c.SwaggerDoc("v2", new OpenApiInfo
+                {
+                    Version = "v2",
+                    Title = "ToDo API",
+                    Description = "A simple example ASP.NET Core Web API",
+                    TermsOfService = new Uri("https://example.com/terms"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Shayne Boyer",
+                        Email = string.Empty,
+                        Url = new Uri("https://twitter.com/spboyer"),
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Use under LICX",
+                        Url = new Uri("https://example.com/license"),
+                    }
+                });
+
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                var sharedXmlPath = Path.Combine(AppContext.BaseDirectory, "Wings.Examples.UseCase.Shared.xml");
+                c.IncludeXmlComments(xmlPath);
+                c.IncludeXmlComments(sharedXmlPath);
+                
+            });
 
         }
 
@@ -127,6 +171,19 @@ p.WithOrigins("http://localhost:5000")
                 app.UseDeveloperExceptionPage();
               
             }
+
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v2/swagger.json", "My API V2");
+                c.EnableFilter();
+                c.EnableValidator();
+              
+                
+            });
             app.UseWebAssemblyDebugging();
             // app.UseHttpsRedirection();
 
@@ -136,7 +193,7 @@ p.WithOrigins("http://localhost:5000")
 
 
             app.UseCors("cors");
-            app.UseAuthentication().UseCookiePolicy(new CookiePolicyOptions { HttpOnly = HttpOnlyPolicy.None, MinimumSameSitePolicy = SameSiteMode.None });
+            app.UseAuthentication().UseCookiePolicy(new CookiePolicyOptions { HttpOnly = HttpOnlyPolicy.None, MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None });
             app.UseAuthorization();
 
             app.UseMvc(routeBuilder =>
@@ -146,7 +203,7 @@ p.WithOrigins("http://localhost:5000")
                 routeBuilder.Select().Expand().Filter().OrderBy().MaxTop(100).Count();
                 var builder = new ODataConventionModelBuilder(app.ApplicationServices);
 
-                routeBuilder.MapODataServiceRoute("ODataRoute", "odata", builder.GetEdmModel());
+                //routeBuilder.MapODataServiceRoute("ODataRoute", "odata", builder.GetEdmModel());
 
                 // uncomment the following line to Work-around for #1175 in beta1
                 // routeBuilder.EnableDependencyInjection();

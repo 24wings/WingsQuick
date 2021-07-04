@@ -70,9 +70,9 @@ namespace Wings.Examples.UseCase.Server.Controllers.Admin
         [EnableQuery]
         [AsyncQuery]
         [HttpGet]
-        public IQueryable<AttrCategoryOption> Options()
+        public override IQueryable<AttrCategoryListDvo> Load()
         {
-            return unitOfWork.appDbContext.AttrCategories.ProjectTo<AttrCategoryOption>(mapper.ConfigurationProvider);
+            return unitOfWork.appDbContext.AttrCategories.ProjectTo<AttrCategoryListDvo>(mapper.ConfigurationProvider);
         }
 
     }

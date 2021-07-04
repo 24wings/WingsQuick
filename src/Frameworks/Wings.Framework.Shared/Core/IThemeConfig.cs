@@ -21,15 +21,7 @@ namespace Wings.Framework.Shared
     public interface IThemeConfig
     {
         string ThemeName { get; set; }
-        /// <summary>
-        /// default dynamic prop with System basic type 
-        /// such as **System.String**
-        /// </summary>
-        /// <value></value>
-        PropConfig DefaultPropConfig { get; set; }
-
-
-        FieldConfig DefaultFieldConfig { get; set; }
+      
 
         void UseCurrentTheme();
     }

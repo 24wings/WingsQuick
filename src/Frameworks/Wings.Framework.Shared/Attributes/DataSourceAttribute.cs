@@ -10,6 +10,7 @@ namespace Wings.Framework.Shared.Attributes
         public string AddChild { get; set; }
         public string Update { get; set; }
         public string Delete { get; set; }
+        public string Detail { get; set; }
         public DataSourceAttribute(string url)
         {
             Url = url;
@@ -18,6 +19,7 @@ namespace Wings.Framework.Shared.Attributes
             InsertUrl = Url + "/Insert";
             Update = Url + "/Update";
             Delete = Url + "/Delete";
+            Detail = Url + "/Detail";
 
         }
         public int PageSize { get; set; } = 10;
