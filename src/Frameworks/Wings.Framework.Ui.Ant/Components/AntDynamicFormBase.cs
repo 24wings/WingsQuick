@@ -17,7 +17,7 @@ namespace Wings.Framework.Ui.Ant.Components
     public abstract class AntDynamicFormBase<TModel> : ModelComponentBase<TModel>
     {
         [Parameter]
-        public int DefaultFieldSpan { get; set; } = 12;
+        public int DefaultFieldSpan { get; set; } = 6;
 
         /// <summary>
         /// such value as : inline,modal

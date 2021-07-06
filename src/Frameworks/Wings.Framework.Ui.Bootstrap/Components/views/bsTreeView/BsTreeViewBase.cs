@@ -7,7 +7,7 @@ using Wings.Framework.Ui.Core.Components;
 
 namespace Wings.Framework.Ui.Bootstrap.Components
 {
-    public abstract class BsTreeViewBase<TModel> : Wings.Framework.Ui.Core.Components.TreeViewBase<TModel>
+    public abstract class BsTreeViewBase<TModel> : Wings.Framework.Ui.Core.Components.TreeView<TModel>
     {
         protected DataSourceManager<TModel> DataSource { get; set; }
         protected List<TreeItem> Items { get; set; } = new List<TreeItem>();

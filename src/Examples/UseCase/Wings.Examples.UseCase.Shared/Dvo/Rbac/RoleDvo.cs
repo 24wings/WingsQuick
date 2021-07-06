@@ -19,11 +19,12 @@ namespace Wings.Examples.UseCase.Shared.Dvo
                     .SetPageLink("/rbac/role2")
                   .SetMainView<RoleListView>()
                   .SetCreateViewType<RoleListView>()
-                  .SetCreateViewTabs(Self<RoleListView>(), JoinMany<MenuListDvo>(), JoinMany<PermissionListDvo>())
-                  .SetUpdateViewTabs(Self<RoleListView>(), JoinMany<MenuListDvo>(), JoinMany<PermissionListDvo>())
+                  .SetCreateViewTabs( JoinMany<MenuListDvo>(nameof(RoleListView.Menus),"角色菜单"), JoinMany<PermissionListDvo>(nameof(RoleListView.Permissions),"角色权限"))
+                  .SetUpdateViewTabs( JoinMany<MenuListDvo>(nameof(RoleListView.Menus),"角色菜单"), JoinMany<PermissionListDvo>(nameof(RoleListView.Permissions), "角色权限") )
                   .SetUpdateViewType<RoleListView>()
-          .SetDetailViewTabs(Self<RoleDetailView>(), JoinMany<MenuListDvo>(), JoinMany<PermissionListDvo>())
-          .Commit();
+                  .SetDetailViewType<RoleListView>()
+                  .SetDetailViewTabs( JoinMany<MenuListDvo>(nameof(RoleListView.Menus),"角色菜单"), JoinMany<PermissionListDvo>(nameof(RoleListView.Permissions), "角色权限"))
+                  .Commit();
         }
     }
 
@@ -63,6 +64,11 @@ namespace Wings.Examples.UseCase.Shared.Dvo
         [Display(Name = "创建时间")]
         public DateTime CreateAt { get; set; } = DateTime.Now;
 
+
+        [Ignore]
+        public List<MenuListDvo> Menus { get; set; }
+        [Ignore]
+        public List<PermissionListDvo> Permissions { get; set; }
 
     }
 
@@ -117,8 +123,5 @@ namespace Wings.Examples.UseCase.Shared.Dvo
         public List<PermissionListDvo> Permissions { get; set; }
     }
 
-    public class MenuTreeSelectDvo
-    {
-
-    }
+   
 }

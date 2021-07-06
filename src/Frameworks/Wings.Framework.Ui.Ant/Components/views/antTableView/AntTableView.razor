@@ -8,10 +8,10 @@
 
 
 <DataSourceManager TModel="TModel" @ref="DataSource"></DataSourceManager>
-<div style="margin:20px 0">
+<div style="margin:5px 0">
     @ToolbarTemplate
 </div>
-<Table @ref="table" TItem="TModel" OnRow="OnRow" DataSource="@Data" Total="Total" @bind-PageIndex="PageIndex"
+<Table @ref="table" TItem="TModel" OnRow="OnRow" DataSource="@Data" Total="Total" @bind-PageIndex="PageIndex" Size=@TableSize.Middle
     @bind-PageSize="PageSize" SelectedRows="SelectedRows" SelectedRowsChanged="(value)=>OnSelectedRowsChange(value)" >
     <Selection Key="@(typeof(TModel).GetProperty("Id").GetValue(context).ToString())"  />
     @foreach (var item in PropList) 

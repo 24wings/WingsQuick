@@ -36,7 +36,7 @@ namespace Wings.Framework.Ui.Core.Components
                     Console.WriteLine("key" + a.Key + ":" + a.Value);
                     var dataAdapterOptions = new DataAdapterOptions { LoadUrl = Configuration.GetConnectionString("url") + dataSourceAttribute.LoadUrl ,PageSize=dataSourceAttribute.PageSize|10};
                     Console.WriteLine(dataAdapterOptions.LoadUrl);
-                    oDataAdapter = new ODataAdapter<TModel>(dataAdapterOptions);
+                    oDataAdapter = new ODataAdapter<TModel>(dataAdapterOptions,httpClient);
 
                 }
             }

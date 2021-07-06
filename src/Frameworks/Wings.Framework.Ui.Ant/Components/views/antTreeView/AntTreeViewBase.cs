@@ -172,7 +172,7 @@ namespace Wings.Framework.Ui.Ant.Components
                 }
                 StateHasChanged();
 
-
+                tree.ExpandAll();
 
             }
 
@@ -191,6 +191,9 @@ namespace Wings.Framework.Ui.Ant.Components
                 {
                     Console.WriteLine("find checked key:" + dataItemId);
                     treeNode.SetChecked(true);
+                    treeNode.Checked = true;
+                    tree.CheckedNodes.Add(treeNode);
+                    
 
                 }
                 else

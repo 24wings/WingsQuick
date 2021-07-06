@@ -30,9 +30,12 @@ namespace Wings.Framework.Ui.Core.Data
     public class ODataAdapter<T> : IDataAdapter<T>
     {
         public DataAdapterOptions options { get; set; }
-        public ODataAdapter(DataAdapterOptions _options)
+        public HttpClient httpClient { get; set; }
+        public ODataAdapter(DataAdapterOptions _options,HttpClient _httpClient)
         {
             options = _options;
+            httpClient = _httpClient;
+
 
         }
         public Task<Paged<T>> LoadAsync(List<WhereConditionPair> queryObject)
@@ -63,8 +66,8 @@ namespace Wings.Framework.Ui.Core.Data
 
                 }
             }
-            var client = new HttpClient();
-            var res = await client.GetStringAsync(options.LoadUrl + "?$count=true" + filter+"&top="+top+"&skip="+skip);
+            
+            var res = await httpClient.GetStringAsync(options.LoadUrl + "?$count=true" + filter+"&top="+top+"&skip="+skip);
             return JsonSerializer.Deserialize<Paged<T>>(res, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
     }

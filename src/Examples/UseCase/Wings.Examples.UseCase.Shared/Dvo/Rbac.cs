@@ -3,10 +3,27 @@ using System.ComponentModel.DataAnnotations;
 using Wings.Examples.UseCase.Shared.Attributes;
 using Wings.Framework.Shared.Attributes;
 using Wings.Framework.Shared.Dtos;
-
+using Wings.Framework.Shared.Dtos.Admin;
 
 namespace Wings.Examples.UseCase.Shared.Dvo
 {
+    public class MenuPage : PageDesign
+    {
+        public override PageData Design()
+        {
+        return    SetMainViewName(MainViewName.AntTreeView)
+                  .SetPageTitle("菜单管理")
+                 .SetPageLink("/rbac/menu2")
+                 .SetMainView<MenuListDvo>()
+                 .SetCreateViewType<MenuCreateDvo>()
+                 .SetUpdateViewType<MenuCreateDvo>()
+                 .SetDetailViewType<MenuListDvo>()
+                 .Commit();
+                 
+                 
+        }
+    }
+
     [CrudModel(
         Create = typeof(MenuCreateDvo),
         Update = typeof(MenuCreateDvo)

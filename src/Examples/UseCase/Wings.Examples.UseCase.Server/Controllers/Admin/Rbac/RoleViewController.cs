@@ -22,7 +22,17 @@ namespace Wings.Examples.UseCase.Server.Controllers.Admin.Rbac
         {
             appDbContext = _appDbContext;
         }
-
+        [HttpPost]
+        public override async Task<RoleListView> Insert([FromBody]RoleListView input)
+        {
+          var role=  mapper.Map<RoleListView, RbacRole>(input);
+            
+            role.Menus = appDbContext.Menus.Where(m => role.Menus.Select(m => m.Id).Contains(m.Id)).ToList();
+            role.Permissions = appDbContext.Permissions.Where(m => role.Permissions.Select(p => p.Id).Contains(m.Id)).ToList();
+            appDbContext.Roles.Add(role);
+            await appDbContext.SaveChangesAsync();
+            return  mapper.Map<RbacRole,RoleListView>(role);
+        }
 
 
         [HttpPost]
@@ -39,6 +49,7 @@ namespace Wings.Examples.UseCase.Server.Controllers.Admin.Rbac
 
             dbRole.Menus.Clear();
             dbRole.Permissions.Clear();
+            await appDbContext.SaveChangesAsync();
             // 从数据库关联新的关联关系
             dbRole.Menus = appDbContext.Menus.Where(menu => menuIds.Contains(menu.Id)).ToList();
             dbRole.Permissions = appDbContext.Permissions.Where(permission => permissionIds.Contains(permission.Id)).ToList();
